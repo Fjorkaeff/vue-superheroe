@@ -8,14 +8,14 @@ export default {
       drawer: false,
       languages: [
         {
+          flag: 'us',
+          language: 'en',
+          title: 'English' 
+        },
+        {
           flag: 'fr',
           language: 'fr',
           title: 'Français'
-        },
-        {
-         flag: 'us',
-         language: 'en',
-         title: 'English' 
         } 
       ]
     }
@@ -32,7 +32,7 @@ export default {
 <template>
   <div>
     <div><router-link to="/"><img src="../assets/bandeau.jpg"/></router-link></div>
-    <div>
+    <div id="navbar">
       <ul>
         <li><router-link to="/"><h1>{{ $t('NavBar.title1') }}</h1></router-link></li>
         <li><router-link to="/Heroes"><h1>{{ $t('NavBar.title2') }}</h1></router-link></li>

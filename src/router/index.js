@@ -7,23 +7,15 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/:lang',
-    component: {
-      render (c) { return c('router-view') }
-    },
-    children: [
-      {
-        path: '/',
-        name: 'Acceuil',
-        component: Acceuil
-      },
-      {
-        path: '/Heroes',
-        name: 'Heroes',
-        component: Heroes
-      }
-    ]
+    path: '/',
+    name: 'Acceuil',
+    component: Acceuil
   },
+  {
+    path: '/Heroes',
+    name: 'Heroes',
+    component: Heroes
+  }
 ]
 
 const router = new VueRouter({

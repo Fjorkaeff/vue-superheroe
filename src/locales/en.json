@@ -1,7 +1,8 @@
 {
   "NavBar": {
     "title1": "Dashboard",
-    "title2": "Super Heroes"
+    "title2": "Super Heroes",
+    "language": "Languages"
   },
   "acceuil": {
     "message": "Welcome to your Marvel page"
