@@ -1,15 +1,3 @@
-<template>
-  <v-app>
-    <NavBar />
-
-    <v-main>
-      <v-slide-y-transition mode="out-in">
-        <router-view />
-      </v-slide-y-transition>
-    </v-main>
-  </v-app>
-</template>
-
 <script>
   import NavBar from "@/components/NavBar";
   export default {
@@ -17,3 +5,14 @@
     components: { NavBar },
   };
 </script>
+
+
+<style lang="css">
+@import 'styles.css';
+</style>
+
+<template>
+  <div id="app">
+      <NavBar/>
+  </div>
+</template>

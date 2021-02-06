@@ -2,5 +2,11 @@
   "NavBar": {
     "title1": "Dashboard",
     "title2": "Super Heroes"
+  },
+  "acceuil": {
+    "message": "Welcome to your Marvel page"
+  },
+  "myhero": {
+    "message": "Here are your favorite Heroes"
   }
 }
