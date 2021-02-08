@@ -1,8 +1,12 @@
 <script>
   import NavBar from "@/components/NavBar";
+
   export default {
     name: "app",
     components: { NavBar },
+    mounted() {
+      this.$store.dispatch('getHeroesListFromMarvel')
+    }
   };
 </script>
 

@@ -4,10 +4,10 @@
     "title2": "Super Héros",
     "language": "Langages"
   },
-  "acceuil": {
-    "message": "Bienvenue sur votre page Marvel"
+  "dashboard": {
+    "message": "Voici vos héros préférés"
   },
-  "myhero": {
-    "message": "Voici vos Héros favoris"
+  "heroes": {
+    "message": "Bienvenue sur la page des héros Marvel"
   }
 }

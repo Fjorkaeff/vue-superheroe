@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Acceuil from '../views/Acceuil.vue'
+import Dashboard from '../views/Dashboard.vue'
 import Heroes from '../views/Heroes.vue'
 
 Vue.use(VueRouter)
@@ -8,8 +8,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Acceuil',
-    component: Acceuil
+    name: 'Dashboard',
+    component: Dashboard
   },
   {
     path: '/Heroes',
