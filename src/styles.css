@@ -2,7 +2,42 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#navbar {
+.navbar {
+  background-color: #DF1E1E;
+}
+
+.title {
+  color: white;
+  padding: 17px;
+}
+
+.router-link {
+  text-decoration: none;
+  color: white;
+  overflow: hidden;
+}
+
+.router-link:hover{
+  cursor:pointer;
+  background-color: #810109;
+  color:black;
+  text-decoration: none;
+}
+
+.Subtitle {
+  padding: 20px;
+}
+
+.listitem{
+  display: block;
+}
+
+.imgSite {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+/*#navbar {
   background-color: #DF1E1E;
   margin: 0;
   padding: 0;
@@ -44,4 +79,4 @@ button {
   font-size: 18px;
   margin-top: 2.5%;
   margin-right: 1%;
-}
+}*/

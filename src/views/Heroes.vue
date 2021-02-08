@@ -8,6 +8,7 @@ export default {
           }
       },
       components: {},
+      methods: {},
       mounted() {
           this.heroes = this.$store.getters.getHeroes
       }

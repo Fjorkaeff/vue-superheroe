@@ -40,7 +40,8 @@ export default new Vuex.Store({
         .then(response => {
           commit('setHeroesListFromMarvel', response.data.data)
         })
-    }
+    },
+    //addToFavorite({commit}) {}
   },
   modules: {
   }
