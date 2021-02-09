@@ -36,7 +36,7 @@ export default new Vuex.Store({
       const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
       const url = "http://gateway.marvel.com/v1/public/characters";
       Axios
-        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=' + 60, {})
         .then(response => {
           commit('setHeroesListFromMarvel', response.data.data)
         })
