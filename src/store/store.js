@@ -9,22 +9,39 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     heroes: [],
-    favorites_heroes: []
+    favorite_heroes: []
   },
   getters: {
     getHeroes: (state) => {
       return state.heroes.results
     },
     getFavoritesHeroes: (state) => {
-      return state.favorites_heroes
+      return state.favorite_heroes
     },
-    getNumberOfHeroes: (state) => {
-      return state.heroes.count
+    getIsFavorite: (state, data) => {
+      const favoriteHeroes = state.favorite_heroes
+      favoriteHeroes.forEach(function(hero) {
+        if (hero.id === data.id) {
+          return true
+        }
+      })
+      return false
     }
   },
   mutations: {
     setHeroesListFromMarvel(state, data) {
       state.heroes = data
+    },
+    setHeroToFavorite(state, data) {
+      const favoriteHeroes = state.favorite_heroes
+      const heroesList = state.heroes.results
+      Vue.set(data, 'isFavorite', true)
+      heroesList.forEach(function(hero) {
+        if (data.id === hero.id) {
+          Vue.set(hero, 'isFavorite', true)
+        }
+      })
+      favoriteHeroes.push(data)
     }
   },
   actions: {
@@ -36,12 +53,14 @@ export default new Vuex.Store({
       const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
       const url = "http://gateway.marvel.com/v1/public/characters";
       Axios
-        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=' + 60, {})
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
         .then(response => {
           commit('setHeroesListFromMarvel', response.data.data)
         })
     },
-    //addToFavorite({commit}) {}
+    addToFavorite({commit}, data) {
+      commit('setHeroToFavorite', data)
+    }
   },
   modules: {
   }

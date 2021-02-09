@@ -8,6 +8,7 @@
     "message": "Here are your favorite Heroes"
   },
   "heroes": {
-    "message": "Welcome to your Marvel page"
+    "message": "Welcome to your Marvel page",
+    "favorite": "Add to your favotite"
   }
 }

@@ -44,7 +44,7 @@ export default {
         </template>
         <v-list>
           <v-list-item v-for="item in languages" :key="item.title" @click="changeLocale(item.language)">
-            <v-list-item-title >{{ item.title }}</v-list-item-title>
+            <v-list-item-title >{{ item.language }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
