@@ -72,7 +72,11 @@ export default {
                     <HeroDisplayRow v-for="hero in heroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
                 </div>
                 <div v-if="!this.DisplayList">
-                    <HeroDisplayColumn v-for="hero in heroes" :key="hero.id" :hero="hero"></HeroDisplayColumn>
+                    <v-row no-gutters>
+                        <v-col md="4" v-for="hero in heroes" :key="hero.id">
+                            <HeroDisplayColumn :hero="hero"></HeroDisplayColumn>
+                        </v-col>
+                    </v-row>
                 </div>
             </div>
         </div>

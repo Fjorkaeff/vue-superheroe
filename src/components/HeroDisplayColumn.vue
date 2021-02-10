@@ -20,8 +20,6 @@ export default {
 </script>
 
 <template>
-<v-row>
-<v-col v-for="n in 3" :key="n">
   <v-card
     class="mx-auto my-12"
     max-width="350"
@@ -72,6 +70,4 @@ export default {
       </v-btn>
     </v-card-actions>
   </v-card>
-</v-col>
-</v-row>
 </template>
