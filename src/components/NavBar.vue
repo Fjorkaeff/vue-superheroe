@@ -49,7 +49,7 @@ export default {
         <v-list>
           <v-list-item v-for="lang in languages" :key="lang.title" @click="changeLocale(lang.language)">
             <flag :iso="lang.flag" v-bind:squared=false />
-            <v-list-item-title>{{ lang.title }}</v-list-item-title>
+            <v-list-item-title style="margin-left:7px">{{ lang.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>

@@ -48,13 +48,13 @@
 .HeroesTitle {
   margin-left: 20px;
   margin-bottom: 50px;
-}
-
-.buttonDisplay {
-  float: right;
   margin-right: 60px;
 }
 
+.ButtonDisplay {
+  text-align: right;
+  align-self: center;
+}
 /** HERO DISPLAY ROW */
 
 .rowHero {

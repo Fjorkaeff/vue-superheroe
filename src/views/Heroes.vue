@@ -31,9 +31,10 @@ export default {
         },
         changeDisplay() {
             this.DisplayList = !this.DisplayList
+        },
+        changeSort() {
+            this.sortByUp = !this.sortByUp
         }
-    },
-    computed: {
     },
     mounted() {
         this.heroes = this.$store.getters.getHeroes
@@ -51,9 +52,14 @@ export default {
                         <v-col md="8">
                             <h1> {{ $t('heroes.message') }} </h1>
                         </v-col>
-                        <v-col md="4">
+                        <v-col md="4" class="ButtonDisplay">
                             <v-btn
-                                class="buttonDisplay"
+                                @click="changeSort()"
+                            >
+                                <v-icon v-if="this.sortByUp">mdi-arrow-down-thick</v-icon>
+                                <v-icon v-if="!this.sortByUp">mdi-arrow-up-thick</v-icon>
+                            </v-btn>
+                            <v-btn
                                 @click="changeDisplay()"
                             >
                                 <v-icon v-if="this.DisplayList">mdi-format-list-bulleted</v-icon>

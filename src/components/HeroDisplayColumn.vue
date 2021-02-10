@@ -8,37 +8,24 @@ export default {
   data:  () => ({
 
     }),
-  methods: {}
+  methods: {
+    addToFavorite(hero) {
+        this.$store.dispatch('addToFavorite', hero)
+    },
+    deleteFromFavorite(hero) {
+        this.$store.dispatch('deleteFromFavorite', hero)
+    }
+  }
 }
 </script>
 
 <template>
-    <!--<v-card
-        class="card mx-auto my-12"
-        max-width="374"
-        height="420"
-        width="300"
-        hover
-        rounded="lg"
-        z-index="5"
-    >
-        <v-img
-          height="250"
-          src="../assets/batman.jpg"
-        ></v-img>
-          <v-card-title 
-            :title="hero.name" 
-            class="heroName"
-            >{{ hero.name }}</v-card-title>
-        <v-card-text  max-height="150">
-          <div class="descriptionCard" v-if="hero.description">{{ hero.description.slice(0,35) }}...</div>
-          <div class="descriptionCard" v-else>{{ $t('heroes.no-description') }}</div>
-        </v-card-text>
-    </v-card>-->
-
+<v-row>
+<v-col v-for="n in 3" :key="n">
   <v-card
     class="mx-auto my-12"
-    max-width="374"
+    max-width="350"
+    hover
     >
 
     <v-img
@@ -85,4 +72,6 @@ export default {
       </v-btn>
     </v-card-actions>
   </v-card>
+</v-col>
+</v-row>
 </template>

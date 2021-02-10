@@ -9,6 +9,7 @@ export default {
         return {
             favoriteHeroes: [],
             DisplayList: true,
+            sortByUp: true
         }
     },
     components: {
@@ -19,6 +20,9 @@ export default {
     methods: {
         changeDisplay() {
             this.DisplayList = !this.DisplayList
+        },
+        changeSort() {
+            this.sortByUp = !this.sortByUp
         }
     },
     computed: {
@@ -39,13 +43,14 @@ export default {
                         <v-col md="8">
                             <h1> {{ $t('dashboard.message') }} </h1>
                         </v-col>
-                        <v-col md="4">
-                            <v-btn>
-                                <v-icon></v-icon>
-                                <v-icon></v-icon>
+                        <v-col md="4" class="ButtonDisplay">
+                            <v-btn
+                                @click="changeSort()"
+                            >
+                                <v-icon v-if="this.sortByUp">mdi-arrow-down-thick</v-icon>
+                                <v-icon v-if="!this.sortByUp">mdi-arrow-up-thick</v-icon>
                             </v-btn>
                             <v-btn
-                                class="buttonDisplay"
                                 @click="changeDisplay()"
                             >
                                 <v-icon v-if="this.DisplayList">mdi-format-list-bulleted</v-icon>

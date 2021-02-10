@@ -6,24 +6,12 @@ export default {
       'hero'
   ],
   methods: {
-    /*getHeroPics() {
-        let src
-            if (this.hero.isImgModified) {
-                src = `${this.hero.thumbnail.path}`
-            }else {
-                src = `${this.hero.thumbnail.path}.${this.hero.thumbnail.extension}` 
-            }
-        return src
-      },*/
-        addToFavorite(hero) {
-            this.$store.dispatch('addToFavorite', hero)
-        },
-        deleteFromFavorite(hero) {
-            this.$store.dispatch('deleteFromFavorite', hero)
-        }
-        /*isFavoriteHero(hero) {
-            this.isFavorite = this.$store.getters.getIsFavorite(hero)
-        }*/
+    addToFavorite(hero) {
+        this.$store.dispatch('addToFavorite', hero)
+    },
+    deleteFromFavorite(hero) {
+        this.$store.dispatch('deleteFromFavorite', hero)
+    }
   }
 }
 </script>
