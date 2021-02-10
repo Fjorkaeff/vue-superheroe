@@ -19,14 +19,10 @@ const url = "http://gateway.marvel.com/v1/public/characters";*/
 Vue.use(FlagIcon);
 Vue.config.productionTip = false
 
-new Vue({/*
+new Vue({
   beforeCreate: function() {
-    Axios
-    .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
-    .then(response => {
-      this.$store.state.heroes.push(response.data.data)
-    })
-  },*/
+    //this.$store.dispatch('getHeroesListFromMarvel')
+  },
   vuetify,
   router,
   i18n,

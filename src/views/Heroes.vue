@@ -2,13 +2,12 @@
 import HeroDisplayRow from '../components/HeroDisplayRow.vue'
 import HeroDisplayColumn from '../components/HeroDisplayColumn.vue'
 import NavBar from "../components/NavBar.vue";
-//import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
     name: 'Heroes',
     data () {
         return {
-            heroes: [],
             searchHeroes: [],
             sortByUp: true,
             DisplayList: true,
@@ -25,19 +24,23 @@ export default {
         HeroDisplayRow,
         HeroDisplayColumn
     },
+    computed: mapState({
+        isLoading: state => state.isLoading,
+        heroes: state => state.heroes.results
+    }),
     methods: {
         addToFavorite(hero) {
             this.$store.dispatch('addToFavorite', hero)
         },
         changeDisplay() {
             this.DisplayList = !this.DisplayList
+            console.log('HERO : ', this.heroes)
         },
         changeSort() {
             this.sortByUp = !this.sortByUp
         }
     },
     mounted() {
-        this.heroes = this.$store.getters.getHeroes
     }
 }
 </script>
@@ -68,12 +71,15 @@ export default {
                         </v-col>
                     </v-row>
                 </div>
-                <div v-if="this.DisplayList">
+                <div v-if="isLoading">
+                    Loading <v-icon>fas fa-circle-notch fa-spin</v-icon>
+                </div>
+                <div v-if="this.DisplayList && !isLoading">
                     <HeroDisplayRow v-for="hero in heroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
                 </div>
-                <div v-if="!this.DisplayList">
+                <div v-if="!this.DisplayList && !isLoading">
                     <v-row no-gutters>
-                        <v-col md="4" v-for="hero in heroes" :key="hero.id">
+                        <v-col md="3" v-for="hero in heroes" :key="hero.id">
                             <HeroDisplayColumn :hero="hero"></HeroDisplayColumn>
                         </v-col>
                     </v-row>

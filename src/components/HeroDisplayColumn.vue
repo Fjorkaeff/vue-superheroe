@@ -35,13 +35,13 @@ export default {
 
     <v-card-text>
 
-    <div v-if="hero.description">{{ hero.description }}</div>
+    <div v-if="hero.description" style="text-overflow:ellipsis">{{ hero.description }}</div>
     <div v-else>{{ $t('heroes.no-description') }}</div>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
 
-    <v-card-actions>
+    <v-card-actions style="align-text=center">
       <v-btn v-if="!hero.isFavorite"
           class="mx-2"
           fab

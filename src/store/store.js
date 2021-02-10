@@ -9,7 +9,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     heroes: [],
-    favorite_heroes: []
+    favorite_heroes: [],
+    isLoading: false
   },
   getters: {
     getHeroes: (state) => {
@@ -44,6 +45,9 @@ export default new Vuex.Store({
       console.log('FAV HERO  BEFORE: ', favoriteHeroes)
       favoriteHeroes.push(data)
     },
+    setLoadingStatus(state, status){
+      state.isLoading = status
+    },
     unsetHeroFromFavorite(state, data) {
       const favoriteHeroes = state.favorite_heroes
       const heroesList = state.heroes.results
@@ -69,10 +73,13 @@ export default new Vuex.Store({
       const ts = Date.now();
       const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
       const url = "http://gateway.marvel.com/v1/public/characters";
+
+      commit('setLoadingStatus', true)
       Axios
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
         .then(response => {
           commit('setHeroesListFromMarvel', response.data.data)
+          commit('setLoadingStatus',false)
         })
     },
     addToFavorite({commit}, data) {
