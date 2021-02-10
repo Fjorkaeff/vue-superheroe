@@ -1,5 +1,7 @@
 <script>
-//import HeroDisplayRow from '../components/HeroDisplayRow.vue'
+import HeroDisplayRow from '../components/HeroDisplayRow.vue'
+import HeroDisplayColumn from '../components/HeroDisplayColumn.vue'
+import NavBar from "../components/NavBar.vue";
 //import { mapActions } from 'vuex'
 
 export default {
@@ -7,21 +9,28 @@ export default {
     data () {
         return {
             heroes: [],
-            isFavorite: false
+            searchHeroes: [],
+            sortByUp: true,
+            DisplayList: true,
+            nbDisplayHeroes: {
+                nb1: 20,
+                nb2: 40,
+                nb3: 60,
+                nb4: 80
+            }
         }
     },
     components: {
-       // HeroDisplayRow
+        NavBar,
+        HeroDisplayRow,
+        HeroDisplayColumn
     },
     methods: {
-        /*...mapActions([
-            'addToFavorite'
-        ]),*/
         addToFavorite(hero) {
             this.$store.dispatch('addToFavorite', hero)
         },
-        isFavoriteHero(hero) {
-            this.isFavorite = this.$store.getters.getIsFavorite(hero)
+        changeDisplay() {
+            this.DisplayList = !this.DisplayList
         }
     },
     computed: {
@@ -33,50 +42,33 @@ export default {
 </script>
 
 <template>
-    <div class="heroesContainer">
-        <div style="display:flex;flex-direction: row;justify-content: space-between">
-            <h1> {{ $t('heroes.message') }} </h1>
+    <v-app>
+        <div>
+            <NavBar></NavBar>
+            <div class="Heroes">
+                <div class="HeroesTitle">
+                    <v-row no-gutters>
+                        <v-col md="8">
+                            <h1> {{ $t('heroes.message') }} </h1>
+                        </v-col>
+                        <v-col md="4">
+                            <v-btn
+                                class="buttonDisplay"
+                                @click="changeDisplay()"
+                            >
+                                <v-icon v-if="this.DisplayList">mdi-format-list-bulleted</v-icon>
+                                <v-icon v-if="!this.DisplayList">mdi-view-grid</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                </div>
+                <div v-if="this.DisplayList">
+                    <HeroDisplayRow v-for="hero in heroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
+                </div>
+                <div v-if="!this.DisplayList">
+                    <HeroDisplayColumn v-for="hero in heroes" :key="hero.id" :hero="hero"></HeroDisplayColumn>
+                </div>
+            </div>
         </div>
-    <v-container class="containerRow">
-        <v-row v-for="hero in heroes" :key="hero.id"
-            no-gutters 
-            class="rowHero"
-        >
-            <div class="heroImgContainer">
-                <v-img
-                    class="heroImg"
-                    src="../assets/batman.jpg"
-                ></v-img>
-            </div>
-            <div class="heroName">
-                {{hero.name}}
-            </div>
-            <div v-if="hero.description" class="heroDescription">
-                <span>{{hero.description}}</span>
-            </div>
-            <div v-else class="heroDescription">
-                <span>Pas de description</span>
-            </div>
-            <div class="buttonContainer">
-                <v-btn v-if="!isFavorite"
-                    class="mx-2"
-                    fab
-                    dark
-                    color="success"
-                    @click="addToFavorite(hero)"
-                >
-                    <v-icon dark>mdi-plus</v-icon>
-                </v-btn>
-                <v-btn                     
-                    class="mx-2"
-                    fab
-                    dark
-                    color="cyan"
-                >
-                    <v-icon dark>mdi-pencil</v-icon>
-                </v-btn>
-            </div>
-        </v-row>
-    </v-container>
-    </div>
+    </v-app>
 </template>

@@ -1,9 +1,8 @@
 <script>
-  import NavBar from "@/components/NavBar";
 
   export default {
     name: "app",
-    components: { NavBar },
+    components: {  },
     mounted() {
       this.$store.dispatch('getHeroesListFromMarvel')
     }
@@ -16,8 +15,7 @@
 </style>
 
 <template>
-  <div id="app">
-      <NavBar/>
+  <div id="app" data-app>
       <router-view/>
   </div>
 </template>

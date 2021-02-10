@@ -41,7 +41,24 @@ export default new Vuex.Store({
           Vue.set(hero, 'isFavorite', true)
         }
       })
+      console.log('FAV HERO  BEFORE: ', favoriteHeroes)
       favoriteHeroes.push(data)
+    },
+    unsetHeroFromFavorite(state, data) {
+      const favoriteHeroes = state.favorite_heroes
+      const heroesList = state.heroes.results
+      heroesList.forEach(function(hero) {
+        if (hero.id === data.id) {
+          Vue.set(hero, 'isFavorite', false)
+          console.log('HERO : ', heroesList)
+        }
+      })
+      favoriteHeroes.find(hero => {
+        if (hero.id === data.id) {
+          favoriteHeroes.splice(favoriteHeroes.indexOf(hero), 1)
+          console.log('FAV HERO AFTER: ', favoriteHeroes)
+        }
+      })
     }
   },
   actions: {
@@ -60,6 +77,9 @@ export default new Vuex.Store({
     },
     addToFavorite({commit}, data) {
       commit('setHeroToFavorite', data)
+    },
+    deleteFromFavorite({commit}, data) {
+      commit('unsetHeroFromFavorite', data)
     }
   },
   modules: {

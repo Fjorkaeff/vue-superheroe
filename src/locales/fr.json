@@ -2,13 +2,15 @@
   "NavBar": {
     "title1": "Dashboard",
     "title2": "Super Héros",
-    "language": "Langages"
+    "language": "Langages",
+    "searchTitle": "Recherchez un héro"
   },
   "dashboard": {
     "message": "Voici vos héros préférés"
   },
   "heroes": {
     "message": "Bienvenue sur la page des héros Marvel",
-    "favorite": "Ajouter à vos favoris"
+    "favorite": "Ajouter à vos favoris",
+    "no-description": "Pas de description"
   }
 }

@@ -3,7 +3,8 @@ import i18n from '../i18n';
 
 export default {
   name: 'NavBar',
-  data:  () => ({
+  data () {
+    return {
       languages: [
         {
           flag: 'us',
@@ -16,7 +17,8 @@ export default {
           title: 'Français'
         } 
       ]
-    }),
+    }
+  },
   methods: {
       changeLocale(locale) {
         i18n.locale = locale;
@@ -32,6 +34,8 @@ export default {
       <router-link class="router-link" to="/"><v-toolbar-title class="title">{{ $t('NavBar.title2') }}</v-toolbar-title></router-link>
       <router-link class="router-link" to="/Dashboard"><v-toolbar-title class="title">{{ $t('NavBar.title1') }}</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
+      <!--<input class="searchBar" type="text" v-model="search" :placeholder="$t('NavBar.searchTitle')"/>-->
+      <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -43,11 +47,54 @@ export default {
           </v-btn>
         </template>
         <v-list>
-          <v-list-item v-for="item in languages" :key="item.title" @click="changeLocale(item.language)">
-            <v-list-item-title >{{ item.language }}</v-list-item-title>
+          <v-list-item v-for="lang in languages" :key="lang.title" @click="changeLocale(lang.language)">
+            <flag :iso="lang.flag" v-bind:squared=false />
+            <v-list-item-title>{{ lang.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>
   </div>
 </template>
+
+<style>
+
+.searchBar {
+  position: relative;
+  border-radius: 0.5em;
+  width: 30%;
+  height: 80%;
+}
+
+.label {
+  position: absolute;
+  font-size: 12px;
+  color: rgba(0,0,0,.50);
+  top: 8px;
+  left: 12px;
+  z-index: -1;
+  transition: .15s all ease-in-out;
+}
+input {
+  padding: 4px 12px;
+  color: rgba(0,0,0,.70);
+  border: 1px solid rgba(0,0,0,.12);
+  transition: .15s all ease-in-out;
+  background: white;
+}
+  input:focus {
+    outline: none;
+    transform: scale(1.05);
+  }
+
+    input + label  {
+      font-size: 10px;
+      transform: translateY(-24px) translateX(-12px);
+    }
+
+  input::-webkit-input-placeholder {
+      font-size: 12px;
+      color: rgba(0,0,0,.50);
+      font-weight: 100;
+  }
+</style>

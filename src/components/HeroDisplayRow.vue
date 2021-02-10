@@ -3,10 +3,10 @@
 export default {
   name: 'HeroDisplayRow',
   props: [
-      'Hero'
+      'hero'
   ],
   methods: {
-    getHeroPics() {
+    /*getHeroPics() {
         let src
             if (this.hero.isImgModified) {
                 src = `${this.hero.thumbnail.path}`
@@ -14,14 +14,23 @@ export default {
                 src = `${this.hero.thumbnail.path}.${this.hero.thumbnail.extension}` 
             }
         return src
-      }
+      },*/
+        addToFavorite(hero) {
+            this.$store.dispatch('addToFavorite', hero)
+        },
+        deleteFromFavorite(hero) {
+            this.$store.dispatch('deleteFromFavorite', hero)
+        }
+        /*isFavoriteHero(hero) {
+            this.isFavorite = this.$store.getters.getIsFavorite(hero)
+        }*/
   }
 }
 </script>
 
 <template>
     <v-container class="containerRow">
-        <v-row v-for="hero in heroes" :key="hero.id"
+        <v-row
             no-gutters 
             class="rowHero"
         >
@@ -32,30 +41,40 @@ export default {
                 ></v-img>
             </div>
             <div class="heroName">
-                {{hero.name}}
+                {{ hero.name }}
             </div>
             <div v-if="hero.description" class="heroDescription">
-                <span>{{hero.description}}</span>
+                <span>{{ hero.description }}</span>
             </div>
             <div v-else class="heroDescription">
-                <span>Pas de description</span>
+                <span> {{ $t('heroes.no-description') }} </span>
             </div>
-            <div class="buttonContainer">
-                <v-btn
+            <div class="buttonHeroes">
+                <v-btn v-if="!hero.isFavorite"
                     class="mx-2"
                     fab
                     dark
-                    color="success"
+                    color="green"
+                    @click="addToFavorite(hero)"
                 >
                     <v-icon dark>mdi-plus</v-icon>
+                </v-btn>
+                <v-btn v-if="hero.isFavorite"
+                    class="mx-2"
+                    fab
+                    dark
+                    color="red"
+                    @click="deleteFromFavorite(hero)" 
+                >
+                    <v-icon dark>mdi-minus</v-icon>
                 </v-btn>
                 <v-btn                     
                     class="mx-2"
                     fab
                     dark
-                    color="cyan"
+                    color="blue"
                 >
-                    <v-icon dark>mdi-pencil</v-icon>
+                    <v-icon>mdi-pencil</v-icon>
                 </v-btn>
             </div>
         </v-row>
