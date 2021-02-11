@@ -14,6 +14,10 @@ export default {
     },
     deleteFromFavorite(hero) {
         this.$store.dispatch('deleteFromFavorite', hero)
+    },
+      goToHeroProfil(hero) {
+      const id = hero.id;
+      this.$router.push({ path: `/Heroes/${id}`, query: {hero} })
     }
   }
 }
@@ -28,7 +32,7 @@ export default {
 
     <v-img
       height="250"
-      src="../assets/batman.jpg"
+      :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
     ></v-img>
 
     <v-card-title>{{ hero.name }}</v-card-title>
@@ -65,8 +69,18 @@ export default {
           fab
           dark
           color="blue"
+          @click="goToHeroProfil(hero)"
       >
           <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+      <v-btn v-if="hero.isModified"
+          class="mx-2"
+          fab
+          dark
+          color="orange"
+                    
+      >
+        <v-icon dark>mdi-refresh-circle</v-icon>
       </v-btn>
     </v-card-actions>
   </v-card>

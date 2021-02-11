@@ -16,7 +16,8 @@ export default {
                 nb2: 40,
                 nb3: 60,
                 nb4: 80
-            }
+            },
+            currentNbDisplay: 20
         }
     },
     components: {
@@ -24,17 +25,18 @@ export default {
         HeroDisplayRow,
         HeroDisplayColumn
     },
-    computed: mapState({
-        isLoading: state => state.isLoading,
-        heroes: state => state.heroes.results
-    }),
+    computed: {
+        ...mapState({
+            isLoading: state => state.isLoading,
+            heroes: state => state.heroes.results
+        }),
+    },
     methods: {
         addToFavorite(hero) {
             this.$store.dispatch('addToFavorite', hero)
         },
         changeDisplay() {
             this.DisplayList = !this.DisplayList
-            console.log('HERO : ', this.heroes)
         },
         changeSort() {
             this.sortByUp = !this.sortByUp
@@ -75,7 +77,7 @@ export default {
                     <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="dots"></loader>
                 </div>
                 <div v-if="this.DisplayList && !isLoading">
-                    <HeroDisplayRow v-for="hero in heroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
+                    <HeroDisplayRow v-for="hero in heroes" :key="hero.name" :hero="hero"></HeroDisplayRow>
                 </div>
                 <div v-if="!this.DisplayList && !isLoading">
                     <v-row no-gutters>

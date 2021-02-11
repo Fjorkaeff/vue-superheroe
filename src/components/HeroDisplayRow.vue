@@ -11,7 +11,14 @@ export default {
     },
     deleteFromFavorite(hero) {
         this.$store.dispatch('deleteFromFavorite', hero)
-    }
+    },
+    deleteHero(hero) {
+        this.$store.dispatch('deleteHero', hero)
+    },
+    goToHeroProfil(hero) {
+        const id = hero.id;
+        this.$router.push({ path: `/Heroes/${id}`, query: {hero} })
+    },
   }
 }
 </script>
@@ -22,22 +29,28 @@ export default {
             no-gutters 
             class="rowHero"
         >
+        <v-col md="2" @click="goToHeroProfil(hero)">
             <div class="heroImgContainer">
                 <v-img
-                    class="heroImg"
-                    src="../assets/batman.jpg"
+                    class="HeroImg"
+                    :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
                 ></v-img>
             </div>
+        </v-col>
+        <v-col md="9" @click="goToHeroProfil(hero)">
             <div class="heroName">
                 {{ hero.name }}
             </div>
-            <div v-if="hero.description" class="heroDescription">
+            <div v-if="hero.description" class="HeroDescription">
                 <span>{{ hero.description }}</span>
             </div>
-            <div v-else class="heroDescription">
+            <div v-else class="HeroDescription">
                 <span> {{ $t('heroes.no-description') }} </span>
             </div>
-            <div class="buttonHeroes">
+        </v-col>
+        <v-col md="1">
+            <v-card-actions>
+                <div class="ButtonContainer">
                 <v-btn v-if="!hero.isFavorite"
                     class="mx-2"
                     fab
@@ -56,15 +69,32 @@ export default {
                 >
                     <v-icon dark>mdi-minus</v-icon>
                 </v-btn>
-                <v-btn                     
+                <v-btn v-if="hero.isModified"
                     class="mx-2"
                     fab
                     dark
-                    color="blue"
+                    color="orange"
+
                 >
-                    <v-icon>mdi-pencil</v-icon>
+                    <v-icon dark>mdi-refresh-circle</v-icon>
                 </v-btn>
-            </div>
+                <v-btn                     
+                    class="mx-2"
+                    fab
+                    color="red"
+                    @click="deleteHero(hero)"
+                >
+                    <v-icon color="white">mdi-delete</v-icon>
+                </v-btn>
+                </div>
+            </v-card-actions>
+        </v-col>
         </v-row>
     </v-container>
 </template>
+
+<style>
+.ButtonContainer {
+    align-items: center;
+}
+</style>

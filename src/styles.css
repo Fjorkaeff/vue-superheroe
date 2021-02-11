@@ -76,25 +76,27 @@
 
 .heroName {
   width: 40%;
+  margin-left: 10px;
   padding:7px;
   font-size: 1.2em;
   font-weight: 600;
 }
 
-.heroDescription {
-  width: 82%;
-  margin-left:10px;
+.HeroDescription {
+  width: 90%;
+  margin-left:20px;
   margin-top:10px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
+  text-align: justify;
 }
 
 .heroImgContainer {
-  width:15%;
+  width:100%;
   height:100%;
 }
 
-.heroImg{
+.HeroImg{
     width: auto;
     height: 175px;
     margin-top:12px;
@@ -102,8 +104,5 @@
     border-radius: 0.5em;
 }
 
-.buttonHeroes {
-  text-align: right;
-  position: block;
-  padding: 10px;
-}
+/** HERO VIEW */
+

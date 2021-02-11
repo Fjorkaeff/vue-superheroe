@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
 const CryptoJS = require("crypto-js");
-//const utils = require('./utils.json')
+//const utils = require('./utils.js')
 
 Vue.use(Vuex)
 
@@ -33,6 +33,9 @@ export default new Vuex.Store({
     setHeroesListFromMarvel(state, data) {
       state.heroes = data
     },
+    setHeroFromMarvel(state,data) {
+      state.heroes.push(data)
+    },
     setHeroToFavorite(state, data) {
       const favoriteHeroes = state.favorite_heroes
       const heroesList = state.heroes.results
@@ -54,13 +57,26 @@ export default new Vuex.Store({
       heroesList.forEach(function(hero) {
         if (hero.id === data.id) {
           Vue.set(hero, 'isFavorite', false)
-          console.log('HERO : ', heroesList)
         }
       })
       favoriteHeroes.find(hero => {
         if (hero.id === data.id) {
           favoriteHeroes.splice(favoriteHeroes.indexOf(hero), 1)
-          console.log('FAV HERO AFTER: ', favoriteHeroes)
+        }
+      })
+    },
+    deleteHero(state, data) {
+      const favoriteHeroes = state.favorite_heroes
+      const heroesList = state.heroes.results
+
+      favoriteHeroes.find(hero => {
+        if (hero.id === data.id) {
+          favoriteHeroes.splice(favoriteHeroes.indexOf(hero), 1)
+        }
+      })
+      heroesList.find(hero => {
+        if (hero.id === data.id) {
+          heroesList.splice(heroesList.indexOf(hero), 1)
         }
       })
     }
@@ -87,6 +103,26 @@ export default new Vuex.Store({
     },
     deleteFromFavorite({commit}, data) {
       commit('unsetHeroFromFavorite', data)
+    },
+    deleteHero({commit}, data) {
+      commit('deleteHero', data)
+    },
+    resetHero({commit}, data) {
+      const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
+      const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
+
+      const ts = Date.now();
+      const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
+      const id = data.id;
+      const url = "http://gateway.marvel.com/v1/public/characters" + id;
+
+      commit('setLoadingStatus', true)
+      Axios
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
+        .then(response => {
+          commit('setHeroFromMarvel', response.data.data)
+          commit('setLoadingStatus',false)
+        })
     }
   },
   modules: {

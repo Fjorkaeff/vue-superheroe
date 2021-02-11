@@ -12,5 +12,8 @@
     "message": "Bienvenue sur la page des héros Marvel",
     "favorite": "Ajouter à vos favoris",
     "no-description": "Pas de description"
+  },
+  "heroProfil": {
+    "title": "Profil du héro"
   }
 }

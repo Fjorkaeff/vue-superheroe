@@ -12,5 +12,8 @@
     "message": "Welcome to your Marvel page",
     "favorite": "Add to your favotite",
     "no-description": "No Description"
+  },
+  "heroProfil": {
+    "title": "Hero's profil"
   }
 }

@@ -2,7 +2,7 @@
 
   export default {
     name: "app",
-    components: {  },
+    components: { },
     mounted() {
       this.$store.dispatch('getHeroesListFromMarvel')
     }
