@@ -15,9 +15,13 @@ export default {
     deleteHero(hero) {
         this.$store.dispatch('deleteHero', hero)
     },
+    resetHero(hero) {
+        this.$store.dispatch('resetHero', hero)
+    },
     goToHeroProfil(hero) {
+        this.$store.dispatch('setHeroToModify', hero)
         const id = hero.id;
-        this.$router.push({ path: `/Heroes/${id}`, query: {hero} })
+        this.$router.push({ path: `/Heroes/${id}` })
     },
   }
 }
@@ -50,9 +54,9 @@ export default {
         </v-col>
         <v-col md="1">
             <v-card-actions>
-                <div class="ButtonContainer">
+            <div class="ButtonContainer">
                 <v-btn v-if="!hero.isFavorite"
-                    class="mx-2"
+                    class="mx-4"
                     fab
                     dark
                     color="green"
@@ -61,7 +65,7 @@ export default {
                     <v-icon dark>mdi-plus</v-icon>
                 </v-btn>
                 <v-btn v-if="hero.isFavorite"
-                    class="mx-2"
+                    class="mx-4"
                     fab
                     dark
                     color="red"
@@ -70,23 +74,23 @@ export default {
                     <v-icon dark>mdi-minus</v-icon>
                 </v-btn>
                 <v-btn v-if="hero.isModified"
-                    class="mx-2"
+                    class="mx-4"
                     fab
                     dark
                     color="orange"
-
+                    @click="resetHero(hero)"
                 >
                     <v-icon dark>mdi-refresh-circle</v-icon>
                 </v-btn>
                 <v-btn                     
-                    class="mx-2"
+                    class="mx-4"
                     fab
                     color="red"
                     @click="deleteHero(hero)"
                 >
                     <v-icon color="white">mdi-delete</v-icon>
                 </v-btn>
-                </div>
+            </div>
             </v-card-actions>
         </v-col>
         </v-row>
@@ -95,6 +99,8 @@ export default {
 
 <style>
 .ButtonContainer {
-    align-items: center;
+    height: 125px;
+    margin-top: 1rem;
+    margin-left: 2rem;
 }
 </style>

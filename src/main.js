@@ -10,6 +10,7 @@ import loader from 'vue-ui-preloader';
 
 Vue.use(FlagIcon);
 Vue.use(loader);
+
 Vue.config.productionTip = false
 
 new Vue({

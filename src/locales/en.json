@@ -15,5 +15,10 @@
   },
   "heroProfil": {
     "title": "Hero's profil"
+  },
+  "heroModify": {
+    "errorMessageRequire": "This field can't be empty",
+    "errorRegex": "Only letters, numbers and '-' are allow",
+    "validateForm": "Validate"
   }
 }

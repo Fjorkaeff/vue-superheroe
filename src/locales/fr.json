@@ -15,5 +15,9 @@
   },
   "heroProfil": {
     "title": "Profil du héro"
+  },
+  "heroModify": {
+    "errorMessageRequire": "Ce champ ne peut être vide",
+    "validateForm": "Valider"
   }
 }

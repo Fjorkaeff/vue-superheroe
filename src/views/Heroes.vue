@@ -17,7 +17,7 @@ export default {
                 nb3: 60,
                 nb4: 80
             },
-            currentNbDisplay: 20
+            currentNbDisplay: 20,
         }
     },
     components: {
@@ -28,8 +28,9 @@ export default {
     computed: {
         ...mapState({
             isLoading: state => state.isLoading,
-            heroes: state => state.heroes.results
-        }),
+            heroes: state => state.heroes.results,
+            notifMessage: state => state.notifMessage
+        })
     },
     methods: {
         addToFavorite(hero) {
@@ -42,7 +43,7 @@ export default {
             this.sortByUp = !this.sortByUp
         }
     },
-    mounted() {
+    created() {
     }
 }
 </script>
@@ -77,7 +78,7 @@ export default {
                     <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="dots"></loader>
                 </div>
                 <div v-if="this.DisplayList && !isLoading">
-                    <HeroDisplayRow v-for="hero in heroes" :key="hero.name" :hero="hero"></HeroDisplayRow>
+                    <HeroDisplayRow v-for="hero in heroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
                 </div>
                 <div v-if="!this.DisplayList && !isLoading">
                     <v-row no-gutters>

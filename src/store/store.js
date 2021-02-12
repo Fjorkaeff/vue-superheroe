@@ -10,6 +10,8 @@ export default new Vuex.Store({
   state: {
     heroes: [],
     favorite_heroes: [],
+    heroToModify: {},
+    notifMessage: '',
     isLoading: false
   },
   getters: {
@@ -18,6 +20,9 @@ export default new Vuex.Store({
     },
     getFavoritesHeroes: (state) => {
       return state.favorite_heroes
+    },
+    getHeroToModify: (state) => {
+      return state.heroToModify
     },
     getIsFavorite: (state, data) => {
       const favoriteHeroes = state.favorite_heroes
@@ -33,8 +38,23 @@ export default new Vuex.Store({
     setHeroesListFromMarvel(state, data) {
       state.heroes = data
     },
-    setHeroFromMarvel(state,data) {
-      state.heroes.push(data)
+    setHeroFromMarvel(state, data) {
+      const favoriteHeroes = state.favorite_heroes
+      const heroesList = state.heroes.results
+      const resHero = data[0]
+
+      favoriteHeroes.find(hero => {
+        if (hero.id === resHero.id) {
+          favoriteHeroes.splice(favoriteHeroes.indexOf(hero), 1)
+          favoriteHeroes.push(resHero)
+        }
+      })
+      heroesList.find(hero => {
+        if (hero.id === resHero.id) {
+          heroesList.splice(heroesList.indexOf(hero), 1)
+          heroesList.push(resHero)
+        }
+      })
     },
     setHeroToFavorite(state, data) {
       const favoriteHeroes = state.favorite_heroes
@@ -45,7 +65,6 @@ export default new Vuex.Store({
           Vue.set(hero, 'isFavorite', true)
         }
       })
-      console.log('FAV HERO  BEFORE: ', favoriteHeroes)
       favoriteHeroes.push(data)
     },
     setLoadingStatus(state, status){
@@ -79,6 +98,40 @@ export default new Vuex.Store({
           heroesList.splice(heroesList.indexOf(hero), 1)
         }
       })
+    },
+    setHeroToModify(state, data) {
+      state.heroToModify = data
+    },
+    modifyHero(state, data) {
+      const heroId = data.heroId
+      const newName = data.newName
+      //const newDescription = data.description
+      
+      const favoriteHeroes = state.favorite_heroes
+      const heroesList = state.heroes.results
+      const heroModify = state.heroToModify
+
+      heroModify.name = newName
+      //heroModify.description = newDescription
+
+      heroesList.forEach(function(hero) {
+        if (hero.id === heroId) {
+          Vue.set(hero, 'isModified', true)
+          hero.name = newName
+          //hero.description = newDescription
+        }
+      })
+
+      favoriteHeroes.forEach(function(hero) {
+        if (hero.id === heroId) {
+          Vue.set(hero, 'isModified', true)
+          hero.name = newName
+          //hero.description = newDescription
+        }
+      })
+    },
+    setNotifMessage(state, message) {
+      state.notifMessage = message
     }
   },
   actions: {
@@ -107,6 +160,15 @@ export default new Vuex.Store({
     deleteHero({commit}, data) {
       commit('deleteHero', data)
     },
+    modifyHero({commit}, data) {
+      commit('modifyHero', data)
+    },
+    setHeroToModify({commit}, data) {
+      commit('setHeroToModify', data)
+    },
+    setNotifMessage({commit}, message) {
+      commit('setNotifMessage', message)
+    },
     resetHero({commit}, data) {
       const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
       const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
@@ -114,13 +176,14 @@ export default new Vuex.Store({
       const ts = Date.now();
       const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
       const id = data.id;
-      const url = "http://gateway.marvel.com/v1/public/characters" + id;
+      const url = "http://gateway.marvel.com/v1/public/characters/" + id;
 
       commit('setLoadingStatus', true)
       Axios
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
         .then(response => {
-          commit('setHeroFromMarvel', response.data.data)
+          commit('setHeroFromMarvel', response.data.data.results)
+          commit('setNotifMessage', "Les héros ont été ajoutés à la liste avec succès")
           commit('setLoadingStatus',false)
         })
     }

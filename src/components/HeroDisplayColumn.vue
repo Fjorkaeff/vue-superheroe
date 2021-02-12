@@ -15,9 +15,13 @@ export default {
     deleteFromFavorite(hero) {
         this.$store.dispatch('deleteFromFavorite', hero)
     },
-      goToHeroProfil(hero) {
-      const id = hero.id;
-      this.$router.push({ path: `/Heroes/${id}`, query: {hero} })
+    resetHero(hero) {
+      this.$store.dispatch('resetHero', hero)
+    },
+    goToHeroProfil(hero) {
+        this.$store.dispatch('setHeroToModify', hero)
+        const id = hero.id;
+        this.$router.push({ path: `/Heroes/${id}` })
     }
   }
 }
@@ -29,7 +33,7 @@ export default {
     max-width="350"
     hover
     >
-
+  <div @click="goToHeroProfil(hero)">
     <v-img
       height="250"
       :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
@@ -44,8 +48,9 @@ export default {
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
+  </div>
 
-    <v-card-actions style="align-text=center">
+    <v-card-actions>
       <v-btn v-if="!hero.isFavorite"
           class="mx-2"
           fab
@@ -65,20 +70,19 @@ export default {
           <v-icon dark>mdi-minus</v-icon>
       </v-btn>
       <v-btn                     
-          class="mx-2"
+          class="mx-4"
           fab
-          dark
-          color="blue"
-          @click="goToHeroProfil(hero)"
+          color="red"
+          @click="deleteHero(hero)"
       >
-          <v-icon>mdi-pencil</v-icon>
+          <v-icon color="white">mdi-delete</v-icon>
       </v-btn>
       <v-btn v-if="hero.isModified"
           class="mx-2"
           fab
           dark
           color="orange"
-                    
+          @click="resetHero(hero)"          
       >
         <v-icon dark>mdi-refresh-circle</v-icon>
       </v-btn>

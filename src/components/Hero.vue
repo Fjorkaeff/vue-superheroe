@@ -3,7 +3,7 @@
 export default {
   name: 'Hero',
   props: [
-      'hero'
+    'hero'
   ],
   data:  () => ({
   }),

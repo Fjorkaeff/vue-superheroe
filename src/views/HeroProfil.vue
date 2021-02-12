@@ -2,14 +2,19 @@
 import NavBar from "../components/NavBar.vue";
 import HeroModify from "../components/HeroModify.vue";
 import Hero from "../components/Hero.vue";
+import { mapState } from 'vuex'
 
 export default {
   name: 'HeroProfil',
   data () {
     return {
-      hero: {},
       isEdit: false
     }
+  },
+  computed: {
+    ...mapState({
+      hero: state => state.heroToModify
+    })
   },
   components: {
     NavBar,
@@ -17,9 +22,6 @@ export default {
     Hero
   },
   methods: {
-    validate () {
-        this.$refs.form.validate()
-    },
     edit (){
       this.isEdit = !this.isEdit
     }
@@ -27,10 +29,7 @@ export default {
         window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     }*/
   },
-  mounted () {
-    this.hero = this.$route.query.hero
-    console.log('HERO', this.hero)
-  }
+  mounted () {}
 }
 </script>
 
