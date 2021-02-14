@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
 const CryptoJS = require("crypto-js");
-//const utils = require('./utils.js')
 
 Vue.use(Vuex)
 

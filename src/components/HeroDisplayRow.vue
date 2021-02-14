@@ -31,10 +31,10 @@ export default {
     <v-container class="containerRow">
         <v-row
             no-gutters 
-            class="rowHero"
+            class="HeroRow"
         >
         <v-col md="2" @click="goToHeroProfil(hero)">
-            <div class="heroImgContainer">
+            <div class="HeroImgContainer">
                 <v-img
                     class="HeroImg"
                     :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
@@ -42,7 +42,7 @@ export default {
             </div>
         </v-col>
         <v-col md="9" @click="goToHeroProfil(hero)">
-            <div class="heroName">
+            <div class="HeroName">
                 {{ hero.name }}
             </div>
             <div v-if="hero.description" class="HeroDescription">
