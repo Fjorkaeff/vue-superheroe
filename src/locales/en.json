@@ -10,6 +10,7 @@
   },
   "heroes": {
     "message": "Welcome to your Marvel page",
+    "addHero": "Add a hero",
     "favorite": "Add to your favotite",
     "no-description": "No Description"
   },
@@ -20,5 +21,10 @@
     "errorMessageRequire": "This field can't be empty",
     "errorRegex": "Only letters, numbers and '-' are allow",
     "validateForm": "Validate"
+  },
+  "newHero": {
+    "title": "Add your new hero",
+    "newHeroNameLabel": "Name of the new hero",
+    "newHeroDescriptionLabel": "Description of the new hero"
   }
 }

@@ -18,7 +18,7 @@ import { extend, ValidationObserver, ValidationProvider, setInteractionMode } fr
 export default {
   name: 'HeroModify',
   props: [
-    'hero',
+    'heroToModify',
   ],
   components: {
     ValidationProvider,
@@ -28,19 +28,38 @@ export default {
   data:  () => ({
     name: '',
     //description: '',
+    App: [
+      {
+        title: "Comics",
+        items: null
+      },
+      {
+        title: "Series",
+        items: null
+      },
+      {
+        title: "Events",
+        items: null
+      }
+    ]
   }),
   methods: {
     submit() {
       const data = {
         newName: this.name,
         //newDescription: this.description,
-        heroId: this.hero.id
+        heroId: this.heroToModify.id
       }
 
       this.$refs.observer.validate()
       this.$store.dispatch('modifyHero', data)
       this.$store.dispatch('edit')
     }
+  },
+  mounted () {
+    this.App[0].items = this.heroToModify.comics.items
+    this.App[1].items = this.heroToModify.series.items
+    this.App[2].items = this.heroToModify.events.items
   }
 }
 </script>
@@ -51,7 +70,7 @@ export default {
       <v-col md="4">
         <v-img
           width="80%"
-          :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
+          :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
         ></v-img>
       </v-col>
       <v-col md="4">
@@ -73,7 +92,7 @@ export default {
             :counter="20"
             maxlength="20"
             :error-messages="errors"
-            :label="hero.name"
+            :label="heroToModify.name"
             style="max-width:50%"></v-text-field>
           
             </validation-provider>
@@ -104,6 +123,30 @@ export default {
             </v-btn>
           </form>
         </validation-observer>
+      </v-col>
+      <v-col md="4">
+        <v-list>
+          <v-list-group
+            v-for="item in App"
+            :key="item.title"
+            no-action
+          >
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item-content>
+            </template>
+
+            <v-list-item
+              v-for="child in item.items"
+              :key="child.name"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="child.name"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+        </v-list>
       </v-col>
     </v-row>
   </v-card>

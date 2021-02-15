@@ -3,12 +3,29 @@
 export default {
   name: 'Hero',
   props: [
-    'hero'
+    'heroToModify'
   ],
   data:  () => ({
+    App: [
+      {
+        title: "Comics",
+        items: null
+      },
+      {
+        title: "Series",
+        items: null
+      },
+      {
+        title: "Events",
+        items: null
+      }
+    ]
   }),
   methods: {},
   mounted () {
+    this.App[0].items = this.heroToModify.comics.items
+    this.App[1].items = this.heroToModify.series.items
+    this.App[2].items = this.heroToModify.events.items
   }
 }
 </script>
@@ -19,21 +36,43 @@ export default {
       <v-col md="4">
         <v-img
           width="80%"
-          :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
+          :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
         ></v-img>
       </v-col>
       <v-col md="4">
         <v-card-title class="CardTitle">
-            {{ hero.name }}
+            {{ heroToModify.name }}
         </v-card-title>
-        <v-card-text class="CardText" v-if="hero.description">
-            {{ hero.description }}
+        <v-card-text class="CardText" v-if="heroToModify.description">
+            {{ heroToModify.description }}
         </v-card-text>
         <v-card-text class="CardText" v-else>
             {{ $t('heroes.no-description') }}
         </v-card-text>
       </v-col>
       <v-col md="4">
+      <v-list>
+      <v-list-group
+        v-for="item in App"
+        :key="item.title"
+        no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item
+          v-for="child in item.items"
+          :key="child.name"
+        >
+          <v-list-item-content>
+            <v-list-item-title v-text="child.name"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
       </v-col>
     </v-row>
   </v-card>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 import Heroes from '../views/Heroes.vue'
 import HeroProfil from '../views/HeroProfil.vue'
+import NewHero from '../views/NewHero.vue'
 
 Vue.use(VueRouter)
 
@@ -25,6 +26,11 @@ const routes = [
     path: '/Dashboard',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/AddHero',
+    name: 'NewHero',
+    component: NewHero
   }
 ]
 

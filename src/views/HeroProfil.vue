@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     ...mapState({
-      hero: state => state.heroToModify,
+      heroToModify: state => state.heroToModify,
       isEdit: state => state.isEdit
     })
   },
@@ -53,8 +53,8 @@ export default {
               </v-col>
             </v-row>
             <v-container style="margin-top:50px">
-              <HeroModify v-if="this.isEdit" :hero="hero"></HeroModify>
-              <Hero v-if="!this.isEdit" :hero="hero"></Hero>
+              <HeroModify v-if="this.isEdit" :heroToModify="heroToModify"></HeroModify>
+              <Hero v-if="!this.isEdit" :heroToModify="heroToModify"></Hero>
             </v-container>
           </div>
         </div>

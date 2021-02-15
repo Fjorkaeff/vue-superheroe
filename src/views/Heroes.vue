@@ -8,29 +8,29 @@ export default {
     name: 'Heroes',
     data () {
         return {
-            searchHeroes: [],
             sortByUp: true,
             DisplayList: true,
-            nbDisplayHeroes: {
-                nb1: 20,
-                nb2: 40,
-                nb3: 60,
-                nb4: 80
-            },
+            nbDisplayHeroes: [
+                20,
+                40,
+                60,
+                80
+            ],
             currentNbDisplay: 20,
+            currentPage: 1,
         }
     },
     components: {
         NavBar,
         HeroDisplayRow,
-        HeroDisplayColumn
+        HeroDisplayColumn,
     },
     computed: {
         ...mapState({
             isLoading: state => state.isLoading,
             heroes: state => state.heroes.results,
             notifMessage: state => state.notifMessage,
-            allowReset: state => state.allowReset
+            allowReset: state => state.allowReset,
         })
     },
     methods: {
@@ -47,7 +47,7 @@ export default {
             this.$store.dispatch('getHeroesListFromMarvel')
         }
     },
-    created() {
+    mounted() {
     }
 }
 </script>
@@ -58,11 +58,28 @@ export default {
             <NavBar></NavBar>
             <div class="Heroes">
                 <div class="HeroesTitle">
-                    <v-row no-gutters>
-                        <v-col md="8">
+                    <v-row no-gutters class="HeadPage">
+                        <v-col md="6">
                             <h1> {{ $t('heroes.message') }} </h1>
                         </v-col>
-                        <v-col md="4" class="ButtonDisplay">
+                        <v-col md="2">
+                            <router-link to="/AddHero"><v-btn
+                                class="ma-2"
+                                color="success"
+                            >
+                                {{ $t('heroes.addHero') }}
+                            </v-btn></router-link>
+                        </v-col>
+                        <v-col md="2">
+                            <v-select
+                            class="NbHeroes"
+                                v-model="currentNbDisplay"
+                                :items="nbDisplayHeroes"
+                                filled
+                                dense
+                            ></v-select>
+                        </v-col>
+                        <v-col md="2" class="ButtonDisplay">
                             <v-btn
                                 @click="changeSort()"
                             >
@@ -103,7 +120,32 @@ export default {
                         </v-col>
                     </v-row>
                 </div>
+                <v-row v-if="!isLoading" justify="center">
+                    <div class="Pagination">
+                        <v-pagination
+                          v-model="currentPage"
+                          :length='(this.$store.getters.getNbHeroes / this.currentNbDisplay).toFixed(0)'
+                          :total-visible="7"
+                        ></v-pagination>
+                    </div>
+                </v-row>
             </div>
         </div>
     </v-app>
 </template>
+
+<style>
+.Pagination {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.HeadPage {
+    align-items: center;
+}
+
+.NbHeroes {
+    width: 25.5%;
+    float: right;
+}
+</style>

@@ -13,26 +13,18 @@ export default new Vuex.Store({
     notifMessage: '',
     isLoading: false,
     isEdit: false,
-    allowReset: false
+    allowReset: false,
+    idAvailable: 1
   },
   getters: {
-    getHeroes: (state) => {
-      return state.heroes.results
-    },
     getFavoritesHeroes: (state) => {
       return state.favorite_heroes
     },
     getHeroToModify: (state) => {
       return state.heroToModify
     },
-    getIsFavorite: (state, data) => {
-      const favoriteHeroes = state.favorite_heroes
-      favoriteHeroes.forEach(function(hero) {
-        if (hero.id === data.id) {
-          return true
-        }
-      })
-      return false
+    getNbHeroes: (state) => {
+      return state.heroes.total
     }
   },
   mutations: {
@@ -131,6 +123,14 @@ export default new Vuex.Store({
         }
       })
     },
+    addHero(state, data) {
+      const heroesList = state.heroes.results
+      const idAvailable = state.idAvailable
+
+      Vue.set(data, 'id', idAvailable)
+      heroesList.push(data)
+      console.log('LIST : ', heroesList)
+    },
     setNotifMessage(state, message) {
       state.notifMessage = message
     },
@@ -159,6 +159,23 @@ export default new Vuex.Store({
           commit('setLoadingStatus',false)
         })
     },
+    getHeroesListFromMarvelWithOffset({commit}, offset, limit) {
+      const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
+      const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
+
+      const ts = Date.now();
+      const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
+      const url = "http://gateway.marvel.com/v1/public/characters";
+
+      commit('setLoadingStatus', true)
+      Axios
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&offset=' + offset + '&limit=' + limit, {})
+        .then(response => {
+          commit('setHeroesListFromMarvel', response.data.data)
+          commit('allowReset', false)
+          commit('setLoadingStatus',false)
+        })
+    },
     addToFavorite({commit}, data) {
       commit('setHeroToFavorite', data)
     },
@@ -173,6 +190,9 @@ export default new Vuex.Store({
     },
     setHeroToModify({commit}, data) {
       commit('setHeroToModify', data)
+    },
+    addHero({commit}, data) {
+      commit('addHero', data)
     },
     setNotifMessage({commit}, message) {
       commit('setNotifMessage', message)

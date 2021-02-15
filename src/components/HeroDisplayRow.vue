@@ -37,6 +37,7 @@ export default {
         <v-col md="2" @click="goToHeroProfil(hero)">
             <div class="HeroImgContainer">
                 <v-img
+                    v-if="hero.thumbnail"
                     class="HeroImg"
                     :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
                 ></v-img>

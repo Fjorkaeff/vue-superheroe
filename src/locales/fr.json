@@ -10,6 +10,7 @@
   },
   "heroes": {
     "message": "Bienvenue sur la page des héros Marvel",
+    "addHero": "Ajouter un héro",
     "favorite": "Ajouter à vos favoris",
     "no-description": "Pas de description"
   },
@@ -19,5 +20,10 @@
   "heroModify": {
     "errorMessageRequire": "Ce champ ne peut être vide",
     "validateForm": "Valider"
+  },
+  "newHero": {
+    "title": "Ajouter votre nouveau héro",
+    "newHeroNameLabel": "Nom du nouveau héro",
+    "newHeroDescriptionLabel": "Description du nouveau héro"
   }
 }
