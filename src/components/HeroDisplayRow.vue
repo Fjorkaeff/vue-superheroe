@@ -13,6 +13,7 @@ export default {
         this.$store.dispatch('deleteFromFavorite', hero)
     },
     deleteHero(hero) {
+        this.$store.dispatch('allowReset', true)
         this.$store.dispatch('deleteHero', hero)
     },
     resetHero(hero) {

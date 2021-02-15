@@ -11,7 +11,9 @@ export default new Vuex.Store({
     favorite_heroes: [],
     heroToModify: {},
     notifMessage: '',
-    isLoading: false
+    isLoading: false,
+    isEdit: false,
+    allowReset: false
   },
   getters: {
     getHeroes: (state) => {
@@ -131,6 +133,12 @@ export default new Vuex.Store({
     },
     setNotifMessage(state, message) {
       state.notifMessage = message
+    },
+    edit (state) {
+      state.isEdit = !state.isEdit
+    },
+    allowReset (state, bool) {
+      state.allowReset = bool
     }
   },
   actions: {
@@ -147,6 +155,7 @@ export default new Vuex.Store({
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
         .then(response => {
           commit('setHeroesListFromMarvel', response.data.data)
+          commit('allowReset', false)
           commit('setLoadingStatus',false)
         })
     },
@@ -168,6 +177,12 @@ export default new Vuex.Store({
     setNotifMessage({commit}, message) {
       commit('setNotifMessage', message)
     },
+    edit({commit}) {
+      commit('edit')
+    },
+    allowReset({commit}, bool) {
+      commit('allowReset', bool)
+    },
     resetHero({commit}, data) {
       const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
       const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
@@ -182,8 +197,7 @@ export default new Vuex.Store({
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
         .then(response => {
           commit('setHeroFromMarvel', response.data.data.results)
-          commit('setNotifMessage', "Les héros ont été ajoutés à la liste avec succès")
-          commit('setLoadingStatus',false)
+          commit('setLoadingStatus', false)
         })
     }
   },

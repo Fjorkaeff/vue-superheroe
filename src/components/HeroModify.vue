@@ -19,7 +19,6 @@ export default {
   name: 'HeroModify',
   props: [
     'hero',
-    'isEdit'
   ],
   components: {
     ValidationProvider,
@@ -40,7 +39,7 @@ export default {
 
       this.$refs.observer.validate()
       this.$store.dispatch('modifyHero', data)
-      this.isEdit = false
+      this.$store.dispatch('edit')
     }
   }
 }

@@ -8,12 +8,12 @@ export default {
   name: 'HeroProfil',
   data () {
     return {
-      isEdit: false
     }
   },
   computed: {
     ...mapState({
-      hero: state => state.heroToModify
+      hero: state => state.heroToModify,
+      isEdit: state => state.isEdit
     })
   },
   components: {
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     edit (){
-      this.isEdit = !this.isEdit
+      this.$store.dispatch('edit')
     }
     /*goBack() {
         window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')

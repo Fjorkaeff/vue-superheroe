@@ -29,7 +29,8 @@ export default {
         ...mapState({
             isLoading: state => state.isLoading,
             heroes: state => state.heroes.results,
-            notifMessage: state => state.notifMessage
+            notifMessage: state => state.notifMessage,
+            allowReset: state => state.allowReset
         })
     },
     methods: {
@@ -41,6 +42,9 @@ export default {
         },
         changeSort() {
             this.sortByUp = !this.sortByUp
+        },
+        reset() {
+            this.$store.dispatch('getHeroesListFromMarvel')
         }
     },
     created() {
@@ -70,6 +74,18 @@ export default {
                             >
                                 <v-icon v-if="this.DisplayList">mdi-format-list-bulleted</v-icon>
                                 <v-icon v-if="!this.DisplayList">mdi-view-grid</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-row no-gutters>
+                        <v-col class="ButtonDisplay">
+                            <v-btn v-if="this.allowReset"
+                                class="mx-4"
+                                dark
+                                color="orange"
+                                @click="reset()"
+                            >
+                                <v-icon dark>mdi-refresh-circle</v-icon>
                             </v-btn>
                         </v-col>
                     </v-row>
