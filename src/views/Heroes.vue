@@ -31,7 +31,6 @@ export default {
         ...mapState({
             isLoading: state => state.isLoading,
             heroes: state => state.heroes.results,
-            notifMessage: state => state.notifMessage,
             allowReset: state => state.allowReset,
             searchHero: state => state.searchHero
         }),
