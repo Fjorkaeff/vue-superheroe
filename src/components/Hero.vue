@@ -1,35 +1,3 @@
-<script>
-
-export default {
-  name: 'Hero',
-  props: [
-    'heroToModify'
-  ],
-  data:  () => ({
-    App: [
-      {
-        title: "Comics",
-        items: null
-      },
-      {
-        title: "Series",
-        items: null
-      },
-      {
-        title: "Events",
-        items: null
-      }
-    ]
-  }),
-  methods: {},
-  mounted () {
-    this.App[0].items = this.heroToModify.comics.items
-    this.App[1].items = this.heroToModify.series.items
-    this.App[2].items = this.heroToModify.events.items
-  }
-}
-</script>
-
 <template>
     <v-card>
     <v-row no-gutters style="height:auto">
@@ -77,6 +45,38 @@ export default {
     </v-row>
   </v-card>
 </template>
+
+<script>
+
+export default {
+  name: 'Hero',
+  props: [
+    'heroToModify'
+  ],
+  data:  () => ({
+    App: [
+      {
+        title: "Comics",
+        items: null
+      },
+      {
+        title: "Series",
+        items: null
+      },
+      {
+        title: "Events",
+        items: null
+      }
+    ]
+  }),
+  methods: {},
+  mounted () {
+    this.App[0].items = this.heroToModify.comics.items
+    this.App[1].items = this.heroToModify.series.items
+    this.App[2].items = this.heroToModify.events.items
+  }
+}
+</script>
 
 <style>
 .CardTitle {

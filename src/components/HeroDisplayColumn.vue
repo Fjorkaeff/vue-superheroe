@@ -1,33 +1,3 @@
-<script>
-
-export default {
-  name: 'HeroDisplayColumn',
-  props: [
-      'hero'
-  ],
-  data:  () => ({
-
-    }),
-  methods: {
-    addToFavorite(hero) {
-        this.$store.dispatch('addToFavorite', hero)
-    },
-    deleteFromFavorite(hero) {
-        this.$store.dispatch('allowReset', true)
-        this.$store.dispatch('deleteFromFavorite', hero)
-    },
-    resetHero(hero) {
-      this.$store.dispatch('resetHero', hero)
-    },
-    goToHeroProfil(hero) {
-        this.$store.dispatch('setHeroToModify', hero)
-        const id = hero.id;
-        this.$router.push({ path: `/Heroes/${id}` })
-    }
-  }
-}
-</script>
-
 <template>
   <v-card
     class="mx-auto my-12"
@@ -91,6 +61,36 @@ export default {
     </v-card-actions>
   </v-card>
 </template>
+
+<script>
+
+export default {
+  name: 'HeroDisplayColumn',
+  props: [
+      'hero'
+  ],
+  data:  () => ({
+
+    }),
+  methods: {
+    addToFavorite(hero) {
+        this.$store.dispatch('addToFavorite', hero)
+    },
+    deleteFromFavorite(hero) {
+        this.$store.dispatch('allowReset', true)
+        this.$store.dispatch('deleteFromFavorite', hero)
+    },
+    resetHero(hero) {
+      this.$store.dispatch('resetHero', hero)
+    },
+    goToHeroProfil(hero) {
+        this.$store.dispatch('setHeroToModify', hero)
+        const id = hero.id;
+        this.$router.push({ path: `/Heroes/${id}` })
+    }
+  }
+}
+</script>
 
 <style>
 .HeroDescripionCard {

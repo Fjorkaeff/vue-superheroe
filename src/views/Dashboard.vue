@@ -1,73 +1,3 @@
-<script>
-import HeroDisplayRow from '../components/HeroDisplayRow.vue'
-import HeroDisplayColumn from '../components/HeroDisplayColumn.vue'
-import NavBar from "../components/NavBar.vue";
-import { mapState } from 'vuex'
-
-export default {
-    name: 'Heroes',
-    data () {
-        return {
-            DisplayList: true,
-            sortByName: true,
-            sortByUp: true,
-            nbDisplayHeroes: [
-                20,
-                40,
-                60,
-                80
-            ],
-            currentNbDisplay: 20,
-            currentPage: 1,
-        }
-    },
-    components: {
-       NavBar,
-       HeroDisplayRow,
-       HeroDisplayColumn
-    },
-    methods: {
-        changeDisplay() {
-            this.DisplayList = !this.DisplayList
-        },
-        changeSort() {
-            this.sortByUp = !this.sortByUp
-        },
-        changeTypeOfSort() {
-            this.sortByName = !this.sortByName
-        },
-        changeDisplayNumber(nb) {
-            this.currentNbDisplay = nb
-        },
-    },
-    computed: {
-        ...mapState({
-            favoriteHeroes: state => state.favorite_heroes,
-            allowReset: state => state.allowReset,
-            searchHero: state => state.searchHero
-        }),
-        orderedFavoriteHeroes: function () {
-            let search = this.searchHero
-            let favoriteHeroesList = this.favoriteHeroes
-            let ascDesc = this.sortByUp ? 1 : -1;
-            let offset = (this.currentPage - 1) * this.currentNbDisplay;
-            let limit = offset + this.currentNbDisplay
-
-            if(search) {
-                favoriteHeroesList = favoriteHeroesList.filter(item => item.name.includes(search));
-            }
-
-            favoriteHeroesList = favoriteHeroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
-
-            favoriteHeroesList = favoriteHeroesList.slice(offset, limit)
-
-            return favoriteHeroesList
-        }
-    },
-    created() {}
-}
-</script>
-
 <template>
 <v-app>
     <div>
@@ -153,3 +83,73 @@ export default {
     </div>
 </v-app>
 </template>
+
+<script>
+import { mapState } from 'vuex'
+import HeroDisplayRow from '../components/HeroDisplayRow.vue'
+import HeroDisplayColumn from '../components/HeroDisplayColumn.vue'
+import NavBar from '../components/NavBar.vue';
+
+export default {
+    name: 'Heroes',
+    data () {
+        return {
+            DisplayList: true,
+            sortByName: true,
+            sortByUp: true,
+            nbDisplayHeroes: [
+                20,
+                40,
+                60,
+                80
+            ],
+            currentNbDisplay: 20,
+            currentPage: 1,
+        }
+    },
+    components: {
+       NavBar,
+       HeroDisplayRow,
+       HeroDisplayColumn
+    },
+    methods: {
+        changeDisplay() {
+            this.DisplayList = !this.DisplayList;
+        },
+        changeSort() {
+            this.sortByUp = !this.sortByUp;
+        },
+        changeTypeOfSort() {
+            this.sortByName = !this.sortByName;
+        },
+        changeDisplayNumber(nb) {
+            this.currentNbDisplay = nb;
+        },
+    },
+    computed: {
+        ...mapState({
+            favoriteHeroes: state => state.favorite_heroes,
+            allowReset: state => state.allowReset,
+            searchHero: state => state.searchHero
+        }),
+        orderedFavoriteHeroes: function () {
+            let search = this.searchHero.toLowerCase();
+            let favoriteHeroesList = this.favoriteHeroes;
+            let ascDesc = this.sortByUp ? 1 : -1;
+            let offset = (this.currentPage - 1) * this.currentNbDisplay;
+            let limit = offset + this.currentNbDisplay;
+
+            if(search) {
+                favoriteHeroesList = favoriteHeroesList.filter(item => item.name.includes(search));
+            }
+
+            favoriteHeroesList = favoriteHeroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+
+            favoriteHeroesList = favoriteHeroesList.slice(offset, limit)
+
+            return favoriteHeroesList
+        }
+    },
+    created() {}
+}
+</script>

@@ -1,35 +1,3 @@
-<script>
-import i18n from '../i18n';
-
-export default {
-  name: 'NavBar',
-  data () {
-    return {
-      languages: [
-        {
-          flag: 'us',
-          language: 'en',
-          title: 'English' 
-        },
-        {
-          flag: 'fr',
-          language: 'fr',
-          title: 'Français'
-        },
-      ],
-      search: ''
-    }
-  },
-  computed: {
-  },
-  methods: {
-      changeLocale(locale) {
-        i18n.locale = locale;
-      }
-  }
-}
-</script>
-
 <template>
   <div>
     <div><router-link to="/"><img class="imgSite" src="../assets/bandeau.jpg"/></router-link></div>
@@ -60,8 +28,43 @@ export default {
   </div>
 </template>
 
-<style>
+<script>
+import i18n from '../i18n';
 
+export default {
+  name: 'NavBar',
+  data () {
+    return {
+      languages: [
+        {
+          flag: 'us',
+          language: 'en',
+          title: 'English' 
+        },
+        {
+          flag: 'fr',
+          language: 'fr',
+          title: 'Français'
+        },
+      ],
+      search: ''
+    }
+  },
+  watch: {
+    search: function () {
+      this.$store.dispatch('searchText', this.search)
+    }
+  },
+  methods: {
+    changeLocale(locale) {
+      i18n.locale = locale;
+    }
+  }
+}
+</script>
+
+
+<style>
 .searchBar {
   position: relative;
   border-radius: 0.5em;

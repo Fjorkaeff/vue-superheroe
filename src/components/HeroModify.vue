@@ -1,71 +1,3 @@
-<script>
-import { required, regex } from 'vee-validate/dist/rules'
-import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
-
-  setInteractionMode('eager')
-
-  extend('required', {
-    ...required,
-    
-    message: 'This field can not be empty',
-  })
-
-  extend('regex', {
-    ...regex,
-    message: 'Only letters, numbers and `-` are allow',
-  })
-
-export default {
-  name: 'HeroModify',
-  props: [
-    'heroToModify',
-  ],
-  components: {
-    ValidationProvider,
-    ValidationObserver,
-  },
-  computed: {},
-  data:  () => ({
-    heroName: '',
-    heroDescription: '',
-    App: [
-      {
-        title: "Comics",
-        items: null
-      },
-      {
-        title: "Series",
-        items: null
-      },
-      {
-        title: "Events",
-        items: null
-      }
-    ]
-  }),
-  methods: {
-    submit() {
-      const data = {
-        newName: this.heroName,
-        newDescription: this.heroDescription,
-        heroId: this.heroToModify.id
-      }
-
-      this.$refs.observer.validate()
-      this.$store.dispatch('modifyHero', data)
-      this.$store.dispatch('edit')
-    }
-  },
-  mounted () {
-    this.heroName = this.heroToModify.name
-    this.heroDescription = this.heroToModify.description
-    this.App[0].items = this.heroToModify.comics.items
-    this.App[1].items = this.heroToModify.series.items
-    this.App[2].items = this.heroToModify.events.items
-  }
-}
-</script>
-
 <template>
   <v-card>
     <v-row no-gutters style="height:auto">
@@ -155,3 +87,71 @@ export default {
     </v-row>
   </v-card>
 </template>
+
+<script>
+import { required, regex } from 'vee-validate/dist/rules'
+import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+
+  setInteractionMode('eager')
+
+  extend('required', {
+    ...required,
+    
+    message: 'This field can not be empty',
+  })
+
+  extend('regex', {
+    ...regex,
+    message: 'Only letters, numbers and `-` are allow',
+  })
+
+export default {
+  name: 'HeroModify',
+  props: [
+    'heroToModify',
+  ],
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
+  computed: {},
+  data:  () => ({
+    heroName: '',
+    heroDescription: '',
+    App: [
+      {
+        title: "Comics",
+        items: null
+      },
+      {
+        title: "Series",
+        items: null
+      },
+      {
+        title: "Events",
+        items: null
+      }
+    ]
+  }),
+  methods: {
+    submit() {
+      const data = {
+        newName: this.heroName,
+        newDescription: this.heroDescription,
+        heroId: this.heroToModify.id
+      }
+
+      this.$refs.observer.validate()
+      this.$store.dispatch('modifyHero', data)
+      this.$store.dispatch('edit')
+    }
+  },
+  mounted () {
+    this.heroName = this.heroToModify.name
+    this.heroDescription = this.heroToModify.description
+    this.App[0].items = this.heroToModify.comics.items
+    this.App[1].items = this.heroToModify.series.items
+    this.App[2].items = this.heroToModify.events.items
+  }
+}
+</script>

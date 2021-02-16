@@ -1,89 +1,3 @@
-<script>
-import HeroDisplayRow from '../components/HeroDisplayRow.vue'
-import HeroDisplayColumn from '../components/HeroDisplayColumn.vue'
-import NavBar from "../components/NavBar.vue";
-import { mapState } from 'vuex'
-
-export default {
-    name: 'Heroes',
-    data () {
-        return {
-            sortByUp: true,
-            DisplayList: true,
-            sortByName: true,
-            maxNbHeroes: null,
-            nbDisplayHeroes: [
-                20,
-                40,
-                60,
-                80
-            ],
-            currentNbDisplay: 20,
-            currentPage: 1,
-        }
-    },
-    components: {
-        NavBar,
-        HeroDisplayRow,
-        HeroDisplayColumn,
-    },
-    computed: {
-        ...mapState({
-            isLoading: state => state.isLoading,
-            heroes: state => state.heroes.results,
-            allowReset: state => state.allowReset,
-            searchHero: state => state.searchHero
-        }),
-        orderedHeroes: function () {
-            let search = this.searchHero
-            let heroesList = this.heroes
-            let ascDesc = this.sortByUp ? 1 : -1;
-            let offset = (this.currentPage - 1) * this.currentNbDisplay;
-            let limit = offset + this.currentNbDisplay
-            let max = this.maxNbHeroes
-
-            if(search) {
-                heroesList = heroesList.filter(item => item.name.includes(search));
-            }
-
-            heroesList = heroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
-
-            if (limit > heroesList.length && heroesList.length < max) {
-                this.$store.dispatch('Loading', true)
-            } else {
-                this.$store.dispatch('Loading', false)
-                heroesList = heroesList.slice(offset, limit)
-            }
-
-            return heroesList
-        }
-    },
-    methods: {
-        addToFavorite(hero) {
-            this.$store.dispatch('addToFavorite', hero)
-        },
-        changeDisplay() {
-            this.DisplayList = !this.DisplayList
-        },
-        changeSort() {
-            this.sortByUp = !this.sortByUp
-        },
-        changeTypeOfSort() {
-            this.sortByName = !this.sortByName
-        },
-        changeDisplayNumber(nb) {
-            this.currentNbDisplay = nb
-        },
-        reset() {
-            this.$store.dispatch('getHeroesListFromMarvel')
-        }
-    },
-    mounted() {
-        this.maxNbHeroes = this.$store.getters.getNbHeroes
-    }
-}
-</script>
-
 <template>
     <v-app>
         <div>
@@ -136,8 +50,8 @@ export default {
                             <v-btn
                                 @click="changeDisplay()"
                             >
-                                <v-icon v-if="this.DisplayList">mdi-format-list-bulleted</v-icon>
-                                <v-icon v-if="!this.DisplayList">mdi-view-grid</v-icon>
+                                <v-icon v-if="this.DisplayList">mdi-view-grid</v-icon>
+                                <v-icon v-if="!this.DisplayList">mdi-format-list-bulleted</v-icon>
                             </v-btn>
                         </v-col>
                     </v-row>
@@ -172,7 +86,7 @@ export default {
                     <div class="Pagination">
                         <v-pagination
                           v-model="currentPage"
-                          :length='(this.maxNbHeroes / this.currentNbDisplay).toFixed(0)'
+                          :length='(this.$store.getters.getNbHeroes / this.currentNbDisplay).toFixed(0)'
                           :total-visible="7"
                         ></v-pagination>
                     </div>
@@ -181,6 +95,97 @@ export default {
         </div>
     </v-app>
 </template>
+
+<script>
+import {mapState, mapActions} from 'vuex';
+import HeroDisplayRow from '../components/HeroDisplayRow.vue';
+import HeroDisplayColumn from '../components/HeroDisplayColumn.vue';
+import NavBar from '../components/NavBar.vue';
+
+export default {
+    name: 'Heroes',
+    data () {
+        return {
+            sortByUp: true,
+            DisplayList: true,
+            sortByName: true,
+            maxNbHeroes: null,
+            nbDisplayHeroes: [
+                20,
+                40,
+                60,
+                80
+            ],
+            currentNbDisplay: 20,
+            currentPage: 1,
+        }
+    },
+    components: {
+        NavBar,
+        HeroDisplayRow,
+        HeroDisplayColumn,
+    },
+    computed: {
+        ...mapState({
+            isLoading: state => state.isLoading,
+            heroes: state => state.heroes.results,
+            allowReset: state => state.allowReset,
+            searchHero: state => state.searchHero
+        }),
+        orderedHeroes() {
+            let search = this.searchHero.toLowerCase();
+            let heroesList = this.heroes;
+            let ascDesc = this.sortByUp ? 1 : -1;
+            let typeSort = this.sortByName;
+            let offset = (this.currentPage - 1) * this.currentNbDisplay;
+            let limit = offset + this.currentNbDisplay;
+            let max = this.maxNbHeroes;
+
+            if (search) heroesList = heroesList.filter(item => item.name.toLowerCase().includes(search));
+
+            if (typeSort) {
+               heroesList = heroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+            } else {
+                heroesList = heroesList.sort((a, b) => ascDesc * a.id - b.id);
+            }
+
+            if (limit > heroesList.length && heroesList.length < max) {
+                this.$store.dispatch('Loading', true)
+            } else {
+                this.$store.dispatch('Loading', false)
+                heroesList = heroesList.slice(offset, limit)
+            }
+
+            return heroesList
+        }
+    },
+    methods: {
+        ...mapActions([
+            'getHeroesListFromMarvel'
+        ]),
+        changeDisplay() {
+            this.DisplayList = !this.DisplayList;
+        },
+        changeSort() {
+            this.sortByUp = !this.sortByUp;
+        },
+        changeTypeOfSort() {
+            this.sortByName = !this.sortByName;
+        },
+        changeDisplayNumber(nb) {
+            this.currentNbDisplay = nb;
+        },
+        reset() {
+            this.getHeroesListFromMarvel;
+        }
+    },
+    mounted() {
+        this.maxNbHeroes = this.$store.getters.getNbHeroes;
+    }
+}
+</script>
+
+
 
 <style>
 .Pagination {

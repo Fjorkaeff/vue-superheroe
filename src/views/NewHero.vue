@@ -1,55 +1,3 @@
-<script>
-import { required, regex } from 'vee-validate/dist/rules'
-import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
-import NavBar from "../components/NavBar.vue";
-//import axios from 'axios';
-
-  setInteractionMode('eager')
-
-  extend('required', {
-    ...required,
-    
-    message: 'This field can not be empty',
-  })
-
-  extend('regex', {
-    ...regex,
-    message: 'Only letters, numbers and `-` are allow',
-  })
-
-export default {
-  name: 'NewHero',
-  components: {
-    ValidationProvider,
-    ValidationObserver,
-    NavBar
-  },
-  data () {
-        return {
-            newHero: {
-              img: null,
-              name: '',
-              description: '',
-              isCreated: true
-            },
-            isImg: false
-        }
-    },
-  methods: {
-    submit() {
-      this.$refs.observer.validate()
-      this.$store.dispatch('addHero', this.newHero)
-    },
-    onFileSelected(event) {
-      this.newHero.img = event.target.files[0]
-      this.isImg = true
-      console.log('IMG: ', this.newHero.img)
-      console.log('isImg : ', this.isImg)
-    }
-  }
-}
-</script>
-
 <template>
 <v-app>
     <div>
@@ -66,7 +14,7 @@ export default {
             <v-card>
               <v-row no-gutters style="height:auto">
                 <v-col md="4">
-                  <input type="file" webkitRelativePath @change="onFileSelected">
+                  <input type="file" @change="onFileSelected">
                   <v-img v-if="isImg"
                     :src="newHero.img.name"
                     width="80%"
@@ -128,3 +76,53 @@ export default {
         </div>
     </v-app>
 </template>
+
+<script>
+import {required, regex} from 'vee-validate/dist/rules'
+import {extend, ValidationObserver, ValidationProvider, setInteractionMode} from 'vee-validate'
+import NavBar from '../components/NavBar.vue';
+//import axios from 'axios';
+
+  setInteractionMode('eager')
+
+  extend('required', {
+    ...required,
+    
+    message: 'This field can not be empty',
+  })
+
+  extend('regex', {
+    ...regex,
+    message: 'Only letters, numbers and `-` are allow',
+  })
+
+export default {
+  name: 'NewHero',
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+    NavBar
+  },
+  data () {
+        return {
+            newHero: {
+              img: null,
+              name: '',
+              description: '',
+              isCreated: true
+            },
+            isImg: false
+        }
+    },
+  methods: {
+    submit() {
+      this.$refs.observer.validate()
+      this.$store.dispatch('addHero', this.newHero)
+    },
+    onFileSelected(event) {
+      this.newHero.img = event.target.files[0]
+      this.isImg = true
+    }
+  }
+}
+</script>

@@ -49,16 +49,12 @@ export default new Vuex.Store({
           heroesList.push(resHero)
         }
       })
-
-      console.log('HERO : ', resHero)
-      console.log('HEROES : ', heroesList)
     },
     setMoreHeroesListFromMarvel(state, data) {
       const heroesList = state.heroes.results
       data.forEach(function(hero) {
         heroesList.push(hero)
       })
-      console.log('HEROES : ', heroesList)
     },
     setHeroToFavorite(state, data) {
       const favoriteHeroes = state.favorite_heroes
@@ -140,7 +136,6 @@ export default new Vuex.Store({
 
       Vue.set(data, 'id', idAvailable)
       heroesList.push(data)
-      console.log('LIST : ', heroesList)
     },
     setNotifMessage(state, message) {
       state.notifMessage = message
@@ -163,7 +158,6 @@ export default new Vuex.Store({
       const ts = Date.now();
       const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
       const url = "http://gateway.marvel.com/v1/public/characters";
-      let max = 100;
 
       commit('setLoadingStatus', true)
       Axios
@@ -172,15 +166,23 @@ export default new Vuex.Store({
           commit('setHeroesListFromMarvel', response.data.data)
           commit('allowReset', false)
           commit('setLoadingStatus', false)
-          while(max < response.data.data.total) {
-            Axios
-              .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100&offset=' + max, {})
-              .then(res => {
-                commit('setMoreHeroesListFromMarvel', res.data.data.results)
-              })
-              max = max + 100
-              console.log('MAX : ', max)
-          }
+        })
+    },
+    getHeroesListFromMarvelWithOffset({commit}, offset) {	
+      const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";	
+      const PUB_KEY = "e23507931830c9ee423da4a822ea0574";	
+
+      const ts = Date.now();	
+      const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();	
+      const url = "http://gateway.marvel.com/v1/public/characters";	
+
+      commit('setLoadingStatus', true)	
+      Axios	
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100&offset=' + offset, {})	
+        .then(response => {	
+          commit('setMoreHeroesListFromMarvel', response.data.data.results)	
+          commit('allowReset', false)	
+          commit('setLoadingStatus', false)
         })
     },
     resetHero({commit}, data) {

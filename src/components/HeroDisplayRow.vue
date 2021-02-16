@@ -1,33 +1,3 @@
-<script>
-
-export default {
-  name: 'HeroDisplayRow',
-  props: [
-      'hero'
-  ],
-  methods: {
-    addToFavorite(hero) {
-        this.$store.dispatch('addToFavorite', hero)
-    },
-    deleteFromFavorite(hero) {
-        this.$store.dispatch('deleteFromFavorite', hero)
-    },
-    deleteHero(hero) {
-        this.$store.dispatch('allowReset', true)
-        this.$store.dispatch('deleteHero', hero)
-    },
-    resetHero(hero) {
-        this.$store.dispatch('resetHero', hero)
-    },
-    goToHeroProfil(hero) {
-        this.$store.dispatch('setHeroToModify', hero)
-        const id = hero.id;
-        this.$router.push({ path: `/Heroes/${id}` })
-    },
-  }
-}
-</script>
-
 <template>
     <v-container class="containerRow">
         <v-row
@@ -98,6 +68,36 @@ export default {
         </v-row>
     </v-container>
 </template>
+
+<script>
+
+export default {
+  name: 'HeroDisplayRow',
+  props: [
+      'hero'
+  ],
+  methods: {
+    addToFavorite(hero) {
+        this.$store.dispatch('addToFavorite', hero)
+    },
+    deleteFromFavorite(hero) {
+        this.$store.dispatch('deleteFromFavorite', hero)
+    },
+    deleteHero(hero) {
+        this.$store.dispatch('allowReset', true)
+        this.$store.dispatch('deleteHero', hero)
+    },
+    resetHero(hero) {
+        this.$store.dispatch('resetHero', hero)
+    },
+    goToHeroProfil(hero) {
+        this.$store.dispatch('setHeroToModify', hero)
+        const id = hero.id;
+        this.$router.push({ path: `/Heroes/${id}` })
+    },
+  }
+}
+</script>
 
 <style>
 .ButtonContainer {
