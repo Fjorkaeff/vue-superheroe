@@ -63,7 +63,7 @@ export default {
                             <h1> {{ $t('heroes.message') }} </h1>
                         </v-col>
                         <v-col md="2">
-                            <router-link to="/AddHero"><v-btn
+                            <router-link class="AddHeroLink" to="/AddHero"><v-btn
                                 class="ma-2"
                                 color="success"
                             >
@@ -147,5 +147,9 @@ export default {
 .NbHeroes {
     width: 25.5%;
     float: right;
+}
+
+.AddHeroLink {
+    text-decoration: none;
 }
 </style>

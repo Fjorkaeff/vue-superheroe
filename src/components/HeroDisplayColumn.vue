@@ -41,12 +41,13 @@ export default {
     ></v-img>
 
     <v-card-title>{{ hero.name }}</v-card-title>
-
+  <div class="HeroDescripionCard">
     <v-card-text>
-
-    <div v-if="hero.description" style="text-overflow:ellipsis">{{ hero.description }}</div>
-    <div v-else>{{ $t('heroes.no-description') }}</div>
+    <div v-if="!hero.description">{{ $t('heroes.no-description') }}</div>
+    <div v-else-if="hero.description.length > 90">{{ hero.description.slice(0, 90) + "..." }}</div>
+    <div v-else>{{ hero.description }}</div>
     </v-card-text>
+  </div>
 
     <v-divider class="mx-4"></v-divider>
   </div>
@@ -90,3 +91,10 @@ export default {
     </v-card-actions>
   </v-card>
 </template>
+
+<style>
+.HeroDescripionCard {
+  margin-bottom: 1rem;
+  height: 4rem;
+}
+</style>
