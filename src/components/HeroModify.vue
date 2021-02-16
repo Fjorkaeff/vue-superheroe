@@ -26,8 +26,8 @@ export default {
   },
   computed: {},
   data:  () => ({
-    name: '',
-    //description: '',
+    heroName: '',
+    heroDescription: '',
     App: [
       {
         title: "Comics",
@@ -46,8 +46,8 @@ export default {
   methods: {
     submit() {
       const data = {
-        newName: this.name,
-        //newDescription: this.description,
+        newName: this.heroName,
+        newDescription: this.heroDescription,
         heroId: this.heroToModify.id
       }
 
@@ -57,6 +57,8 @@ export default {
     }
   },
   mounted () {
+    this.heroName = this.heroToModify.name
+    this.heroDescription = this.heroToModify.description
     this.App[0].items = this.heroToModify.comics.items
     this.App[1].items = this.heroToModify.series.items
     this.App[2].items = this.heroToModify.events.items
@@ -88,30 +90,32 @@ export default {
               }"
           >
             <v-text-field
-            v-model="name"
+            v-model="heroName"
             :counter="20"
             maxlength="20"
             :error-messages="errors"
+            style="max-width:50%"
             :label="heroToModify.name"
-            style="max-width:50%"></v-text-field>
+            :value="heroName"></v-text-field>
           
             </validation-provider>
-            <!--<validation-provider
+            <validation-provider
               v-slot="{ errors }"
               name="Description"
             >
           
             <v-textarea
-            v-model="description"
+            v-model="heroDescription"
             class="CardText"
             :counter="350"
             max-length="350"
             :error-messages="errors"
             auto-grow
             label="Description"
+            :value="heroDescription"
             ></v-textarea>
 
-            </validation-provider>-->
+            </validation-provider>
           
             <v-btn
               class="mr-4"

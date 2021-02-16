@@ -49,6 +49,9 @@ export default new Vuex.Store({
           heroesList.push(resHero)
         }
       })
+
+      console.log('HERO : ', resHero)
+      console.log('HEROES : ', heroesList)
     },
     setMoreHeroesListFromMarvel(state, data) {
       const heroesList = state.heroes.results
@@ -106,20 +109,20 @@ export default new Vuex.Store({
     modifyHero(state, data) {
       const heroId = data.heroId
       const newName = data.newName
-      //const newDescription = data.description
+      const newDescription = data.newDescription
       
       const favoriteHeroes = state.favorite_heroes
       const heroesList = state.heroes.results
       const heroModify = state.heroToModify
 
       heroModify.name = newName
-      //heroModify.description = newDescription
+      heroModify.description = newDescription
 
       heroesList.forEach(function(hero) {
         if (hero.id === heroId) {
           Vue.set(hero, 'isModified', true)
           hero.name = newName
-          //hero.description = newDescription
+          hero.description = newDescription
         }
       })
 
@@ -127,7 +130,7 @@ export default new Vuex.Store({
         if (hero.id === heroId) {
           Vue.set(hero, 'isModified', true)
           hero.name = newName
-          //hero.description = newDescription
+          hero.description = newDescription
         }
       })
     },
