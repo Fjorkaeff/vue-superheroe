@@ -34,7 +34,7 @@
                     color="green"
                     @click="addToFavorite(hero)"
                 >
-                    <v-icon dark>mdi-plus</v-icon>
+                    <v-icon dark>mdi-heart</v-icon>
                 </v-btn>
                 <v-btn v-if="hero.isFavorite"
                     class="mx-4"
@@ -43,7 +43,7 @@
                     color="red"
                     @click="deleteFromFavorite(hero)" 
                 >
-                    <v-icon dark>mdi-minus</v-icon>
+                    <v-icon dark>mdi-heart-broken</v-icon>
                 </v-btn>
                 <v-btn v-if="hero.isModified"
                     class="mx-4"

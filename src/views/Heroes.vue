@@ -38,8 +38,8 @@
                             <v-btn
                                 @click="changeTypeOfSort()"
                             >
-                                <v-icon v-if="this.sortByName">mdi-format-letter-case</v-icon>
-                                <v-icon v-if="!this.sortByName">mdi-numeric</v-icon>
+                                <v-icon v-if="this.sortByName">mdi-numeric</v-icon>
+                                <v-icon v-if="!this.sortByName">mdi-format-letter-case</v-icon>
                             </v-btn>
                             <v-btn
                                 @click="changeSort()"
