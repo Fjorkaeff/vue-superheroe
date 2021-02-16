@@ -71,6 +71,9 @@ export default {
         changeTypeOfSort() {
             this.sortByName = !this.sortByName
         },
+        changeDisplayNumber(nb) {
+            this.currentNbDisplay = nb
+        },
         reset() {
             this.$store.dispatch('getHeroesListFromMarvel')
         }
@@ -100,13 +103,22 @@ export default {
                             </v-btn></router-link>
                         </v-col>
                         <v-col md="2">
-                            <v-select
-                            class="NbHeroes"
-                                v-model="currentNbDisplay"
-                                :items="nbDisplayHeroes"
-                                filled
-                                dense
-                            ></v-select>
+                            <v-menu offset-y>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    class="NbHeroes"
+                                >
+                                {{ currentNbDisplay }}
+                                </v-btn>
+                              </template>
+                              <v-list>
+                                <v-list-item v-for="nb in nbDisplayHeroes" :key="nb" @click="changeDisplayNumber(nb)">
+                                  <v-list-item-title style="margin-left:7px">{{ nb }}</v-list-item-title>
+                                </v-list-item>
+                              </v-list>
+                            </v-menu>
                         </v-col>
                         <v-col md="2" class="ButtonDisplay">
                             <v-btn
@@ -180,7 +192,6 @@ export default {
 }
 
 .NbHeroes {
-    width: 25.5%;
     float: right;
 }
 
