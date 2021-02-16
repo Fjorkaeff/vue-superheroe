@@ -2,7 +2,7 @@
 import { required, regex } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
 import NavBar from "../components/NavBar.vue";
-import axios from 'axios';
+//import axios from 'axios';
 
   setInteractionMode('eager')
 
@@ -38,9 +38,6 @@ export default {
   methods: {
     submit() {
       this.$refs.observer.validate()
-      const fd = new FormData()
-      fd.append('myFile', this.newHero.img, this.newHero.img.name)
-      axios.post('/assets', fd)
       this.$store.dispatch('addHero', this.newHero)
     },
     onFileSelected(event) {

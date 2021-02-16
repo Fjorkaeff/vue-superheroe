@@ -10,6 +10,7 @@ export default new Vuex.Store({
     heroes: [],
     favorite_heroes: [],
     heroToModify: {},
+    searchHero : '',
     notifMessage: '',
     isLoading: false,
     isEdit: false,
@@ -139,6 +140,9 @@ export default new Vuex.Store({
     },
     allowReset (state, bool) {
       state.allowReset = bool
+    },
+    searchText (state, text) {
+      state.searchHero = text
     }
   },
   actions: {
@@ -152,7 +156,7 @@ export default new Vuex.Store({
 
       commit('setLoadingStatus', true)
       Axios
-        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100', {})
         .then(response => {
           commit('setHeroesListFromMarvel', response.data.data)
           commit('allowReset', false)
@@ -174,6 +178,23 @@ export default new Vuex.Store({
           commit('setHeroesListFromMarvel', response.data.data)
           commit('allowReset', false)
           commit('setLoadingStatus',false)
+        })
+    },
+    resetHero({commit}, data) {
+      const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
+      const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
+
+      const ts = Date.now();
+      const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
+      const id = data.id;
+      const url = "http://gateway.marvel.com/v1/public/characters/" + id;
+
+      commit('setLoadingStatus', true)
+      Axios
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
+        .then(response => {
+          commit('setHeroFromMarvel', response.data.data.results)
+          commit('setLoadingStatus', false)
         })
     },
     addToFavorite({commit}, data) {
@@ -203,22 +224,8 @@ export default new Vuex.Store({
     allowReset({commit}, bool) {
       commit('allowReset', bool)
     },
-    resetHero({commit}, data) {
-      const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
-      const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
-
-      const ts = Date.now();
-      const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
-      const id = data.id;
-      const url = "http://gateway.marvel.com/v1/public/characters/" + id;
-
-      commit('setLoadingStatus', true)
-      Axios
-        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
-        .then(response => {
-          commit('setHeroFromMarvel', response.data.data.results)
-          commit('setLoadingStatus', false)
-        })
+    searchText({commit}, text) {
+      commit('searchText', text)
     }
   },
   modules: {

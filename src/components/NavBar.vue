@@ -15,9 +15,12 @@ export default {
           flag: 'fr',
           language: 'fr',
           title: 'Français'
-        } 
-      ]
+        },
+      ],
+      search: ''
     }
+  },
+  computed: {
   },
   methods: {
       changeLocale(locale) {
@@ -34,7 +37,7 @@ export default {
       <router-link class="router-link" to="/"><v-toolbar-title class="title">{{ $t('NavBar.title2') }}</v-toolbar-title></router-link>
       <router-link class="router-link" to="/Dashboard"><v-toolbar-title class="title">{{ $t('NavBar.title1') }}</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
-      <!--<input class="searchBar" type="text" v-model="search" :placeholder="$t('NavBar.searchTitle')"/>-->
+      <input class="searchBar" type="text" v-model="search" :placeholder="$t('NavBar.searchTitle')"/>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">

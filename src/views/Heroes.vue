@@ -10,6 +10,7 @@ export default {
         return {
             sortByUp: true,
             DisplayList: true,
+            sortByName:true,
             nbDisplayHeroes: [
                 20,
                 40,
@@ -31,11 +32,23 @@ export default {
             heroes: state => state.heroes.results,
             notifMessage: state => state.notifMessage,
             allowReset: state => state.allowReset,
+            searchHero: state => state.searchHero
         }),
         orderedHeroes: function () {
-            let result = this.heroes
+            let search = this.searchHero
+            let heroesList = this.heroes
             let ascDesc = this.sortByUp ? 1 : -1;
-            return result.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+            let offset = (this.currentPage - 1) * this.currentNbDisplay;
+            let limit = offset + this.currentNbDisplay
+
+            console.log('OFFSET : ', offset)
+
+            if(search) {
+                heroesList = heroesList.filter(item => item.name.includes(search));
+            }
+            heroesList = heroesList.slice(offset, limit)
+            
+            return heroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
         }
     },
     methods: {
@@ -47,6 +60,9 @@ export default {
         },
         changeSort() {
             this.sortByUp = !this.sortByUp
+        },
+        changeTypeOfSort() {
+            this.sortByName = !this.sortByName
         },
         reset() {
             this.$store.dispatch('getHeroesListFromMarvel')
@@ -85,6 +101,12 @@ export default {
                             ></v-select>
                         </v-col>
                         <v-col md="2" class="ButtonDisplay">
+                            <v-btn
+                                @click="changeTypeOfSort()"
+                            >
+                                <v-icon v-if="this.sortByName">mdi-format-letter-case</v-icon>
+                                <v-icon v-if="!this.sortByName">mdi-numeric</v-icon>
+                            </v-btn>
                             <v-btn
                                 @click="changeSort()"
                             >
