@@ -31,7 +31,12 @@ export default {
             heroes: state => state.heroes.results,
             notifMessage: state => state.notifMessage,
             allowReset: state => state.allowReset,
-        })
+        }),
+        orderedHeroes: function () {
+            let result = this.heroes
+            let ascDesc = this.sortByUp ? 1 : -1;
+            return result.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+        }
     },
     methods: {
         addToFavorite(hero) {
@@ -111,11 +116,11 @@ export default {
                     <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="dots"></loader>
                 </div>
                 <div v-if="this.DisplayList && !isLoading">
-                    <HeroDisplayRow v-for="hero in heroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
+                    <HeroDisplayRow v-for="hero in orderedHeroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
                 </div>
                 <div v-if="!this.DisplayList && !isLoading">
                     <v-row no-gutters>
-                        <v-col md="3" v-for="hero in heroes" :key="hero.id">
+                        <v-col md="3" v-for="hero in orderedHeroes" :key="hero.id">
                             <HeroDisplayColumn :hero="hero"></HeroDisplayColumn>
                         </v-col>
                     </v-row>
