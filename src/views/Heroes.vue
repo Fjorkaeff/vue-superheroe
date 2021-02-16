@@ -40,7 +40,7 @@ export default {
             let ascDesc = this.sortByUp ? 1 : -1;
             let offset = (this.currentPage - 1) * this.currentNbDisplay;
             let limit = offset + this.currentNbDisplay
-            let maxlength = this.maxNbHeroes
+            let max = this.maxNbHeroes
 
             if(search) {
                 heroesList = heroesList.filter(item => item.name.includes(search));
@@ -48,9 +48,10 @@ export default {
 
             heroesList = heroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
 
-            if(limit > heroesList.length && heroesList.length < maxlength) {
-                this.$store.dispatch('getHeroesListFromMarvelWithOffset', heroesList.length)
+            if (limit > heroesList.length && heroesList.length < max) {
+                this.$store.dispatch('Loading', true)
             } else {
+                this.$store.dispatch('Loading', false)
                 heroesList = heroesList.slice(offset, limit)
             }
 
@@ -143,6 +144,7 @@ export default {
                     <v-row no-gutters>
                         <v-col class="ButtonDisplay">
                             <v-btn v-if="this.allowReset"
+                            disabled
                                 class="mx-4"
                                 dark
                                 color="orange"
@@ -170,7 +172,7 @@ export default {
                     <div class="Pagination">
                         <v-pagination
                           v-model="currentPage"
-                          :length='(this.$store.getters.getNbHeroes / this.currentNbDisplay).toFixed(0)'
+                          :length='(this.maxNbHeroes / this.currentNbDisplay).toFixed(0)'
                           :total-visible="7"
                         ></v-pagination>
                     </div>

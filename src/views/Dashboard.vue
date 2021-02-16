@@ -128,6 +128,7 @@ export default {
                     <v-row no-gutters>
                         <v-col class="ButtonDisplay">
                             <v-btn v-if="this.allowReset"
+                            disabled
                                 class="mx-4"
                                 dark
                                 color="orange"

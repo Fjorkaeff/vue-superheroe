@@ -163,6 +163,7 @@ export default new Vuex.Store({
       const ts = Date.now();
       const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
       const url = "http://gateway.marvel.com/v1/public/characters";
+      let max = 100;
 
       commit('setLoadingStatus', true)
       Axios
@@ -170,25 +171,16 @@ export default new Vuex.Store({
         .then(response => {
           commit('setHeroesListFromMarvel', response.data.data)
           commit('allowReset', false)
-          commit('setLoadingStatus',false)
-        })
-    },
-    getHeroesListFromMarvelWithOffset({commit}, offset) {
-      const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
-      const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
-
-      const ts = Date.now();
-      const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();
-      const url = "http://gateway.marvel.com/v1/public/characters";
-
-      commit('setLoadingStatus', true)
-      Axios
-        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100&offset=' + offset, {})
-        .then(response => {
-          commit('setMoreHeroesListFromMarvel', response.data.data.results)
-          console.log('RES : ', response)
-          commit('allowReset', false)
           commit('setLoadingStatus', false)
+          while(max < response.data.data.total) {
+            Axios
+              .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100&offset=' + max, {})
+              .then(res => {
+                commit('setMoreHeroesListFromMarvel', res.data.data.results)
+              })
+              max = max + 100
+              console.log('MAX : ', max)
+          }
         })
     },
     resetHero({commit}, data) {
@@ -237,6 +229,9 @@ export default new Vuex.Store({
     },
     searchText({commit}, text) {
       commit('searchText', text)
+    },
+    Loading({commit}, status) {
+      commit('setLoadingStatus', status)
     }
   },
   modules: {
