@@ -50,6 +50,13 @@ export default new Vuex.Store({
         }
       })
     },
+    setMoreHeroesListFromMarvel(state, data) {
+      const heroesList = state.heroes.results
+      data.forEach(function(hero) {
+        heroesList.push(hero)
+      })
+      console.log('HEROES : ', heroesList)
+    },
     setHeroToFavorite(state, data) {
       const favoriteHeroes = state.favorite_heroes
       const heroesList = state.heroes.results
@@ -163,7 +170,7 @@ export default new Vuex.Store({
           commit('setLoadingStatus',false)
         })
     },
-    getHeroesListFromMarvelWithOffset({commit}, offset, limit) {
+    getHeroesListFromMarvelWithOffset({commit}, offset) {
       const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
       const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
 
@@ -173,11 +180,12 @@ export default new Vuex.Store({
 
       commit('setLoadingStatus', true)
       Axios
-        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&offset=' + offset + '&limit=' + limit, {})
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100&offset=' + offset, {})
         .then(response => {
-          commit('setHeroesListFromMarvel', response.data.data)
+          commit('setMoreHeroesListFromMarvel', response.data.data.results)
+          console.log('RES : ', response)
           commit('allowReset', false)
-          commit('setLoadingStatus',false)
+          commit('setLoadingStatus', false)
         })
     },
     resetHero({commit}, data) {
