@@ -104,16 +104,16 @@ export default {
     NavBar
   },
   data () {
-        return {
-            newHero: {
-              img: null,
-              name: '',
-              description: '',
-              isCreated: true
-            },
-            isImg: false
-        }
-    },
+    return {
+        newHero: {
+          img: null,
+          name: '',
+          description: '',
+          isCreated: true
+        },
+        isImg: false
+    }
+  },
   methods: {
     submit() {
       this.$refs.observer.validate()
@@ -123,6 +123,9 @@ export default {
       this.newHero.img = event.target.files[0]
       this.isImg = true
     }
+  },
+  created() {
+    this.$store.dispatch('searchText', '')
   }
 }
 </script>

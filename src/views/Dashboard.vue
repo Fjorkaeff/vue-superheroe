@@ -150,6 +150,8 @@ export default {
             return favoriteHeroesList
         }
     },
-    created() {}
+    created() {
+        this.$store.dispatch('searchText', '')
+    }
 }
 </script>

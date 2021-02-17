@@ -179,6 +179,9 @@ export default {
             this.getHeroesListFromMarvel;
         }
     },
+    created() {
+        this.$store.dispatch('searchText', '')
+    },
     mounted() {
         this.maxNbHeroes = this.$store.getters.getNbHeroes;
     }
