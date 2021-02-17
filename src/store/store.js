@@ -8,7 +8,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     heroes: [],
-    favorite_heroes: [],
     heroToModify: {},
     searchHero : '',
     notifMessage: '',
@@ -31,16 +30,12 @@ export default new Vuex.Store({
   mutations: {
     SET_HEROES_LIST_FROM_MARVEL(state, data) {
       state.heroes = data
+      console.log('HEROES : ', state.heroes.results)
     },
     SET_HERO_FROM_MARVEL(state, data) {
-      const favoriteHeroes = state.favorite_heroes
       const heroesList = state.heroes.results
-      const indexFav = data.indexFavHero;
       const indexHero = data.indexHero;
       const resHero = data.hero[0]
-
-      favoriteHeroes.splice(indexFav, 1)
-      favoriteHeroes.push(resHero)
       
       heroesList.splice(indexHero, 1)
       heroesList.push(resHero)
@@ -51,64 +46,34 @@ export default new Vuex.Store({
         heroesList.push(hero)
       })
     },
-    SET_HERO_TO_FAVORITE(state, data) {
-      const favoriteHeroes = state.favorite_heroes
-      const heroesList = state.heroes.results
-
-      Vue.set(data.hero, 'isFavorite', true)
-      Vue.set(heroesList[data.index], 'isFavorite', true)
-
-      favoriteHeroes.push(data.hero)
+    SET_HERO_TO_FAVORITE(state, index) {
+      state.heroes.results[index].isFavorite = true;
     },
     SET_LOADING_STATUS(state, status){
       state.isLoading = status
     },
-    UNSET_HERO_FROM_FAVORITE(state, data) {
-      const favoriteHeroes = state.favorite_heroes
-      const heroesList = state.heroes.results
-
-      favoriteHeroes.splice(data.indexFavHero, 1)
-      Vue.set(heroesList[data.indexHero], 'isFavorite', false)
+    UNSET_HERO_FROM_FAVORITE(state, index) {
+      state.heroes.results[index].isFavorite = false;
     },
     DELETE_HERO(state, index) {
-      const favoriteHeroes = state.favorite_heroes;
-      const heroesList = state.heroes.results;
-      const indexFav = index.indexFavHero;
-      const indexHero = index.indexHero;
-
-      favoriteHeroes.splice(indexFav, 1)
-      heroesList.splice(indexHero, 1)
+      state.heroes.results.splice(index, 1)
     },
     SET_HERO_TO_MODIFY(state, data) {
       state.heroToModify = data
     },
     MODIFY_HERO(state, data) {
-      const heroId = data.heroId
-      const newName = data.newName
-      const newDescription = data.newDescription
+      const newName = data.hero.newName;
+      const newDescription = data.hero.newDescription;
       
-      const favoriteHeroes = state.favorite_heroes
-      const heroesList = state.heroes.results
-      const heroModify = state.heroToModify
+      const heroesList = state.heroes.results;
+      const heroModify = state.heroToModify;
 
       heroModify.name = newName
       heroModify.description = newDescription
 
-      heroesList.forEach(function(hero) {
-        if (hero.id === heroId) {
-          Vue.set(hero, 'isModified', true)
-          hero.name = newName
-          hero.description = newDescription
-        }
-      })
-
-      favoriteHeroes.forEach(function(hero) {
-        if (hero.id === heroId) {
-          Vue.set(hero, 'isModified', true)
-          hero.name = newName
-          hero.description = newDescription
-        }
-      })
+      Vue.set(heroesList[data.indexHero], 'isModified', true)
+      heroesList[data.indexHero].name = newName
+      heroesList[data.indexHero].description = newDescription
     },
     ADD_HERO(state, data) {
       const heroesList = state.heroes.results
@@ -143,6 +108,9 @@ export default new Vuex.Store({
       Axios
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100', {})
         .then(response => {
+          for (let i = 0; i < response.data.data.count; i++) {
+            Vue.set(response.data.data.results[i], 'isFavorite', false);
+          }
           commit('SET_HEROES_LIST_FROM_MARVEL', response.data.data)
           commit('ALLOW_RESET', false)
           commit('SET_LOADING_STATUS', false)
@@ -165,7 +133,7 @@ export default new Vuex.Store({
           commit('SET_LOADING_STATUS', false)
         })
     },
-    resetHero({commit}, data) {
+    resetHero({commit, state}, data) {
       const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";
       const PUB_KEY = "e23507931830c9ee423da4a822ea0574";
 
@@ -180,75 +148,29 @@ export default new Vuex.Store({
         .then(response => {
           let data = {
             hero: response.data.data.results,
-            indexFavHero: null,
-            indexHero: null
+            indexHero: state.heroes.results.findIndex(hero => hero.id === data.id)
           }
-    
-          this.state.favorite_heroes.find(hero => {
-            if (hero.id === id) {
-              data.indexFavHero = this.state.favorite_heroes.indexOf(hero)
-            }
-          })
-          this.state.heroes.results.find(hero => {
-            if (hero.id === id) {
-              data.indexHero = this.state.heroes.results.indexOf(hero)
-            }
-          })
           commit('SET_HERO_FROM_MARVEL', data)
           commit('SET_LOADING_STATUS', false)
         })
     },
-    addToFavorite({commit}, favHero) {
-      let data = {
-        hero: favHero,
-        index: null
-      }
-
-      this.state.heroes.results.find(hero => {
-        if (hero.id === favHero.id) {
-          data.index = this.state.heroes.results.indexOf(hero)
-        }
-      })
-      commit('SET_HERO_TO_FAVORITE', data)
+    addToFavorite({commit, state}, favHero) {
+      let index = state.heroes.results.findIndex(hero => hero.id === favHero.id);
+      commit('SET_HERO_TO_FAVORITE', index)
     },
-    deleteFromFavorite({commit}, favHero) {
-      let data = {
-        hero: favHero,
-        indexFavHero: null,
-        indexHero: null
-      }
-
-      this.state.heroes.results.find(hero => {
-        if (hero.id === favHero.id) {
-          data.indexHero = this.state.heroes.results.indexOf(hero)
-        }
-      })
-      this.state.favorite_heroes.find(hero => {
-        if (hero.id === favHero.id) {
-          data.indexFavHero = this.state.favorite_heroes.indexOf(hero)
-        }
-      })
-      commit('UNSET_HERO_FROM_FAVORITE', data)
+    deleteFromFavorite({commit, state}, favHero) {
+      let index = state.heroes.results.findIndex(hero => hero.id === favHero.id);
+      commit('UNSET_HERO_FROM_FAVORITE', index)
     },
-    deleteHero({commit}, data) {
-      let index = {
-        indexFavHero: null,
-        indexHero: null
-      }
-
-      this.state.favorite_heroes.find(hero => {
-        if (hero.id === data.id) {
-          index.indexFavHero = this.state.favorite_heroes.indexOf(hero)
-        }
-      })
-      this.state.heroes.results.find(hero => {
-        if (hero.id === data.id) {
-          index.indexHero = this.state.heroes.results.indexOf(hero)
-        }
-      })
+    deleteHero({commit, state}, data) {
+      let index = state.heroes.results.findIndex(hero => hero.id === data.id);
       commit('DELETE_HERO', index)
     },
-    modifyHero({commit}, data) {
+    modifyHero({commit, state}, modifyHero) {
+      let data = {
+        hero: modifyHero,
+        indexHero: state.heroes.results.findIndex(hero => hero.id === modifyHero.heroId)
+      }
       commit('MODIFY_HERO', data)
     },
     setHeroToModify({commit}, data) {

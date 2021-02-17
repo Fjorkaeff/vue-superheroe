@@ -94,6 +94,7 @@ export default {
     name: 'Heroes',
     data () {
         return {
+            favoriteHeroes: [],
             DisplayList: true,
             sortByName: true,
             sortByUp: true,
@@ -128,16 +129,18 @@ export default {
     },
     computed: {
         ...mapState({
-            favoriteHeroes: state => state.favorite_heroes,
+            heroes: state => state.heroes.results,
             allowReset: state => state.allowReset,
             searchHero: state => state.searchHero
         }),
         orderedFavoriteHeroes: function () {
             let search = this.searchHero.toLowerCase();
-            let favoriteHeroesList = this.favoriteHeroes;
+            let favoriteHeroesList = this.heroes;
             let ascDesc = this.sortByUp ? 1 : -1;
             let offset = (this.currentPage - 1) * this.currentNbDisplay;
             let limit = offset + this.currentNbDisplay;
+
+            favoriteHeroesList = favoriteHeroesList.filter(item => item.isFavorite === true);
 
             if(search) {
                 favoriteHeroesList = favoriteHeroesList.filter(item => item.name.includes(search));
@@ -145,7 +148,7 @@ export default {
 
             favoriteHeroesList = favoriteHeroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
 
-            favoriteHeroesList = favoriteHeroesList.slice(offset, limit)
+            favoriteHeroesList = favoriteHeroesList.slice(offset, limit);
 
             return favoriteHeroesList
         }
