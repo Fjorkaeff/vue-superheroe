@@ -18,30 +18,28 @@ export default new Vuex.Store({
   },
   getters: {
     getFavoritesHeroes: (state) => {
-      return state.favorite_heroes
+      return state.favorite_heroes;
     },
     getHeroToModify: (state) => {
-      return state.heroToModify
+      return state.heroToModify;
     },
     getNbHeroes: (state) => {
-      return state.heroes.total
+      return state.heroes.total;
     }
   },
   mutations: {
     SET_HEROES_LIST_FROM_MARVEL(state, data) {
-      state.heroes = data
-      console.log('HEROES : ', state.heroes.results)
+      state.heroes = data;
     },
     SET_HERO_FROM_MARVEL(state, data) {
-      const heroesList = state.heroes.results
       const indexHero = data.indexHero;
-      const resHero = data.hero[0]
+      const resHero = data.hero;
       
-      heroesList.splice(indexHero, 1)
-      heroesList.push(resHero)
+      state.heroes.results.splice(indexHero, 1);
+      state.heroes.results.push(resHero);
     },
     SET_MORE_HEROES_LIST_FROM_MARVEL(state, data) {
-      const heroesList = state.heroes.results
+      const heroesList = state.heroes.results;
       data.forEach(function(hero) {
         heroesList.push(hero)
       })
@@ -146,9 +144,10 @@ export default new Vuex.Store({
       Axios
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
         .then(response => {
+          Vue.set(response.data.data.results[0], 'isFavorite', false)
           let data = {
-            hero: response.data.data.results,
-            indexHero: state.heroes.results.findIndex(hero => hero.id === data.id)
+            hero: response.data.data.results[0],
+            indexHero: state.heroes.results.findIndex(hero => hero.id === id)
           }
           commit('SET_HERO_FROM_MARVEL', data)
           commit('SET_LOADING_STATUS', false)
