@@ -10,7 +10,10 @@
       :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
     ></v-img>
 
-    <v-card-title>{{ hero.name }}</v-card-title>
+    <v-card-title>
+      <div v-if="hero.name.length > 30">{{ hero.name.slice(0, 27) + "..." }}</div>
+      <div v-else>{{ hero.name }}</div>
+    </v-card-title>
   <div class="HeroDescripionCard">
     <v-card-text>
     <div v-if="!hero.description">{{ $t('heroes.no-description') }}</div>

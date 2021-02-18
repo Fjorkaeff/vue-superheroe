@@ -11,21 +11,29 @@
                     </v-row>
                 </div>
             </div>
-            <v-card>
-              <v-row no-gutters style="height:auto">
+            <v-card style="margin:2rem">
+              <v-row no-gutters>
                 <v-col md="4">
-                  <input type="file" @change="onFileSelected">
-                  <v-img v-if="isImg"
-                    :src="newHero.img.name"
-                    width="80%"
-                  ></v-img>
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Image"
+                    >
+                    <v-text-field
+                      v-model="newHero.img"
+                      :counter="50"
+                      maxlength="50"
+                      :error-messages="errors"
+                      label="Saisissez l'url de votre image"
+                      style="max-width:75%; margin-left:1rem"></v-text-field>
+
+                    </validation-provider>
                 </v-col>
                 <v-col md="4">
                   <validation-observer
                     ref="observer"
                     v-slot="{ invalid }"
                   >
-                    <form @submit.prevent="submit">
+                  <form @submit.prevent="submit">
                     <validation-provider
                       v-slot="{ errors }"
                       name="Name"
@@ -62,6 +70,7 @@
 
                       <v-btn
                         class="mr-4"
+                        style="margin-top:3rem; margin-bottom:3rem"
                         type="submit"
                         color="success"
                         :disabled="invalid"
@@ -70,7 +79,14 @@
                       </v-btn>
                     </form>
                   </validation-observer>
-                </v-col>
+                  </v-col>
+                  <v-col md="4">
+                    <v-img
+                      style="float:right"
+                      width="70%"
+                      src="../assets/batman.jpg"
+                    ></v-img>
+                  </v-col>
               </v-row>
             </v-card>
         </div>
@@ -106,22 +122,19 @@ export default {
   data () {
     return {
         newHero: {
-          img: null,
+          img: '',
           name: '',
           description: '',
-          isCreated: true
-        },
-        isImg: false
+          isCreated: true,
+          isImg: false
+        }
     }
   },
   methods: {
     submit() {
       this.$refs.observer.validate()
       this.$store.dispatch('addHero', this.newHero)
-    },
-    onFileSelected(event) {
-      this.newHero.img = event.target.files[0]
-      this.isImg = true
+      this.$router.push({ path: `/Heroes` })
     }
   },
   created() {

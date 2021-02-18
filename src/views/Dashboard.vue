@@ -124,7 +124,17 @@ export default {
             this.sortByName = !this.sortByName;
         },
         changeDisplayNumber(nb) {
+            const previousNbDisplay = this.currentNbDisplay;
             this.currentNbDisplay = nb;
+            const oldOffset = previousNbDisplay * (this.currentPage - 1);
+
+            if (this.currentPage > 1 && this.currentNbDisplay < previousNbDisplay) {
+                this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
+            }
+            if (this.currentPage > 1 && this.currentNbDisplay > previousNbDisplay) {
+                if (this.currentNbDisplay > oldOffset) this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
+                else this.currentPage = 1;
+            }
         },
     },
     computed: {

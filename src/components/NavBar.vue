@@ -65,6 +65,12 @@ export default {
 
 
 <style>
+.imgSite {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
 .searchBar {
   position: relative;
   border-radius: 0.5em;

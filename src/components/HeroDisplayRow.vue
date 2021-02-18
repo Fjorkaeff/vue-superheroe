@@ -1,8 +1,18 @@
 <template>
     <v-container class="containerRow">
+        <v-row no-gutters
+            class="HeroRow"
+            v-if="isResetLoading">
+            <v-progress-circular
+                :size="75"
+                color="primary"
+                indeterminate
+            ></v-progress-circular>
+        </v-row>
         <v-row
             no-gutters 
             class="HeroRow"
+            v-if="!isResetLoading"
         >
         <v-col md="2" @click="goToHeroProfil(hero)">
             <div class="HeroImgContainer">
@@ -10,6 +20,12 @@
                     v-if="hero.thumbnail"
                     class="HeroImg"
                     :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
+                ></v-img>
+                <v-img
+                    v-if="hero.isCreated"
+                    class="HeroImg"
+                    lazy-src="../assets/batman.jpg"
+                    :src="hero.img"
                 ></v-img>
             </div>
         </v-col>
@@ -45,7 +61,7 @@
                 >
                     <v-icon dark>mdi-heart-broken</v-icon>
                 </v-btn>
-                <v-btn v-if="hero.isModified"
+                <v-btn v-if="hero.isModified && !hero.isCreated"
                     class="mx-4"
                     fab
                     dark
@@ -70,6 +86,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 
 export default {
   name: 'HeroDisplayRow',
@@ -95,6 +112,11 @@ export default {
         const id = hero.id;
         this.$router.push({ path: `/Heroes/${id}` })
     },
+  },
+  computed: {
+      ...mapState({
+          isResetLoading: state => state.isResetLoading
+        }),
   }
 }
 </script>

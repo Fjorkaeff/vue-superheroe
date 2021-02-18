@@ -3,8 +3,14 @@
     <v-row no-gutters style="height:auto">
       <v-col md="4">
         <v-img
+          v-if="!heroToModify.isCreated"
           width="80%"
           :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
+        ></v-img>
+        <v-img
+          v-else
+          width="80%"
+          src="../assets/batman.jpg"
         ></v-img>
       </v-col>
       <v-col md="4">
@@ -19,28 +25,28 @@
         </v-card-text>
       </v-col>
       <v-col md="4">
-      <v-list>
-      <v-list-group
-        v-for="item in App"
-        :key="item.title"
-        no-action
-      >
-        <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title"></v-list-item-title>
-          </v-list-item-content>
-        </template>
+        <v-list v-if="!heroToModify.isCreated">
+          <v-list-group
+            v-for="item in App"
+            :key="item.title"
+            no-action
+          >
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item-content>
+            </template>
 
-        <v-list-item
-          v-for="child in item.items"
-          :key="child.name"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="child.name"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group>
-    </v-list>
+            <v-list-item
+              v-for="child in item.items"
+              :key="child.name"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="child.name"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+        </v-list>
       </v-col>
     </v-row>
   </v-card>
@@ -71,9 +77,11 @@ export default {
   }),
   methods: {},
   mounted () {
-    this.App[0].items = this.heroToModify.comics.items
-    this.App[1].items = this.heroToModify.series.items
-    this.App[2].items = this.heroToModify.events.items
+    if (!this.heroToModify.isCreated) {
+      this.App[0].items = this.heroToModify.comics.items
+      this.App[1].items = this.heroToModify.series.items
+      this.App[2].items = this.heroToModify.events.items
+    }
   }
 }
 </script>

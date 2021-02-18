@@ -58,7 +58,6 @@
                     <v-row no-gutters>
                         <v-col class="ButtonDisplay">
                             <v-btn v-if="this.allowReset"
-                            disabled
                                 class="mx-4"
                                 dark
                                 color="orange"
@@ -69,8 +68,12 @@
                         </v-col>
                     </v-row>
                 </div>
-                <div v-if="isLoading">
-                    <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="dots"></loader>
+                <div v-if="isLoading" class="HeroesLoader">
+                    <v-progress-circular
+                        :size="200"
+                        color="primary"
+                        indeterminate
+                    ></v-progress-circular>
                 </div>
                 <div v-if="this.DisplayList && !isLoading">
                     <HeroDisplayRow v-for="hero in orderedHeroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
@@ -83,12 +86,26 @@
                     </v-row>
                 </div>
                 <v-row v-if="!isLoading" justify="center">
-                    <div class="Pagination">
+                    <div v-if="!isPaginationLoading" class="Pagination">
                         <v-pagination
-                          v-model="currentPage"
-                          :length='(this.$store.getters.getNbHeroes / this.currentNbDisplay).toFixed(0)'
-                          :total-visible="7"
+                            v-model="currentPage"
+                            :length="(heroes.length / currentNbDisplay).toFixed(0)"
+                            :total-visible="10"
                         ></v-pagination>
+                    </div>
+                    <v-btn
+                        v-if="!isPaginationLoading && heroes.length < maxNbHeroes"
+                        class="Pagination"
+                        @click="loadMoreHeroes()"
+                    >
+                        <v-icon>mdi-plus-thick</v-icon>
+                    </v-btn>
+                    <div v-if="isPaginationLoading" class="Pagination">
+                        <v-progress-circular
+                        :size="50"
+                        color="primary"
+                        indeterminate
+                    ></v-progress-circular>
                     </div>
                 </v-row>
             </div>
@@ -109,7 +126,6 @@ export default {
             sortByUp: true,
             DisplayList: true,
             sortByName: true,
-            maxNbHeroes: null,
             nbDisplayHeroes: [
                 20,
                 40,
@@ -128,7 +144,9 @@ export default {
     computed: {
         ...mapState({
             isLoading: state => state.isLoading,
+            isPaginationLoading: state => state.isPaginationLoading,
             heroes: state => state.heroes.results,
+            maxNbHeroes: state => state.heroes.total,
             allowReset: state => state.allowReset,
             searchHero: state => state.searchHero
         }),
@@ -139,7 +157,7 @@ export default {
             let typeSort = this.sortByName;
             let offset = (this.currentPage - 1) * this.currentNbDisplay;
             let limit = offset + this.currentNbDisplay;
-            let max = this.maxNbHeroes;
+            //let max = this.maxNbHeroes; 
 
             if (search) heroesList = heroesList.filter(item => item.name.toLowerCase().includes(search));
 
@@ -149,19 +167,15 @@ export default {
                 heroesList = heroesList.sort((a, b) => ascDesc * a.id - b.id);
             }
 
-            if (limit > heroesList.length && heroesList.length < max) {
-                this.$store.dispatch('Loading', true)
-            } else {
-                this.$store.dispatch('Loading', false)
-                heroesList = heroesList.slice(offset, limit)
-            }
+            heroesList = heroesList.slice(offset, limit)
 
             return heroesList
         }
     },
     methods: {
         ...mapActions([
-            'getHeroesListFromMarvel'
+            'getHeroesListFromMarvel',
+            'getHeroesListFromMarvelWithOffset'
         ]),
         changeDisplay() {
             this.DisplayList = !this.DisplayList;
@@ -173,18 +187,30 @@ export default {
             this.sortByName = !this.sortByName;
         },
         changeDisplayNumber(nb) {
+            const previousNbDisplay = this.currentNbDisplay;
             this.currentNbDisplay = nb;
+            const oldOffset = previousNbDisplay * (this.currentPage - 1);
+
+            if (this.currentPage > 1 && this.currentNbDisplay < previousNbDisplay) {
+                this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
+            }
+            if (this.currentPage > 1 && this.currentNbDisplay > previousNbDisplay) {
+                if (this.currentNbDisplay > oldOffset) this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
+                else this.currentPage = 1;
+            }
+        },
+        loadMoreHeroes() {
+            this.getHeroesListFromMarvelWithOffset();
         },
         reset() {
-            this.getHeroesListFromMarvel;
+            this.getHeroesListFromMarvel();
         }
     },
+    watch() {},
     created() {
         this.$store.dispatch('searchText', '')
     },
-    mounted() {
-        this.maxNbHeroes = this.$store.getters.getNbHeroes;
-    }
+    mounted() {}
 }
 </script>
 
@@ -206,5 +232,10 @@ export default {
 
 .AddHeroLink {
     text-decoration: none;
+}
+
+.HeroesLoader{
+    margin: 10rem;
+    text-align: center;
 }
 </style>

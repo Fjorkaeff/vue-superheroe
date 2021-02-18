@@ -3,8 +3,14 @@
     <v-row no-gutters style="height:auto">
       <v-col md="4">
         <v-img
+          v-if="!heroToModify.isCreated"
           width="80%"
           :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
+        ></v-img>
+        <v-img
+          v-else
+          width="80%"
+          src="../assets/batman.jpg"
         ></v-img>
       </v-col>
       <v-col md="4">
@@ -23,8 +29,8 @@
           >
             <v-text-field
             v-model="heroName"
-            :counter="20"
-            maxlength="20"
+            :counter="35"
+            maxlength="35"
             :error-messages="errors"
             style="max-width:50%"
             :label="heroToModify.name"
@@ -61,7 +67,7 @@
         </validation-observer>
       </v-col>
       <v-col md="4">
-        <v-list>
+        <v-list v-if="!heroToModify.isCreated">
           <v-list-group
             v-for="item in App"
             :key="item.title"

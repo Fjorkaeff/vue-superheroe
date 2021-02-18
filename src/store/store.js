@@ -12,14 +12,13 @@ export default new Vuex.Store({
     searchHero : '',
     notifMessage: '',
     isLoading: false,
+    isPaginationLoading: false,
+    isLoadingReset: false,
     isEdit: false,
     allowReset: false,
     idAvailable: 1
   },
   getters: {
-    getFavoritesHeroes: (state) => {
-      return state.favorite_heroes;
-    },
     getHeroToModify: (state) => {
       return state.heroToModify;
     },
@@ -39,58 +38,61 @@ export default new Vuex.Store({
       state.heroes.results.push(resHero);
     },
     SET_MORE_HEROES_LIST_FROM_MARVEL(state, data) {
-      const heroesList = state.heroes.results;
       data.forEach(function(hero) {
-        heroesList.push(hero)
+        state.heroes.results.push(hero);
       })
     },
     SET_HERO_TO_FAVORITE(state, index) {
       state.heroes.results[index].isFavorite = true;
     },
     SET_LOADING_STATUS(state, status){
-      state.isLoading = status
+      state.isLoading = status;
+    },
+    SET_PAGINATION_LOADING_STATUS(state, status){
+      state.isPaginationLoading = status;
+    },
+    SET_RESET_LOADING_STATUS(state, status){
+      state.isLoadingReset = status;
     },
     UNSET_HERO_FROM_FAVORITE(state, index) {
       state.heroes.results[index].isFavorite = false;
     },
     DELETE_HERO(state, index) {
-      state.heroes.results.splice(index, 1)
+      state.heroes.results.splice(index, 1);
     },
     SET_HERO_TO_MODIFY(state, data) {
-      state.heroToModify = data
+      state.heroToModify = data;
     },
     MODIFY_HERO(state, data) {
       const newName = data.hero.newName;
       const newDescription = data.hero.newDescription;
       
-      const heroesList = state.heroes.results;
-      const heroModify = state.heroToModify;
+      state.heroToModify.name = newName;
+      state.heroToModify.description = newDescription;
 
-      heroModify.name = newName
-      heroModify.description = newDescription
-
-      Vue.set(heroesList[data.indexHero], 'isModified', true)
-      heroesList[data.indexHero].name = newName
-      heroesList[data.indexHero].description = newDescription
+      Vue.set(state.heroes.results[data.indexHero], 'isModified', true);
+      state.heroes.results[data.indexHero].name = newName;
+      state.heroes.results[data.indexHero].description = newDescription;
     },
     ADD_HERO(state, data) {
-      const heroesList = state.heroes.results
-      const idAvailable = state.idAvailable
+      let idAvailable = state.idAvailable;
 
-      Vue.set(data, 'id', idAvailable)
-      heroesList.push(data)
+      Vue.set(data, 'id', idAvailable);
+      idAvailable++;
+      state.heroes.results.push(data);
+      console.log(idAvailable)
     },
     setNotifMessage(state, message) {
-      state.notifMessage = message
+      state.notifMessage = message;
     },
     EDIT (state) {
-      state.isEdit = !state.isEdit
+      state.isEdit = !state.isEdit;
     },
     ALLOW_RESET (state, bool) {
-      state.allowReset = bool
+      state.allowReset = bool;
     },
     SEARCH_TEXT (state, text) {
-      state.searchHero = text
+      state.searchHero = text;
     }
   },
   actions: {
@@ -114,21 +116,24 @@ export default new Vuex.Store({
           commit('SET_LOADING_STATUS', false)
         })
     },
-    getHeroesListFromMarvelWithOffset({commit}, offset) {	
+    getHeroesListFromMarvelWithOffset({commit, state}) {	
       const PRIV_KEY = "2b101cf909b39cb27b679ea471287e2e2ba2aa81";	
       const PUB_KEY = "e23507931830c9ee423da4a822ea0574";	
-
+      const offset = state.heroes.results.length;
       const ts = Date.now();	
       const hash = CryptoJS.MD5(ts + PRIV_KEY + PUB_KEY).toString();	
       const url = "http://gateway.marvel.com/v1/public/characters";	
 
-      commit('SET_LOADING_STATUS', true)	
+      commit('SET_PAGINATION_LOADING_STATUS', true)	
       Axios	
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100&offset=' + offset, {})	
-        .then(response => {	
+        .then(response => {
+          for (let i = 0; i < response.data.data.count; i++) {
+            Vue.set(response.data.data.results[i], 'isFavorite', false);
+          }	
           commit('SET_MORE_HEROES_LIST_FROM_MARVEL', response.data.data.results)	
           commit('ALLOW_RESET', false)	
-          commit('SET_LOADING_STATUS', false)
+          commit('SET_PAGINATION_LOADING_STATUS', false)
         })
     },
     resetHero({commit, state}, data) {
@@ -140,7 +145,7 @@ export default new Vuex.Store({
       const id = data.id;
       const url = "http://gateway.marvel.com/v1/public/characters/" + id;
 
-      commit('SET_LOADING_STATUS', true)
+      commit('SET_RESET_LOADING_STATUS', true)
       Axios
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
         .then(response => {
@@ -150,7 +155,7 @@ export default new Vuex.Store({
             indexHero: state.heroes.results.findIndex(hero => hero.id === id)
           }
           commit('SET_HERO_FROM_MARVEL', data)
-          commit('SET_LOADING_STATUS', false)
+          commit('SET_RESET_LOADING_STATUS', false)
         })
     },
     addToFavorite({commit, state}, favHero) {
@@ -176,6 +181,7 @@ export default new Vuex.Store({
       commit('SET_HERO_TO_MODIFY', data)
     },
     addHero({commit}, data) {
+      if (!data.isImg) Vue.set(data, 'img', '../assets/batman.jpg')
       commit('ADD_HERO', data)
     },
     setNotifMessage({commit}, message) {
