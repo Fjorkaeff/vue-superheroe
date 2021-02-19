@@ -3,6 +3,15 @@
         <div>
             <NavBar></NavBar>
             <div class="Heroes">
+                <v-snackbar
+                    v-model="notifStatus"
+                    :color="notifData.type"
+                    timeout="1500"
+                    top
+                    right
+                >
+                    {{ $t(notifData.text) }}
+                </v-snackbar>
                 <div class="HeroesTitle">
                     <v-row no-gutters class="HeadPage">
                         <v-col md="6">
@@ -89,7 +98,7 @@
                     <div v-if="!isPaginationLoading" class="Pagination">
                         <v-pagination
                             v-model="currentPage"
-                            :length="(heroes.length / currentNbDisplay).toFixed(0)"
+                            :length="paginationLength"
                             :total-visible="10"
                         ></v-pagination>
                     </div>
@@ -133,7 +142,7 @@ export default {
                 80
             ],
             currentNbDisplay: 20,
-            currentPage: 1,
+            currentPage: 1
         }
     },
     components: {
@@ -148,7 +157,9 @@ export default {
             heroes: state => state.heroes.results,
             maxNbHeroes: state => state.heroes.total,
             allowReset: state => state.allowReset,
-            searchHero: state => state.searchHero
+            searchHero: state => state.searchHero,
+            notifStatus: state => state.notifStatus,
+            notifData: state => state.notifData
         }),
         orderedHeroes() {
             let search = this.searchHero.toLowerCase();
@@ -157,19 +168,24 @@ export default {
             let typeSort = this.sortByName;
             let offset = (this.currentPage - 1) * this.currentNbDisplay;
             let limit = offset + this.currentNbDisplay;
-            //let max = this.maxNbHeroes; 
 
             if (search) heroesList = heroesList.filter(item => item.name.toLowerCase().includes(search));
-
             if (typeSort) {
-               heroesList = heroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+                heroesList = heroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
             } else {
                 heroesList = heroesList.sort((a, b) => ascDesc * a.id - b.id);
             }
-
             heroesList = heroesList.slice(offset, limit)
 
             return heroesList
+        },
+        paginationLength() {
+            let heroesList = this.heroes;
+            let paginationLength;
+
+            paginationLength = Math.ceil(heroesList.length/this.currentNbDisplay);
+
+            return paginationLength;
         }
     },
     methods: {
@@ -187,15 +203,15 @@ export default {
             this.sortByName = !this.sortByName;
         },
         changeDisplayNumber(nb) {
-            const previousNbDisplay = this.currentNbDisplay;
+            let previousNbDisplay = this.currentNbDisplay;
             this.currentNbDisplay = nb;
-            const oldOffset = previousNbDisplay * (this.currentPage - 1);
+            let oldOffset = previousNbDisplay * (this.currentPage - 1);
 
             if (this.currentPage > 1 && this.currentNbDisplay < previousNbDisplay) {
                 this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
             }
             if (this.currentPage > 1 && this.currentNbDisplay > previousNbDisplay) {
-                if (this.currentNbDisplay > oldOffset) this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
+                if (this.currentNbDisplay < oldOffset) this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
                 else this.currentPage = 1;
             }
         },
@@ -206,9 +222,9 @@ export default {
             this.getHeroesListFromMarvel();
         }
     },
-    watch() {},
     created() {
         this.$store.dispatch('searchText', '')
+        this.$store.dispatch('setNotif', false)
     },
     mounted() {}
 }

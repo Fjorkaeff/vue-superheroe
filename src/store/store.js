@@ -16,7 +16,9 @@ export default new Vuex.Store({
     isLoadingReset: false,
     isEdit: false,
     allowReset: false,
-    idAvailable: 1
+    idAvailable: 1,
+    notifStatus: false,
+    notifData: {}
   },
   getters: {
     getHeroToModify: (state) => {
@@ -24,6 +26,9 @@ export default new Vuex.Store({
     },
     getNbHeroes: (state) => {
       return state.heroes.total;
+    },
+    getNotifStatus: (state) => {
+      return state.notifStatus;
     }
   },
   mutations: {
@@ -80,10 +85,12 @@ export default new Vuex.Store({
       Vue.set(data, 'id', idAvailable);
       idAvailable++;
       state.heroes.results.push(data);
-      console.log(idAvailable)
     },
-    setNotifMessage(state, message) {
-      state.notifMessage = message;
+    SET_NOTIF(state, data) {
+      state.notifStatus = false;
+      state.notifData.text = data.text;
+      state.notifData.type = data.type;
+      state.notifStatus = data.status;
     },
     EDIT (state) {
       state.isEdit = !state.isEdit;
@@ -114,6 +121,8 @@ export default new Vuex.Store({
           commit('SET_HEROES_LIST_FROM_MARVEL', response.data.data)
           commit('ALLOW_RESET', false)
           commit('SET_LOADING_STATUS', false)
+          let data = {status:true, text:'notif.loadHeroes', type:'success'};
+          commit('SET_NOTIF', data)
         })
     },
     getHeroesListFromMarvelWithOffset({commit, state}) {	
@@ -156,19 +165,27 @@ export default new Vuex.Store({
           }
           commit('SET_HERO_FROM_MARVEL', data)
           commit('SET_RESET_LOADING_STATUS', false)
+          let notif = {status: true, type:'success', text:'notif.resetHero'}
+          commit('SET_NOTIF', notif)
         })
     },
     addToFavorite({commit, state}, favHero) {
       let index = state.heroes.results.findIndex(hero => hero.id === favHero.id);
       commit('SET_HERO_TO_FAVORITE', index)
+      let data = {status: true, type:'success', text:'notif.addedToFavorite'}
+      commit('SET_NOTIF', data)
     },
     deleteFromFavorite({commit, state}, favHero) {
       let index = state.heroes.results.findIndex(hero => hero.id === favHero.id);
       commit('UNSET_HERO_FROM_FAVORITE', index)
+      let data = {status: true, type:'red', text:'notif.deletedFromFavorite'}
+      commit('SET_NOTIF', data)
     },
     deleteHero({commit, state}, data) {
       let index = state.heroes.results.findIndex(hero => hero.id === data.id);
       commit('DELETE_HERO', index)
+      let notif = {status: true, type:'red', text:'notif.deletedHero'}
+      commit('SET_NOTIF', notif)
     },
     modifyHero({commit, state}, modifyHero) {
       let data = {
@@ -176,6 +193,8 @@ export default new Vuex.Store({
         indexHero: state.heroes.results.findIndex(hero => hero.id === modifyHero.heroId)
       }
       commit('MODIFY_HERO', data)
+      let notif = {status: true, type:'green', text:'notif.modifyHero'}
+      commit('SET_NOTIF', notif)
     },
     setHeroToModify({commit}, data) {
       commit('SET_HERO_TO_MODIFY', data)
@@ -183,9 +202,16 @@ export default new Vuex.Store({
     addHero({commit}, data) {
       if (!data.isImg) Vue.set(data, 'img', '../assets/batman.jpg')
       commit('ADD_HERO', data)
+      let notif = {status: true, type:'green', text:'notif.createdHero'}
+      commit('SET_NOTIF', notif)
     },
-    setNotifMessage({commit}, message) {
-      commit('setNotifMessage', message)
+    setNotif({commit}, status, type, text) {
+      let data = {
+        status: status,
+        type: type,
+        text: text
+      }
+      commit('SET_NOTIF', data)
     },
     edit({commit}) {
       commit('EDIT')

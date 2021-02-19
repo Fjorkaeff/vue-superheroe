@@ -24,11 +24,11 @@
                                     v-on="on"
                                     class="NbHeroes"
                                 >
-                                {{ currentNbDisplay }}
+                                {{ currentNbDisplayFav }}
                                 </v-btn>
                               </template>
                               <v-list>
-                                <v-list-item v-for="nb in nbDisplayHeroes" :key="nb" @click="changeDisplayNumber(nb)">
+                                <v-list-item v-for="nb in nbDisplayHeroesFav" :key="nb" @click="changeDisplayNumber(nb)">
                                   <v-list-item-title style="margin-left:7px">{{ nb }}</v-list-item-title>
                                 </v-list-item>
                               </v-list>
@@ -38,8 +38,8 @@
                             <v-btn
                                 @click="changeTypeOfSort()"
                             >
-                                <v-icon v-if="this.sortByName">mdi-format-letter-case</v-icon>
-                                <v-icon v-if="!this.sortByName">mdi-numeric</v-icon>
+                                <v-icon v-if="this.sortByName">mdi-numeric</v-icon>
+                                <v-icon v-if="!this.sortByName">mdi-format-letter-case</v-icon>
                             </v-btn>
                             <v-btn
                                 @click="changeSort()"
@@ -50,8 +50,8 @@
                             <v-btn
                                 @click="changeDisplay()"
                             >
-                                <v-icon v-if="this.DisplayList">mdi-format-list-bulleted</v-icon>
-                                <v-icon v-if="!this.DisplayList">mdi-view-grid</v-icon>
+                                <v-icon v-if="this.DisplayList">mdi-view-grid</v-icon>
+                                <v-icon v-if="!this.DisplayList">mdi-format-list-bulleted</v-icon>
                             </v-btn>
                         </v-col>
                     </v-row>
@@ -79,6 +79,15 @@
                     </v-col>
                 </v-row>
             </div>
+            <v-row justify="center">
+                    <div class="Pagination">
+                        <v-pagination
+                            v-model="currentPageFav"
+                            :length="paginationLength"
+                            :total-visible="5"
+                        ></v-pagination>
+                    </div>
+                </v-row>
         </div>
     </div>
 </v-app>
@@ -94,18 +103,17 @@ export default {
     name: 'Heroes',
     data () {
         return {
-            favoriteHeroes: [],
             DisplayList: true,
             sortByName: true,
             sortByUp: true,
-            nbDisplayHeroes: [
+            nbDisplayHeroesFav: [
                 20,
                 40,
                 60,
                 80
             ],
-            currentNbDisplay: 20,
-            currentPage: 1,
+            currentNbDisplayFav: 20,
+            currentPageFav: 1
         }
     },
     components: {
@@ -124,16 +132,16 @@ export default {
             this.sortByName = !this.sortByName;
         },
         changeDisplayNumber(nb) {
-            const previousNbDisplay = this.currentNbDisplay;
-            this.currentNbDisplay = nb;
-            const oldOffset = previousNbDisplay * (this.currentPage - 1);
+            const previousNbDisplay = this.currentNbDisplayFav;
+            this.currentNbDisplayFav = nb;
+            const oldOffset = previousNbDisplay * (this.currentPageFav - 1);
 
-            if (this.currentPage > 1 && this.currentNbDisplay < previousNbDisplay) {
-                this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
+            if (this.currentPageFav > 1 && this.currentNbDisplayFav < previousNbDisplay) {
+                this.currentPageFav = (oldOffset / this.currentNbDisplayFav) + 1;
             }
-            if (this.currentPage > 1 && this.currentNbDisplay > previousNbDisplay) {
-                if (this.currentNbDisplay > oldOffset) this.currentPage = (oldOffset / this.currentNbDisplay) + 1;
-                else this.currentPage = 1;
+            if (this.currentPageFav > 1 && this.currentNbDisplayFav > previousNbDisplay) {
+                if (this.currentNbDisplayFav < oldOffset) this.currentPageFav = (oldOffset / this.currentNbDisplayFav) + 1;
+                else this.currentPageFav = 1;
             }
         },
     },
@@ -143,12 +151,12 @@ export default {
             allowReset: state => state.allowReset,
             searchHero: state => state.searchHero
         }),
-        orderedFavoriteHeroes: function () {
+        orderedFavoriteHeroes() {
             let search = this.searchHero.toLowerCase();
             let favoriteHeroesList = this.heroes;
             let ascDesc = this.sortByUp ? 1 : -1;
-            let offset = (this.currentPage - 1) * this.currentNbDisplay;
-            let limit = offset + this.currentNbDisplay;
+            let offset = (this.currentPageFav - 1) * this.currentNbDisplayFav;
+            let limit = offset + this.currentNbDisplayFav;
 
             favoriteHeroesList = favoriteHeroesList.filter(item => item.isFavorite === true);
 
@@ -160,7 +168,16 @@ export default {
 
             favoriteHeroesList = favoriteHeroesList.slice(offset, limit);
 
-            return favoriteHeroesList
+            return favoriteHeroesList;
+        },
+        paginationLength() {
+            let favoriteHeroesList = this.heroes;
+            let paginationLength;
+
+            favoriteHeroesList = favoriteHeroesList.filter(item => item.isFavorite === true);
+            paginationLength = Math.ceil(favoriteHeroesList.length/this.currentNbDisplayFav);
+
+            return paginationLength;
         }
     },
     created() {
@@ -168,3 +185,10 @@ export default {
     }
 }
 </script>
+
+<style>
+.Pagination {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+</style>

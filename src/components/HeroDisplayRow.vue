@@ -70,14 +70,49 @@
                 >
                     <v-icon dark>mdi-refresh-circle</v-icon>
                 </v-btn>
-                <v-btn                     
-                    class="mx-4"
-                    fab
-                    color="red"
-                    @click="deleteHero(hero)"
+                <v-dialog
+                    v-model="confirmation"
+                    persistent
+                    width="500"
                 >
-                    <v-icon color="white">mdi-delete</v-icon>
-                </v-btn>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn                     
+                            class="mx-4"
+                            fab
+                            color="red"
+                            v-bind="attrs"
+                            v-on="on"
+                        >
+                            <v-icon color="white">mdi-delete</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-card>
+                        <v-card-title>
+                            {{ $t('deleteHero.title') }}
+                        </v-card-title>
+                        <v-card-text>
+                            {{ $t('deleteHero.text') }}
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="black"
+                            style="margin-right:1rem"
+                            text
+                            @click="confirmation = false"
+                          >
+                            {{ $t('deleteHero.choice1') }}
+                          </v-btn>
+                          <v-btn
+                            class="ConfirmationDelete"
+                            text
+                            @click="deleteHero(hero)"
+                          >
+                            {{ $t('deleteHero.choice2') }}
+                          </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </div>
             </v-card-actions>
         </v-col>
@@ -93,6 +128,11 @@ export default {
   props: [
       'hero'
   ],
+  data () {
+        return {
+            confirmation: false
+        }
+    },
   methods: {
     addToFavorite(hero) {
         this.$store.dispatch('addToFavorite', hero)
@@ -101,8 +141,10 @@ export default {
         this.$store.dispatch('deleteFromFavorite', hero)
     },
     deleteHero(hero) {
-        this.$store.dispatch('allowReset', true)
+        this.confirmation = false;
+        console.log('HERO : ', hero)
         this.$store.dispatch('deleteHero', hero)
+        this.$store.dispatch('allowReset', true)
     },
     resetHero(hero) {
         this.$store.dispatch('resetHero', hero)
@@ -126,5 +168,10 @@ export default {
     height: 125px;
     margin-top: 1rem;
     margin-left: 2rem;
+}
+
+.ConfirmationDelete{
+    text-emphasis-color: red;
+    background-color: gray;
 }
 </style>

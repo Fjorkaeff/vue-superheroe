@@ -20,8 +20,8 @@
                     >
                     <v-text-field
                       v-model="newHero.img"
-                      :counter="50"
-                      maxlength="50"
+                      :counter="150"
+                      maxlength="150"
                       :error-messages="errors"
                       label="Saisissez l'url de votre image"
                       style="max-width:75%; margin-left:1rem"></v-text-field>
@@ -133,6 +133,8 @@ export default {
   methods: {
     submit() {
       this.$refs.observer.validate()
+      if (this.newHero.img) this.newHero.isImg = true;
+      console.log('NOUVEAU HERO : ', this.newHero)
       this.$store.dispatch('addHero', this.newHero)
       this.$router.push({ path: `/Heroes` })
     }

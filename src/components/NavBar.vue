@@ -46,6 +46,11 @@ export default {
           language: 'fr',
           title: 'Français'
         },
+        {
+          flag: 'ru',
+          language: 'ru',
+          title: 'русский'
+        },
       ],
       search: ''
     }

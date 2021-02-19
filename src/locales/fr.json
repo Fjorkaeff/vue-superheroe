@@ -14,6 +14,12 @@
     "favorite": "Ajouter à vos favoris",
     "no-description": "Pas de description"
   },
+  "deleteHero": {
+    "title": "Êtes-vous sûr de vouloir supprimer ce héro ?",
+    "text": "Il n'apparaitra plus dans la liste.",
+    "choice1": "Annuler",
+    "choice2": "Supprimer"
+  },
   "heroProfil": {
     "title": "Profil du héro"
   },
@@ -25,5 +31,14 @@
     "title": "Ajouter votre nouveau héro",
     "newHeroNameLabel": "Nom du nouveau héro",
     "newHeroDescriptionLabel": "Description du nouveau héro"
+  },
+  "notif": {
+    "loadHeroes": "Héros ajoutés",
+    "deletedHero": "Héro supprimé",
+    "createdHero": "Nouveau crée",
+    "modifyHero": "Héro modifié",
+    "resetHero": "Héro réinitialisé",
+    "addedToFavorite": "Héro ajouté aux favoris",
+    "deletedFromFavorite": "Héro retiré des favoris"
   }
 }
