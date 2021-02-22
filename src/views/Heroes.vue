@@ -3,15 +3,6 @@
         <div>
             <NavBar></NavBar>
             <div class="Heroes">
-                <v-snackbar
-                    v-model="notifStatus"
-                    :color="notifData.type"
-                    timeout="1500"
-                    top
-                    right
-                >
-                    {{ $t(notifData.text) }}
-                </v-snackbar>
                 <div class="HeroesTitle">
                     <v-row no-gutters class="HeadPage">
                         <v-col md="6">
@@ -157,9 +148,7 @@ export default {
             heroes: state => state.heroes.results,
             maxNbHeroes: state => state.heroes.total,
             allowReset: state => state.allowReset,
-            searchHero: state => state.searchHero,
-            notifStatus: state => state.notifStatus,
-            notifData: state => state.notifData
+            searchHero: state => state.searchHero
         }),
         orderedHeroes() {
             let search = this.searchHero.toLowerCase();
@@ -224,7 +213,6 @@ export default {
     },
     created() {
         this.$store.dispatch('searchText', '')
-        this.$store.dispatch('setNotif', false)
     },
     mounted() {}
 }

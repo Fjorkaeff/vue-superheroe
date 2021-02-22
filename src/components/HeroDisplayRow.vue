@@ -164,6 +164,55 @@ export default {
 </script>
 
 <style>
+.HeroRow {
+  display:flex;
+  flex-direction: column;
+  background-color: #202020;
+  width:100%;
+  height:200px;
+  border-radius: 0.5em;
+  white-space :pre-wrap; overflow:auto;
+  color:white;
+  transition: all .2s ease-in-out;
+}
+
+.HeroRow:hover {
+  cursor: pointer;
+  background-color:#851014;
+  transform: scale(1.01);
+}
+
+.HeroName {
+  width: 40%;
+  margin-left: 10px;
+  padding:7px;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.HeroDescription {
+  width: 90%;
+  margin-left:20px;
+  margin-top:10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  text-align: justify;
+}
+
+.HeroImgContainer {
+  width:100%;
+  height:100%;
+}
+
+.HeroImg{
+    width: auto;
+    height: 175px;
+    margin-top:12px;
+    margin-left: 12px;
+    border-radius: 0.5em;
+}
+
+
 .ButtonContainer {
     height: 125px;
     margin-top: 1rem;

@@ -1,14 +1,18 @@
 
 <template>
   <div id="app" data-app>
+    <NotificationContainer/>
       <router-view/>
   </div>
 </template>
-<script>
 
+<script>
+import NotificationContainer from '@/components/NotificationContainer.vue'
   export default {
     name: "app",
-    components: { },
+    components: {
+      NotificationContainer
+    },
     mounted() {
       this.$store.dispatch('getHeroesListFromMarvel')
     }

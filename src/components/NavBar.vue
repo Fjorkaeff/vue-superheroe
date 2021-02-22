@@ -76,6 +76,24 @@ export default {
   display: block;
 }
 
+.title {
+  color: white;
+  padding: 17px;
+}
+
+.router-link {
+  text-decoration: none;
+  color: white;
+  overflow: hidden;
+}
+
+.router-link:hover{
+  cursor:pointer;
+  background-color: #810109;
+  color:black;
+  text-decoration: none;
+}
+
 .searchBar {
   position: relative;
   border-radius: 0.5em;
@@ -92,6 +110,7 @@ export default {
   z-index: -1;
   transition: .15s all ease-in-out;
 }
+
 input {
   padding: 4px 12px;
   color: rgba(0,0,0,.70);
