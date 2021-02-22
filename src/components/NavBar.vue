@@ -64,6 +64,11 @@ export default {
           title: '中文'
         },
         {
+          flag: 'kr',
+          language: 'kr',
+          title: '한국어'
+        },
+        {
           flag: 'jp',
           language: 'jp',
           title: 'にほんご'
