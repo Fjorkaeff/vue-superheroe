@@ -17,12 +17,14 @@
           {{ $t('NavBar.language') }}
           </v-btn>
         </template>
-        <v-list>
-          <v-list-item v-for="lang in languages" :key="lang.title" @click="changeLocale(lang.language)">
-            <flag :iso="lang.flag" v-bind:squared=false />
-            <v-list-item-title style="margin-left:7px">{{ lang.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
+        <div class="LangueList">
+          <v-list>
+            <v-list-item v-for="lang in languages" :key="lang.title" style="z-index:10" @click="changeLocale(lang.language)">
+              <flag :iso="lang.flag" v-bind:squared=false />
+              <v-list-item-title style="margin-left:7px">{{ lang.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </div>
       </v-menu>
     </v-app-bar>
   </div>
@@ -42,6 +44,11 @@ export default {
           title: 'English' 
         },
         {
+          flag: 'es',
+          language: 'es',
+          title:'Español'
+        },
+        {
           flag: 'fr',
           language: 'fr',
           title: 'Français'
@@ -51,6 +58,16 @@ export default {
           language: 'ru',
           title: 'русский'
         },
+        {
+          flag: 'cn',
+          language: 'cn',
+          title: '中文'
+        },
+        {
+          flag: 'jp',
+          language: 'jp',
+          title: 'にほんご'
+        }
       ],
       search: ''
     }
@@ -99,6 +116,10 @@ export default {
   border-radius: 0.5em;
   width: 30%;
   height: 80%;
+}
+
+.LangueList {
+  max-height:175px;
 }
 
 .label {

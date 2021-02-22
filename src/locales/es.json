@@ -1,0 +1,44 @@
+{
+    "NavBar": {
+      "title1": "Tablero de mandos",
+      "title2": "Superhéroes",
+      "language": "Idiomas ",
+      "searchTitle": "Buscar un héroe"
+    },
+    "dashboard": {
+      "message": "Estos son sus héroes favoritos"
+    },
+    "heroes": {
+      "message": "Bienvenido a la página de los Héroes de Marvel",
+      "addHero": "Añadir un héroe",
+      "favorite": "Añadir a tus favoritos",
+      "no-description": "Sin descripción"
+    },
+    "deleteHero": {
+      "title": "¿Estás seguro de que quieres borrar a este héroe?",
+      "text": "Ya no aparecerá en la lista.",
+      "choice1": "Cancelar",
+      "choice2": "Borrar"
+    },
+    "heroProfil": {
+      "title": "Perfil del héroe"
+    },
+    "heroModify": {
+      "errorMessageRequire": "Este campo no puede estar vacío",
+      "validateForm": "Validar"
+    },
+    "newHero": {
+      "title": "Añade tu nuevo héroe",
+      "newHeroNameLabel": "Nombre del nuevo héroe",
+      "newHeroDescriptionLabel": "Descripción del nuevo héroe "
+    },
+    "notif": {
+      "loadHeroes": "Héroes añadidos",
+      "deletedHero": "Héroe borrado",
+      "createdHero": "Creación de un nuevo héroe",
+      "modifyHero": "Héroe modificado",
+      "resetHero": "Reinicio del héroe",
+      "addedToFavorite": "Héroe añadido a los favoritos",
+      "deletedFromFavorite": "Héroe borrado de los favoritos"
+    }
+  }

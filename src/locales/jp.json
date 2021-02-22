@@ -1,0 +1,43 @@
+{
+    "NavBar": {
+      "title1": "ダッシュボード",
+      "title2": "スーパーヒーロー",
+      "language": "言語",
+      "searchTitle": "英雄を探す"
+    },
+    "dashboard": {
+      "message": "あなたの好きなヒーローを紹介します。"
+    },
+    "heroes": {
+      "message": "マーベルヒーローのページへようこそ",
+      "addHero": "ヒーローを追加",
+      "no-description": "説明はありません。"
+    },
+    "deleteHero": {
+      "title": "本当にこのヒーローを殺したいのか？",
+      "text": "リストに表示されなくなります。",
+      "choice1": "キャンセル",
+      "choice2": "削除"
+    },
+    "heroProfil": {
+      "title": "ヒーロープロフィール"
+    },
+    "heroModify": {
+      "errorMessageRequire": "このフィールドを空にすることはできません。",
+      "validateForm": "バリデート"
+    },
+    "newHero": {
+      "title": "新しいヒーローを追加",
+      "newHeroNameLabel": "新ヒーローの名前",
+      "newHeroDescriptionLabel": "新ヒーローの説明"
+    },
+    "notif": {
+      "loadHeroes": "追加されたヒーロー",
+      "deletedHero": "ヒーロー削除",
+      "createdHero": "新ヒーロー作成",
+      "modifyHero": "変形ヒーロー",
+      "resetHero": "ヒーローリセット",
+      "addedToFavorite": "ヒーローさんがお気に入りに追加されました",
+      "deletedFromFavorite": "お気に入りから削除されたヒーロー"
+    }
+  }

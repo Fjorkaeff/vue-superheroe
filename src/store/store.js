@@ -138,7 +138,7 @@ export default new Vuex.Store({
 
       commit('SET_PAGINATION_LOADING_STATUS', true)	
       Axios	
-        .get(url + '?ts=' + ts + '&apikey='  + '&hash=' + hash + '&limit=100&offset=' + offset, {})	
+        .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash + '&limit=100&offset=' + offset, {})	
         .then(response => {
           for (let i = 0; i < response.data.data.count; i++) {
             Vue.set(response.data.data.results[i], 'isFavorite', false);

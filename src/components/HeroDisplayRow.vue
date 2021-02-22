@@ -1,7 +1,6 @@
 <template>
     <v-container class="containerRow">
         <v-row no-gutters
-            class="HeroRow"
             v-if="isResetLoading">
             <v-progress-circular
                 :size="75"
@@ -45,24 +44,31 @@
             <div class="ButtonContainer">
                 <v-btn v-if="!hero.isFavorite"
                     class="mx-4"
+                    style="margin-bottom:5px"
                     fab
                     dark
                     color="green"
+                    v-bind="attrs"
+                    v-on="on"
                     @click="addToFavorite(hero)"
                 >
                     <v-icon dark>mdi-heart</v-icon>
                 </v-btn>
                 <v-btn v-if="hero.isFavorite"
                     class="mx-4"
+                    style="margin-bottom:5px"
                     fab
                     dark
                     color="red"
+                    v-bind="attrs"
+                    v-on="on"
                     @click="deleteFromFavorite(hero)" 
                 >
                     <v-icon dark>mdi-heart-broken</v-icon>
                 </v-btn>
                 <v-btn v-if="hero.isModified && !hero.isCreated"
                     class="mx-4"
+                    style="margin-bottom:5px"
                     fab
                     dark
                     color="orange"
@@ -142,7 +148,6 @@ export default {
     },
     deleteHero(hero) {
         this.confirmation = false;
-        console.log('HERO : ', hero)
         this.$store.dispatch('deleteHero', hero)
         this.$store.dispatch('allowReset', true)
     },
@@ -215,7 +220,7 @@ export default {
 
 .ButtonContainer {
     height: 125px;
-    margin-top: 1rem;
+    margin-top: 5px;
     margin-left: 2rem;
 }
 

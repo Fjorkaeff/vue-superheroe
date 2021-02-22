@@ -6,13 +6,14 @@
     "searchTitle": "Recherchez un héro"
   },
   "dashboard": {
-    "message": "Voici vos héros préférés"
+    "message": "Voici vos héros préférés",
+    "goBackLabel": "Retour"
   },
   "heroes": {
     "message": "Bienvenue sur la page des héros Marvel",
     "addHero": "Ajouter un héro",
-    "favorite": "Ajouter à vos favoris",
-    "no-description": "Pas de description"
+    "no-description": "Pas de description",
+    "tooltipAddFavorite": "Ajouter à vos favoris"
   },
   "deleteHero": {
     "title": "Êtes-vous sûr de vouloir supprimer ce héro ?",
@@ -35,7 +36,7 @@
   "notif": {
     "loadHeroes": "Héros ajoutés",
     "deletedHero": "Héro supprimé",
-    "createdHero": "Nouveau crée",
+    "createdHero": "Nouveau héro crée",
     "modifyHero": "Héro modifié",
     "resetHero": "Héro réinitialisé",
     "addedToFavorite": "Héro ajouté aux favoris",

@@ -1,0 +1,44 @@
+{
+    "NavBar": {
+      "title1": "仪表盘",
+      "title2": "超级英雄",
+      "language": "语种",
+      "searchTitle": "找一个英雄"
+    },
+    "dashboard": {
+      "message": "这里有你最喜欢的英雄"
+    },
+    "heroes": {
+      "message": "欢迎来到奇迹英雄页面",
+      "addHero": "增加一个英雄",
+      "favorite": "添加到您的收藏夹",
+      "no-description": "没有说明"
+    },
+    "deleteHero": {
+      "title": "你确定要杀这个英雄吗？",
+      "text": "它将不再出现在列表中。",
+      "choice1": "取消",
+      "choice2": "删除"
+    },
+    "heroProfil": {
+      "title": "英雄简介"
+    },
+    "heroModify": {
+      "errorMessageRequire": "此字段不能为空",
+      "validateForm": "验证"
+    },
+    "newHero": {
+      "title": "添加你的新英雄",
+      "newHeroNameLabel": "新英雄的名字",
+      "newHeroDescriptionLabel": "新英雄的描述"
+    },
+    "notif": {
+      "loadHeroes": "新增英雄",
+      "deletedHero": "英雄删除",
+      "createdHero": "创建新英雄",
+      "modifyHero": "改良型英雄",
+      "resetHero": "重置英雄",
+      "addedToFavorite": "英雄被添加到收藏夹中",
+      "deletedFromFavorite": "英雄从收藏夹中删除"
+    }
+  }

@@ -5,6 +5,12 @@
         <div class="Heroes">
           <div class="HeroesTitle">
             <v-row no-gutters>
+              <v-btn @click="goBack()">
+                  <v-icon>mdi-arrow-left-bold</v-icon>
+                  <h3>{{ $t('dashboard.goBackLabel') }}</h3>
+              </v-btn>
+            </v-row>
+            <v-row no-gutters>
               <v-col md="8">
                 <h1> {{ $t('heroProfil.title') }} </h1>
               </v-col>
@@ -53,10 +59,10 @@ export default {
   methods: {
     edit (){
       this.$store.dispatch('edit')
-    }
-    /*goBack() {
+    },
+    goBack() {
         window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
-    }*/
+    }
   },
   created () {
     this.$store.dispatch('searchText', '')
