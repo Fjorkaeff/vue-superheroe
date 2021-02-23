@@ -89,6 +89,7 @@
                 <v-row justify="center">
                         <div class="Pagination">
                             <v-pagination
+                                v-if="paginationLength > 0"
                                 v-model="currentPageFav"
                                 :length="paginationLength"
                                 :total-visible="5"
@@ -102,6 +103,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { mapActions } from 'vuex'
 import HeroDisplayRow from '../components/HeroDisplayRow.vue'
 import HeroDisplayColumn from '../components/HeroDisplayColumn.vue'
 import NavBar from '../components/NavBar.vue';
@@ -129,6 +131,9 @@ export default {
        HeroDisplayColumn
     },
     methods: {
+        ...mapActions([
+            'searchText'
+        ]),
         changeDisplay() {
             this.DisplayList = !this.DisplayList;
         },
@@ -155,6 +160,7 @@ export default {
     computed: {
         ...mapState({
             heroes: state => state.heroes,
+            isLoading: state => state.isLoading,
             allowReset: state => state.allowReset,
             searchHero: state => state.searchHero
         }),
@@ -201,7 +207,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('searchText', '')
+        this.searchText('');
     }
 }
 </script>

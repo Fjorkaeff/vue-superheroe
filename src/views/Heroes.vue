@@ -94,7 +94,7 @@
                         ></v-pagination>
                     </div>
                     <v-btn
-                        v-if="!isPaginationLoading && heroes.results.length < maxNbHeroes"
+                        v-if="!isPaginationLoading && heroesLength < heroesMaxNumber"
                         class="Pagination"
                         @click="loadMoreHeroes()"
                     >
@@ -146,7 +146,6 @@ export default {
             isLoading: state => state.isLoading,
             isPaginationLoading: state => state.isPaginationLoading,
             heroes: state => state.heroes,
-            maxNbHeroes: state => state.heroes.total,
             allowReset: state => state.allowReset,
             searchHero: state => state.searchHero
         }),
@@ -159,13 +158,15 @@ export default {
             let limit = offset + this.currentNbDisplay;
 
             if (heroesList.results) {
-                if (search) heroesList.results = heroesList.results.filter(item => item.name.toLowerCase().includes(search));
+                heroesList = heroesList.results;
+
+                if (search) heroesList = heroesList.filter(item => item.name.toLowerCase().includes(search));
                 if (typeSort) {
-                    heroesList.results = heroesList.results.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+                    heroesList.results = heroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
                 } else {
-                    heroesList.results = heroesList.results.sort((a, b) => ascDesc * a.id - b.id);
+                    heroesList = heroesList.sort((a, b) => ascDesc * a.id - b.id);
                 }
-                heroesList = heroesList.results.slice(offset, limit);
+                heroesList = heroesList.slice(offset, limit);
                 
                 return heroesList;
             } else {
@@ -173,13 +174,30 @@ export default {
             }
         },
         paginationLength() {
-            let heroesNumber = this.heroes;
+            let heroesList = this.heroes;
             let paginationLength;
 
-            if (heroesNumber.results) {
-                paginationLength = Math.ceil(heroesNumber.results.length/this.currentNbDisplay);
-                console.log('Max : ', this.maxNbHeroes);
+            if (heroesList.results) {
+                paginationLength = Math.ceil(heroesList.results.length/this.currentNbDisplay);
                 return paginationLength;
+            } else {
+                return 0;
+            }
+        },
+        heroesLength() {
+            let heroesNumber = this.heroes;
+
+            if (heroesNumber.results) {
+                return heroesNumber.results.length;
+            } else {
+                return 0;
+            }
+        },
+        heroesMaxNumber() {
+            let heroesList = this.heroes;
+
+            if (heroesList.results) {
+                return heroesList.total;
             } else {
                 return 0;
             }
@@ -188,7 +206,8 @@ export default {
     methods: {
         ...mapActions([
             'getHeroesListFromMarvel',
-            'getHeroesListFromMarvelWithOffset'
+            'getHeroesListFromMarvelWithOffset',
+            'searchText'
         ]),
         changeDisplay() {
             this.DisplayList = !this.DisplayList;
@@ -220,7 +239,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('searchText', '');
+        this.searchText('');
     },
     mounted() {}
 }
