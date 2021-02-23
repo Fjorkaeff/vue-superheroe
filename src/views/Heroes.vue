@@ -75,9 +75,9 @@
                         indeterminate
                     ></v-progress-circular>
                 </div>
-                <div v-if="this.DisplayList && !isLoading">
+                <v-container v-if="this.DisplayList && !isLoading">
                     <HeroDisplayRow v-for="hero in orderedHeroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
-                </div>
+                </v-container>
                 <div v-if="!this.DisplayList && !isLoading">
                     <v-row no-gutters>
                         <v-col md="3" v-for="hero in orderedHeroes" :key="hero.id">
@@ -145,7 +145,7 @@ export default {
         ...mapState({
             isLoading: state => state.isLoading,
             isPaginationLoading: state => state.isPaginationLoading,
-            heroes: state => state.heroes.results,
+            heroes: state => state.heroes,
             maxNbHeroes: state => state.heroes.total,
             allowReset: state => state.allowReset,
             searchHero: state => state.searchHero
@@ -158,23 +158,31 @@ export default {
             let offset = (this.currentPage - 1) * this.currentNbDisplay;
             let limit = offset + this.currentNbDisplay;
 
-            if (search) heroesList = heroesList.filter(item => item.name.toLowerCase().includes(search));
-            if (typeSort) {
-                heroesList = heroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+            if (heroesList.results) {
+                if (search) heroesList.results = heroesList.results.filter(item => item.name.toLowerCase().includes(search));
+                if (typeSort) {
+                    heroesList.results = heroesList.results.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+                } else {
+                    heroesList.results = heroesList.results.sort((a, b) => ascDesc * a.id - b.id);
+                }
+                heroesList.results = heroesList.results.slice(offset, limit);
+                
+                return heroesList.results;
             } else {
-                heroesList = heroesList.sort((a, b) => ascDesc * a.id - b.id);
+                return null;
             }
-            heroesList = heroesList.slice(offset, limit)
-
-            return heroesList
         },
         paginationLength() {
             let heroesList = this.heroes;
             let paginationLength;
 
-            paginationLength = Math.ceil(heroesList.length/this.currentNbDisplay);
+            if (heroesList.results) {
+                paginationLength = Math.ceil(heroesList.results.length/this.currentNbDisplay);
 
-            return paginationLength;
+                return paginationLength;
+            } else {
+                return 0;
+            }
         }
     },
     methods: {
@@ -212,7 +220,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('searchText', '')
+        this.$store.dispatch('searchText', '');
     },
     mounted() {}
 }

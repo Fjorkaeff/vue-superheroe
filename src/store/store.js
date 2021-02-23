@@ -12,7 +12,7 @@ export default new Vuex.Store({
     notification
   },
   state: {
-    heroes: [],
+    heroes: {},
     heroToModify: {},
     searchHero : '',
     isLoading: false,

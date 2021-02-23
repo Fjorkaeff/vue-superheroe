@@ -1,19 +1,18 @@
 <template>
-    <v-container class="containerRow">
-        <v-row no-gutters
-            v-if="isResetLoading">
+    <v-row
+        no-gutters 
+        class="HeroRow"
+        @click="goToHeroProfil(hero)"
+    >
+        <template v-if="isResetLoading">
             <v-progress-circular
                 :size="75"
                 color="primary"
                 indeterminate
             ></v-progress-circular>
-        </v-row>
-        <v-row
-            no-gutters 
-            class="HeroRow"
-            v-if="!isResetLoading"
-        >
-        <v-col md="2" @click="goToHeroProfil(hero)">
+        </template>
+        <template v-else>
+        <v-col md="2">
             <div class="HeroImgContainer">
                 <v-img
                     v-if="hero.isCreated"
@@ -34,7 +33,7 @@
                 ></v-img>
             </div>
         </v-col>
-        <v-col md="9" @click="goToHeroProfil(hero)">
+        <v-col class="col px-4">
             <div class="HeroName">
                 {{ hero.name }}
             </div>
@@ -45,36 +44,34 @@
                 <span> {{ $t('heroes.no-description') }} </span>
             </div>
         </v-col>
-        <v-col md="1">
-            <v-card-actions>
-            <div class="ButtonContainer">
+        <v-col class="col col-auto column layout" style="flex-direction: auto; display: flex; padding-right:16px;">
                 <v-btn v-if="!hero.isFavorite"
-                    class="mx-4"
-                    style="margin-bottom:5px"
+                    class="mt-4"
                     fab
+                    small
                     dark
                     color="green"
-                    @click="addToFavorite(hero)"
+                    @click.stop="addToFavorite(hero)"
                 >
                     <v-icon dark>mdi-heart</v-icon>
                 </v-btn>
                 <v-btn v-if="hero.isFavorite"
-                    class="mx-4"
-                    style="margin-bottom:5px"
+                    class="mt-4"
                     fab
+                    small
                     dark
                     color="red"
-                    @click="deleteFromFavorite(hero)" 
+                    @click.stop="deleteFromFavorite(hero)" 
                 >
                     <v-icon dark>mdi-heart-broken</v-icon>
                 </v-btn>
                 <v-btn v-if="hero.isModified && !hero.isCreated"
-                    class="mx-4"
-                    style="margin-bottom:5px"
+                    class="mt-4"
                     fab
+                    small
                     dark
                     color="orange"
-                    @click="resetHero(hero)"
+                    @click.stop="resetHero(hero)"
                 >
                     <v-icon dark>mdi-refresh-circle</v-icon>
                 </v-btn>
@@ -85,8 +82,9 @@
                 >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn                     
-                            class="mx-4"
+                            class="mt-4"
                             fab
+                            small
                             color="red"
                             v-bind="attrs"
                             v-on="on"
@@ -121,11 +119,9 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
-            </div>
-            </v-card-actions>
         </v-col>
-        </v-row>
-    </v-container>
+        </template>
+    </v-row>
 </template>
 
 <script>
@@ -172,34 +168,25 @@ export default {
 
 <style>
 .HeroRow {
-  display:flex;
-  flex-direction: column;
   background-color: #202020;
-  width:100%;
-  height:200px;
+  max-height:200px;
   border-radius: 0.5em;
-  white-space :pre-wrap; overflow:auto;
   color:white;
   transition: all .2s ease-in-out;
+  cursor: pointer;
 }
 
 .HeroRow:hover {
-  cursor: pointer;
   background-color:#851014;
   transform: scale(1.01);
 }
 
 .HeroName {
-  width: 40%;
-  margin-left: 10px;
-  padding:7px;
   font-size: 1.2em;
   font-weight: 600;
 }
 
 .HeroDescription {
-  width: 90%;
-  margin-left:20px;
   margin-top:10px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
@@ -207,23 +194,12 @@ export default {
 }
 
 .HeroImgContainer {
-  width:100%;
-  height:100%;
+  padding: 16px;
 }
 
 .HeroImg{
-    width: auto;
-    height: 175px;
-    margin-top:12px;
-    margin-left: 12px;
+    height: 168px;
     border-radius: 0.5em;
-}
-
-
-.ButtonContainer {
-    height: 125px;
-    margin-top: 5px;
-    margin-left: 2rem;
 }
 
 .ConfirmationDelete{
