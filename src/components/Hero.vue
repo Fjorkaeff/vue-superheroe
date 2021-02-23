@@ -1,50 +1,47 @@
 <template>
-    <v-card>
-    <v-row no-gutters style="height:auto">
+  <v-card>
+    <v-row no-gutters style="height: auto">
       <v-col md="3">
         <v-img
-            v-if="heroToModify.isCreated"
-            lazy-src="../assets/batman.jpg"
-            :src="heroToModify.img"
+          v-if="heroToModify.isCreated"
+          lazy-src="../assets/batman.jpg"
+          :src="heroToModify.img"
         ></v-img>
         <v-img
-            v-else-if="heroToModify.isImgModified"
-            :lazy-src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
-            :src="heroToModify.img"
+          v-else-if="heroToModify.isImgModified"
+          :lazy-src="
+            heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension
+          "
+          :src="heroToModify.img"
         ></v-img>
         <v-img
-            v-else
-            :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
+          v-else
+          :src="
+            heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension
+          "
         ></v-img>
       </v-col>
       <v-col md="5">
         <v-card-title class="CardTitle">
-            {{ heroToModify.name }}
+          {{ heroToModify.name }}
         </v-card-title>
         <v-card-text class="CardText" v-if="heroToModify.description">
-            {{ heroToModify.description }}
+          {{ heroToModify.description }}
         </v-card-text>
         <v-card-text class="CardText" v-else>
-            {{ $t('heroes.no-description') }}
+          {{ $t("heroes.no-description") }}
         </v-card-text>
       </v-col>
       <v-col md="4">
         <v-list v-if="!heroToModify.isCreated">
-          <v-list-group
-            v-for="item in App"
-            :key="item.title"
-            no-action
-          >
+          <v-list-group v-for="item in App" :key="item.title" no-action>
             <template v-slot:activator>
               <v-list-item-content>
                 <v-list-item-title v-text="item.title"></v-list-item-title>
               </v-list-item-content>
             </template>
 
-            <v-list-item
-              v-for="child in item.items"
-              :key="child.name"
-            >
+            <v-list-item v-for="child in item.items" :key="child.name">
               <v-list-item-content>
                 <v-list-item-title v-text="child.name"></v-list-item-title>
               </v-list-item-content>
@@ -57,13 +54,10 @@
 </template>
 
 <script>
-
 export default {
-  name: 'Hero',
-  props: [
-    'heroToModify'
-  ],
-  data:  () => ({
+  name: "Hero",
+  props: ["heroToModify"],
+  data: () => ({
     App: [
       {
         title: "Comics",
@@ -79,14 +73,14 @@ export default {
       }
     ]
   }),
-  mounted () {
+  mounted() {
     if (!this.heroToModify.isCreated) {
       this.App[0].items = this.heroToModify.comics.items;
       this.App[1].items = this.heroToModify.series.items;
       this.App[2].items = this.heroToModify.events.items;
     }
   }
-}
+};
 </script>
 
 <style>
@@ -96,7 +90,7 @@ export default {
 }
 
 .CardText {
-    margin-top: 2rem;
-    font-size: larger;
+  margin-top: 2rem;
+  font-size: larger;
 }
 </style>
