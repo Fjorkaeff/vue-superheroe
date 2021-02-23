@@ -184,9 +184,9 @@ export default {
   mounted () {
     this.heroName = this.heroToModify.name
     this.heroDescription = this.heroToModify.description
-    this.App[0].items = this.heroToModify.comics.items
-    this.App[1].items = this.heroToModify.series.items
-    this.App[2].items = this.heroToModify.events.items
+    if (this.heroToModify.comics) this.App[0].items = this.heroToModify.comics.items
+    if (this.heroToModify.series) this.App[1].items = this.heroToModify.series.items
+    if (this.heroToModify.events) this.App[2].items = this.heroToModify.events.items
   }
 }
 </script>

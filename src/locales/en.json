@@ -25,7 +25,7 @@
   },
   "heroModify": {
     "errorMessageRequire": "This field can't be empty",
-    "errorRegex": "Only letters, numbers and '-' are allow",
+    "changeImageLabel": "Change the image",
     "validateForm": "Validate"
   },
   "newHero": {

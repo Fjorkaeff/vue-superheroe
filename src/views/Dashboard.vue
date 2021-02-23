@@ -1,96 +1,103 @@
 <template>
-<v-app>
-    <div>
-        <NavBar></NavBar>
-            <div class="Heroes">
-                <div class="HeroesTitle">
-                    <v-row no-gutters class="HeadPage">
-                        <v-col md="6">
-                            <h1> {{ $t('dashboard.message') }} </h1>
-                        </v-col>
-                        <v-col md="2">
-                            <router-link class="AddHeroLink" to="/AddHero"><v-btn
-                                class="ma-2"
-                                color="success"
-                            >
-                                {{ $t('heroes.addHero') }}
-                            </v-btn></router-link>
-                        </v-col>
-                        <v-col md="2">
-                            <v-menu offset-y>
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    class="NbHeroes"
+    <v-app>
+        <div>
+            <NavBar></NavBar>
+                <div class="Heroes">
+                    <div class="HeroesTitle">
+                        <v-row no-gutters class="HeadPage">
+                            <v-col md="6">
+                                <h1> {{ $t('dashboard.message') }} </h1>
+                            </v-col>
+                            <v-col md="2">
+                                <router-link class="AddHeroLink" to="/AddHero"><v-btn
+                                    class="ma-2"
+                                    color="success"
                                 >
-                                {{ currentNbDisplayFav }}
+                                    {{ $t('heroes.addHero') }}
+                                </v-btn></router-link>
+                            </v-col>
+                            <v-col md="2">
+                                <v-menu offset-y>
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        class="NbHeroes"
+                                    >
+                                    {{ currentNbDisplayFav }}
+                                    </v-btn>
+                                  </template>
+                                  <v-list>
+                                    <v-list-item v-for="nb in nbDisplayHeroesFav" :key="nb" @click="changeDisplayNumber(nb)">
+                                      <v-list-item-title style="margin-left:7px">{{ nb }}</v-list-item-title>
+                                    </v-list-item>
+                                  </v-list>
+                                </v-menu>
+                            </v-col>
+                            <v-col md="2" class="ButtonDisplay">
+                                <v-btn
+                                    @click="changeTypeOfSort()"
+                                >
+                                    <v-icon v-if="this.sortByName">mdi-numeric</v-icon>
+                                    <v-icon v-if="!this.sortByName">mdi-format-letter-case</v-icon>
                                 </v-btn>
-                              </template>
-                              <v-list>
-                                <v-list-item v-for="nb in nbDisplayHeroesFav" :key="nb" @click="changeDisplayNumber(nb)">
-                                  <v-list-item-title style="margin-left:7px">{{ nb }}</v-list-item-title>
-                                </v-list-item>
-                              </v-list>
-                            </v-menu>
-                        </v-col>
-                        <v-col md="2" class="ButtonDisplay">
-                            <v-btn
-                                @click="changeTypeOfSort()"
-                            >
-                                <v-icon v-if="this.sortByName">mdi-numeric</v-icon>
-                                <v-icon v-if="!this.sortByName">mdi-format-letter-case</v-icon>
-                            </v-btn>
-                            <v-btn
-                                @click="changeSort()"
-                            >
-                                <v-icon v-if="this.sortByUp">mdi-arrow-down-thick</v-icon>
-                                <v-icon v-if="!this.sortByUp">mdi-arrow-up-thick</v-icon>
-                            </v-btn>
-                            <v-btn
-                                @click="changeDisplay()"
-                            >
-                                <v-icon v-if="this.DisplayList">mdi-view-grid</v-icon>
-                                <v-icon v-if="!this.DisplayList">mdi-format-list-bulleted</v-icon>
-                            </v-btn>
-                        </v-col>
-                    </v-row>
+                                <v-btn
+                                    @click="changeSort()"
+                                >
+                                    <v-icon v-if="this.sortByUp">mdi-arrow-down-thick</v-icon>
+                                    <v-icon v-if="!this.sortByUp">mdi-arrow-up-thick</v-icon>
+                                </v-btn>
+                                <v-btn
+                                    @click="changeDisplay()"
+                                >
+                                    <v-icon v-if="this.DisplayList">mdi-view-grid</v-icon>
+                                    <v-icon v-if="!this.DisplayList">mdi-format-list-bulleted</v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                        <v-row no-gutters>
+                            <v-col class="ButtonDisplay">
+                                <v-btn v-if="this.allowReset"
+                                disabled
+                                    class="mx-4"
+                                    dark
+                                    color="orange"
+                                    @click="reset()"
+                                >
+                                    <v-icon dark>mdi-refresh-circle</v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </div>
+                <div v-if="isLoading" class="HeroesLoader">
+                    <v-progress-circular
+                        :size="200"
+                        color="primary"
+                        indeterminate
+                    ></v-progress-circular>
+                </div>
+                <v-container v-if="this.DisplayList">
+                    <HeroDisplayRow v-for="hero in orderedFavoriteHeroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
+                </v-container>
+                <div v-if="!this.DisplayList">
                     <v-row no-gutters>
-                        <v-col class="ButtonDisplay">
-                            <v-btn v-if="this.allowReset"
-                            disabled
-                                class="mx-4"
-                                dark
-                                color="orange"
-                                @click="reset()"
-                            >
-                                <v-icon dark>mdi-refresh-circle</v-icon>
-                            </v-btn>
+                        <v-col md="3" v-for="hero in orderedFavoriteHeroes" :key="hero.id">
+                            <HeroDisplayColumn :hero="hero"></HeroDisplayColumn>
                         </v-col>
                     </v-row>
                 </div>
-            <div v-if="this.DisplayList">
-                <HeroDisplayRow v-for="hero in orderedFavoriteHeroes" :key="hero.id" :hero="hero"></HeroDisplayRow>
+                <v-row justify="center">
+                        <div class="Pagination">
+                            <v-pagination
+                                v-model="currentPageFav"
+                                :length="paginationLength"
+                                :total-visible="5"
+                            ></v-pagination>
+                        </div>
+                    </v-row>
             </div>
-            <div v-if="!this.DisplayList">
-                <v-row no-gutters>
-                    <v-col md="3" v-for="hero in orderedFavoriteHeroes" :key="hero.id">
-                        <HeroDisplayColumn :hero="hero"></HeroDisplayColumn>
-                    </v-col>
-                </v-row>
-            </div>
-            <v-row justify="center">
-                    <div class="Pagination">
-                        <v-pagination
-                            v-model="currentPageFav"
-                            :length="paginationLength"
-                            :total-visible="5"
-                        ></v-pagination>
-                    </div>
-                </v-row>
         </div>
-    </div>
-</v-app>
+    </v-app>
 </template>
 
 <script>
@@ -147,7 +154,7 @@ export default {
     },
     computed: {
         ...mapState({
-            heroes: state => state.heroes.results,
+            heroes: state => state.heroes,
             allowReset: state => state.allowReset,
             searchHero: state => state.searchHero
         }),
@@ -155,29 +162,42 @@ export default {
             let search = this.searchHero.toLowerCase();
             let favoriteHeroesList = this.heroes;
             let ascDesc = this.sortByUp ? 1 : -1;
+            let typeSort = this.sortByName;
             let offset = (this.currentPageFav - 1) * this.currentNbDisplayFav;
             let limit = offset + this.currentNbDisplayFav;
 
-            favoriteHeroesList = favoriteHeroesList.filter(item => item.isFavorite === true);
+            if (favoriteHeroesList.results) {
 
-            if(search) {
-                favoriteHeroesList = favoriteHeroesList.filter(item => item.name.includes(search));
+                favoriteHeroesList = favoriteHeroesList.results.filter(item => item.isFavorite === true);
+
+                if (search) favoriteHeroesList = favoriteHeroesList.filter(item => item.name.includes(search));
+                if (typeSort) {
+                    favoriteHeroesList = favoriteHeroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
+                } else {
+                    favoriteHeroesList = favoriteHeroesList.sort((a, b) => ascDesc * a.id - b.id);
+                }
+                favoriteHeroesList = favoriteHeroesList.slice(offset, limit);
+
+                return favoriteHeroesList;
+
+            } else {
+                return null;
             }
-
-            favoriteHeroesList = favoriteHeroesList.sort((a, b) => ascDesc * a.name.localeCompare(b.name));
-
-            favoriteHeroesList = favoriteHeroesList.slice(offset, limit);
-
-            return favoriteHeroesList;
         },
         paginationLength() {
             let favoriteHeroesList = this.heroes;
             let paginationLength;
 
-            favoriteHeroesList = favoriteHeroesList.filter(item => item.isFavorite === true);
-            paginationLength = Math.ceil(favoriteHeroesList.length/this.currentNbDisplayFav);
+            if (favoriteHeroesList.results) {
+
+                favoriteHeroesList = favoriteHeroesList.results.filter(item => item.isFavorite === true);
+                paginationLength = Math.ceil(favoriteHeroesList.length/this.currentNbDisplayFav);
 
             return paginationLength;
+
+            } else {
+                return 0;
+            }
         }
     },
     created() {
@@ -190,5 +210,10 @@ export default {
 .Pagination {
     margin-top: 3rem;
     margin-bottom: 3rem;
+}
+
+.HeroesLoader{
+    margin: 10rem;
+    text-align: center;
 }
 </style>

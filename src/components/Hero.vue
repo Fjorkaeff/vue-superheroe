@@ -1,26 +1,23 @@
 <template>
     <v-card>
     <v-row no-gutters style="height:auto">
-      <v-col md="4">
+      <v-col md="3">
         <v-img
             v-if="heroToModify.isCreated"
-            width="80%"
             lazy-src="../assets/batman.jpg"
             :src="heroToModify.img"
         ></v-img>
         <v-img
             v-else-if="heroToModify.isImgModified"
-            width="80%"
             :lazy-src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
             :src="heroToModify.img"
         ></v-img>
         <v-img
             v-else
-            width="80%"
             :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
         ></v-img>
       </v-col>
-      <v-col md="4">
+      <v-col md="5">
         <v-card-title class="CardTitle">
             {{ heroToModify.name }}
         </v-card-title>
@@ -102,10 +99,5 @@ export default {
 .CardText {
     margin-top: 2rem;
     font-size: larger;
-}
-
-.ComicsTitle {
-    font-size: x-large;
-    font-weight: bolder;
 }
 </style>

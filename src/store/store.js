@@ -1,11 +1,11 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import Axios from 'axios'
-import * as notification from '@/store/modules/notification.js'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import Axios from 'axios';
+import * as notification from '@/store/modules/notification.js';
 
 const CryptoJS = require("crypto-js");
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
@@ -114,21 +114,21 @@ export default new Vuex.Store({
           for (let i = 0; i < response.data.data.count; i++) {
             Vue.set(response.data.data.results[i], 'isFavorite', false);
           }
-          commit('SET_HEROES_LIST_FROM_MARVEL', response.data.data)
-          commit('ALLOW_RESET', false)
-          commit('SET_LOADING_STATUS', false)
+          commit('SET_HEROES_LIST_FROM_MARVEL', response.data.data);
+          commit('ALLOW_RESET', false);
+          commit('SET_LOADING_STATUS', false);
           const notification = {
             type: 'success',
             message: 'notif.loadHeroes'
-          }
-          dispatch('notification/add', notification, {root: true})
+          };
+          dispatch('notification/add', notification, {root: true});
         })
         .catch(error => {
           const notification = {
             type: 'error',
             message: error.message
-          }
-          dispatch('notification/add', notification, {root: true})
+          };
+          dispatch('notification/add', notification, {root: true});
         })
     },
     getHeroesListFromMarvelWithOffset({commit, dispatch, state}) {	
@@ -146,22 +146,22 @@ export default new Vuex.Store({
           for (let i = 0; i < response.data.data.count; i++) {
             Vue.set(response.data.data.results[i], 'isFavorite', false);
           }	
-          commit('SET_MORE_HEROES_LIST_FROM_MARVEL', response.data.data.results)	
-          commit('ALLOW_RESET', false)	
-          commit('SET_PAGINATION_LOADING_STATUS', false)
+          commit('SET_MORE_HEROES_LIST_FROM_MARVEL', response.data.data.results);
+          commit('ALLOW_RESET', false);
+          commit('SET_PAGINATION_LOADING_STATUS', false);
           const notification = {
             type: 'success',
             message: 'notif.loadHeroes'
-          }
-          dispatch('notification/add', notification, {root: true})
+          };
+          dispatch('notification/add', notification, {root: true});
         })
         .catch(error => {
           const notification = {
             type: 'error',
             message: error.message
-          }
-          dispatch('notification/add', notification, {root: true})
-          commit('SET_PAGINATION_LOADING_STATUS', false)
+          };
+          dispatch('notification/add', notification, {root: true});
+          commit('SET_PAGINATION_LOADING_STATUS', false);
         })
     },
     resetHero({commit, dispatch, state}, data) {
@@ -173,7 +173,7 @@ export default new Vuex.Store({
       const id = data.id;
       const url = "http://gateway.marvel.com/v1/public/characters/" + id;
 
-      commit('SET_RESET_LOADING_STATUS', true)
+      commit('SET_RESET_LOADING_STATUS', true);
       Axios
         .get(url + '?ts=' + ts + '&apikey=' + PUB_KEY + '&hash=' + hash, {})
         .then(response => {
@@ -181,85 +181,85 @@ export default new Vuex.Store({
           let data = {
             hero: response.data.data.results[0],
             indexHero: state.heroes.results.findIndex(hero => hero.id === id)
-          }
-          commit('SET_HERO_FROM_MARVEL', data)
-          commit('SET_RESET_LOADING_STATUS', false)
+          };
+          commit('SET_HERO_FROM_MARVEL', data);
+          commit('SET_RESET_LOADING_STATUS', false);
           const notification = {
             type: 'success',
             message: 'notif.resetHero'
-          }
-          dispatch('notification/add', notification, {root: true})
+          };
+          dispatch('notification/add', notification, {root: true});
         })
         .catch(error => {
           const notification = {
             type: 'error',
             message: error.message
-          }
-          dispatch('notification/add', notification, {root: true})
+          };
+          dispatch('notification/add', notification, {root: true});
         })
     },
     addToFavorite({commit, dispatch, state}, favHero) {
       let index = state.heroes.results.findIndex(hero => hero.id === favHero.id);
-      commit('SET_HERO_TO_FAVORITE', index)
+      commit('SET_HERO_TO_FAVORITE', index);
       const notification = {
         type: 'success',
         message: 'notif.addedToFavorite'
-      }
-      dispatch('notification/add', notification, {root: true})
+      };
+      dispatch('notification/add', notification, {root: true});
     },
     deleteFromFavorite({commit,dispatch, state}, favHero) {
       let index = state.heroes.results.findIndex(hero => hero.id === favHero.id);
-      commit('UNSET_HERO_FROM_FAVORITE', index)
+      commit('UNSET_HERO_FROM_FAVORITE', index);
       const notification = {
         type: 'success',
         message: 'notif.deletedFromFavorite'
-      }
-      dispatch('notification/add', notification, {root: true})
+      };
+      dispatch('notification/add', notification, {root: true});
     },
     deleteHero({commit, dispatch, state}, data) {
       let index = state.heroes.results.findIndex(hero => hero.id === data.id);
-      commit('DELETE_HERO', index)
+      commit('DELETE_HERO', index);
       const notification = {
         type: 'success',
         message: 'notif.deletedHero'
-      }
-      dispatch('notification/add', notification, {root: true})
+      };
+      dispatch('notification/add', notification, {root: true});
     },
     modifyHero({commit, dispatch, state}, modifyHero) {
       let data = {
         hero: modifyHero,
         indexHero: state.heroes.results.findIndex(hero => hero.id === modifyHero.heroId)
-      }
-      commit('MODIFY_HERO', data)
+      };
+      commit('MODIFY_HERO', data);
       const notification = {
         type: 'success',
         message: 'notif.modifyHero'
-      }
-      dispatch('notification/add', notification, {root: true})
+      };
+      dispatch('notification/add', notification, {root: true});
     },
     setHeroToModify({commit}, data) {
-      commit('SET_HERO_TO_MODIFY', data)
+      commit('SET_HERO_TO_MODIFY', data);
     },
     addHero({commit, dispatch}, data) {
-      if (!data.isImg) Vue.set(data, 'img', '../assets/batman.jpg')
-      commit('ADD_HERO', data)
+      if (!data.isImg) Vue.set(data, 'img', '../assets/batman.jpg');
+      commit('ADD_HERO', data);
       const notification = {
         type: 'success',
         message: 'notif.createdHero'
-      }
-      dispatch('notification/add', notification, {root: true})
+      };
+      dispatch('notification/add', notification, {root: true});
     },
     edit({commit}) {
-      commit('EDIT')
+      commit('EDIT');
     },
     allowReset({commit}, bool) {
-      commit('ALLOW_RESET', bool)
+      commit('ALLOW_RESET', bool);
     },
     searchText({commit}, text) {
-      commit('SEARCH_TEXT', text)
+      commit('SEARCH_TEXT', text);
     },
     Loading({commit}, status) {
-      commit('SET_LOADING_STATUS', status)
+      commit('SET_LOADING_STATUS', status);
     }
   }
 })

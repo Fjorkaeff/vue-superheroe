@@ -94,7 +94,7 @@
                         ></v-pagination>
                     </div>
                     <v-btn
-                        v-if="!isPaginationLoading && heroes.length < maxNbHeroes"
+                        v-if="!isPaginationLoading && heroes.results.length < maxNbHeroes"
                         class="Pagination"
                         @click="loadMoreHeroes()"
                     >
@@ -165,20 +165,20 @@ export default {
                 } else {
                     heroesList.results = heroesList.results.sort((a, b) => ascDesc * a.id - b.id);
                 }
-                heroesList.results = heroesList.results.slice(offset, limit);
+                heroesList = heroesList.results.slice(offset, limit);
                 
-                return heroesList.results;
+                return heroesList;
             } else {
                 return null;
             }
         },
         paginationLength() {
-            let heroesList = this.heroes;
+            let heroesNumber = this.heroes;
             let paginationLength;
 
-            if (heroesList.results) {
-                paginationLength = Math.ceil(heroesList.results.length/this.currentNbDisplay);
-
+            if (heroesNumber.results) {
+                paginationLength = Math.ceil(heroesNumber.results.length/this.currentNbDisplay);
+                console.log('Max : ', this.maxNbHeroes);
                 return paginationLength;
             } else {
                 return 0;
