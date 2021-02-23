@@ -75,6 +75,8 @@ export default new Vuex.Store({
       state.heroToModify.description = newDescription;
 
       Vue.set(state.heroes.results[data.indexHero], 'isModified', true);
+      Vue.set(state.heroes.results[data.indexHero], 'isImgModified', data.hero.isImageModified);
+      Vue.set(state.heroes.results[data.indexHero], 'img', data.hero.newImg);
       state.heroes.results[data.indexHero].name = newName;
       state.heroes.results[data.indexHero].description = newDescription;
     },
@@ -82,6 +84,7 @@ export default new Vuex.Store({
       let idAvailable = state.idAvailable;
 
       Vue.set(data, 'id', idAvailable);
+      Vue.set(data, 'isFavorite', false);
       idAvailable++;
       state.heroes.results.push(data);
     },

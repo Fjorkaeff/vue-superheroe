@@ -6,8 +6,21 @@
     >
   <div @click="goToHeroProfil(hero)">
     <v-img
-      height="250"
-      :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
+        height="250"
+        v-if="hero.isCreated"
+        lazy-src="../assets/batman.jpg"
+        :src="hero.img"
+    ></v-img>
+    <v-img
+        height="250"
+        v-else-if="hero.isImgModified"
+        :lazy-src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
+        :src="hero.img"
+    ></v-img>
+    <v-img
+        height="250"
+        v-else
+        :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
     ></v-img>
 
     <v-card-title>

@@ -3,14 +3,21 @@
     <v-row no-gutters style="height:auto">
       <v-col md="4">
         <v-img
-          v-if="!heroToModify.isCreated"
-          width="80%"
-          :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
+            v-if="heroToModify.isCreated"
+            width="80%"
+            lazy-src="../assets/batman.jpg"
+            :src="heroToModify.img"
         ></v-img>
         <v-img
-          v-else
-          width="80%"
-          src="../assets/batman.jpg"
+            v-else-if="heroToModify.isImgModified"
+            width="80%"
+            :lazy-src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
+            :src="heroToModify.img"
+        ></v-img>
+        <v-img
+            v-else
+            width="80%"
+            :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
         ></v-img>
       </v-col>
       <v-col md="4">

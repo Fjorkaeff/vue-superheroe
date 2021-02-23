@@ -26,6 +26,7 @@
   },
   "heroModify": {
     "errorMessageRequire": "Ce champ ne peut être vide",
+    "changeImageLabel": "Changer l'image",
     "validateForm": "Valider"
   },
   "newHero": {

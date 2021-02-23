@@ -16,15 +16,21 @@
         <v-col md="2" @click="goToHeroProfil(hero)">
             <div class="HeroImgContainer">
                 <v-img
-                    v-if="hero.thumbnail"
-                    class="HeroImg"
-                    :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
-                ></v-img>
-                <v-img
                     v-if="hero.isCreated"
                     class="HeroImg"
                     lazy-src="../assets/batman.jpg"
                     :src="hero.img"
+                ></v-img>
+                <v-img
+                    v-else-if="hero.isImgModified"
+                    class="HeroImg"
+                    :lazy-src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
+                    :src="hero.img"
+                ></v-img>
+                <v-img
+                    v-else
+                    class="HeroImg"
+                    :src="hero.thumbnail.path + '.' + hero.thumbnail.extension"
                 ></v-img>
             </div>
         </v-col>
@@ -48,8 +54,6 @@
                     fab
                     dark
                     color="green"
-                    v-bind="attrs"
-                    v-on="on"
                     @click="addToFavorite(hero)"
                 >
                     <v-icon dark>mdi-heart</v-icon>
@@ -60,8 +64,6 @@
                     fab
                     dark
                     color="red"
-                    v-bind="attrs"
-                    v-on="on"
                     @click="deleteFromFavorite(hero)" 
                 >
                     <v-icon dark>mdi-heart-broken</v-icon>

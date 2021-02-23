@@ -20,8 +20,8 @@
                     >
                     <v-text-field
                       v-model="newHero.img"
-                      :counter="150"
-                      maxlength="150"
+                      :counter="300"
+                      maxlength="300"
                       :error-messages="errors"
                       label="Saisissez l'url de votre image"
                       style="max-width:75%; margin-left:1rem"></v-text-field>

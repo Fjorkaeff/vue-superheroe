@@ -3,14 +3,21 @@
     <v-row no-gutters style="height:auto">
       <v-col md="4">
         <v-img
-          v-if="!heroToModify.isCreated"
-          width="80%"
-          :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
+            v-if="heroToModify.isCreated"
+            width="80%"
+            lazy-src="../assets/batman.jpg"
+            :src="heroToModify.img"
         ></v-img>
         <v-img
-          v-else
-          width="80%"
-          src="../assets/batman.jpg"
+            v-else-if="heroToModify.isImgModified"
+            width="80%"
+            :lazy-src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
+            :src="heroToModify.img"
+        ></v-img>
+        <v-img
+            v-else
+            width="80%"
+            :src="heroToModify.thumbnail.path + '.' + heroToModify.thumbnail.extension"
         ></v-img>
       </v-col>
       <v-col md="4">
@@ -35,13 +42,32 @@
             style="max-width:50%"
             :label="heroToModify.name"
             :value="heroName"></v-text-field>
-          
             </validation-provider>
+
+            <v-checkbox 
+              v-model="changeImage"
+              :label="$t('heroModify.changeImageLabel')"
+            ></v-checkbox>
+
+            <validation-provider
+              name="newImgUrl"
+            >
+            <v-text-field
+            :disabled="!changeImage"
+            v-model="newImgUrl"
+            :counter="300"
+            maxlength="300"
+            label="Url de la nouvelle image"
+            ></v-text-field>
+            </validation-provider>
+
             <validation-provider
               v-slot="{ errors }"
               name="Description"
+              :rules="{
+                regex: '[a-zA-Z0-9-]'
+              }"
             >
-          
             <v-textarea
             v-model="heroDescription"
             class="CardText"
@@ -52,7 +78,6 @@
             label="Description"
             :value="heroDescription"
             ></v-textarea>
-
             </validation-provider>
           
             <v-btn
@@ -124,6 +149,8 @@ export default {
   data:  () => ({
     heroName: '',
     heroDescription: '',
+    newImgUrl: '',
+    changeImage: false,
     App: [
       {
         title: "Comics",
@@ -144,7 +171,9 @@ export default {
       const data = {
         newName: this.heroName,
         newDescription: this.heroDescription,
-        heroId: this.heroToModify.id
+        heroId: this.heroToModify.id,
+        isImageModified: this.changeImage,
+        newImg: this.newImgUrl
       }
 
       this.$refs.observer.validate()
