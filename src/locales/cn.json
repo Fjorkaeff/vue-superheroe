@@ -6,7 +6,8 @@
       "searchTitle": "找一个英雄"
     },
     "dashboard": {
-      "message": "这里有你最喜欢的英雄"
+      "message": "这里有你最喜欢的英雄",
+      "goBackLabel": "返回"
     },
     "heroes": {
       "message": "欢迎来到奇迹英雄页面",
@@ -25,6 +26,7 @@
     },
     "heroModify": {
       "errorMessageRequire": "此字段不能为空",
+      "changeImageLabel": "更改图像",
       "validateForm": "验证"
     },
     "newHero": {

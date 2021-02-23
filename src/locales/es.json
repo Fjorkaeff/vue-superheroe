@@ -6,7 +6,8 @@
       "searchTitle": "Buscar un héroe"
     },
     "dashboard": {
-      "message": "Estos son sus héroes favoritos"
+      "message": "Estos son sus héroes favoritos",
+      "goBackLabel": "Volver"
     },
     "heroes": {
       "message": "Bienvenido a la página de los Héroes de Marvel",
@@ -25,6 +26,7 @@
     },
     "heroModify": {
       "errorMessageRequire": "Este campo no puede estar vacío",
+      "changeImageLabel": "Cambiar la imagen",
       "validateForm": "Validar"
     },
     "newHero": {

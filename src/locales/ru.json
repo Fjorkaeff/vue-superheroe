@@ -6,7 +6,8 @@
       "searchTitle": "Поиск героя"
     },
     "dashboard": {
-      "message": "Вот твои любимые герои"
+      "message": "Вот твои любимые герои",
+      "goBackLabel": "Назад"
     },
     "heroes": {
       "message": "Добро пожаловать на страницу Герои Marvel",
@@ -25,6 +26,7 @@
     },
     "heroModify": {
       "errorMessageRequire": "Это поле не может быть пустым",
+      "changeImageLabel": "Изменить изображение",
       "validateForm": "Проверить"
     },
     "newHero": {

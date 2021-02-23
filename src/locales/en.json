@@ -6,7 +6,8 @@
     "searchTitle": "Search for a hero"
   },
   "dashboard": {
-    "message": "Here are your favorite Heroes"
+    "message": "Here are your favorite Heroes",
+    "goBackLabel": "Back"
   },
   "heroes": {
     "message": "Welcome to your Marvel page",

@@ -6,7 +6,8 @@
       "searchTitle": "英雄を探す"
     },
     "dashboard": {
-      "message": "あなたの好きなヒーローを紹介します。"
+      "message": "あなたの好きなヒーローを紹介します。",
+      "goBackLabel": "戻る"
     },
     "heroes": {
       "message": "マーベルヒーローのページへようこそ",
@@ -24,6 +25,7 @@
     },
     "heroModify": {
       "errorMessageRequire": "このフィールドを空にすることはできません。",
+      "changeImageLabel": "画像の変更",
       "validateForm": "バリデート"
     },
     "newHero": {

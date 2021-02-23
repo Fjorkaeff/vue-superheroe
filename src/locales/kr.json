@@ -26,6 +26,7 @@
     },
     "heroModify": {
       "errorMessageRequire": "이 필드는 비워 둘 수 없습니다.",
+      "changeImageLabel": "이미지 변경",
       "validateForm": "확인"
     },
     "newHero": {
