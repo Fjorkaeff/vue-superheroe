@@ -94,10 +94,10 @@
 </template>
 
 <script>
-import {required, regex} from 'vee-validate/dist/rules'
-import {extend, ValidationObserver, ValidationProvider, setInteractionMode} from 'vee-validate'
+import { mapActions } from 'vuex';
+import {required, regex} from 'vee-validate/dist/rules';
+import {extend, ValidationObserver, ValidationProvider, setInteractionMode} from 'vee-validate';
 import NavBar from '../components/NavBar.vue';
-//import axios from 'axios';
 
   setInteractionMode('eager')
 
@@ -105,12 +105,12 @@ import NavBar from '../components/NavBar.vue';
     ...required,
     
     message: 'This field can not be empty',
-  })
+  });
 
   extend('regex', {
     ...regex,
     message: 'Only letters, numbers and `-` are allow',
-  })
+  });
 
 export default {
   name: 'NewHero',
@@ -130,17 +130,19 @@ export default {
         }
     }
   },
-  methods: {
-    submit() {
-      this.$refs.observer.validate()
-      if (this.newHero.img) this.newHero.isImg = true;
-      console.log('NOUVEAU HERO : ', this.newHero)
-      this.$store.dispatch('addHero', this.newHero)
-      this.$router.push({ path: `/Heroes` })
-    }
-  },
   created() {
-    this.$store.dispatch('searchText', '')
+    this.searchText('');
+  },
+  methods: {
+    ...mapActions([
+      'searchText'
+    ]),
+    submit() {
+      this.$refs.observer.validate();
+      if (this.newHero.img) this.newHero.isImg = true;
+      this.$store.dispatch('addHero', this.newHero);
+      this.$router.push({ path: `/Heroes` });
+    }
   }
 }
 </script>

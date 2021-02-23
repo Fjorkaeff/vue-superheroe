@@ -122,28 +122,27 @@ export default {
   ],
   data:  () => ({
     confirmation: false
-    }),
+  }),
   methods: {
     addToFavorite(hero) {
-        this.$store.dispatch('addToFavorite', hero)
+        this.$store.dispatch('addToFavorite', hero);
     },
     deleteFromFavorite(hero) {
-        this.$store.dispatch('allowReset', true)
-        this.$store.dispatch('deleteFromFavorite', hero)
+        this.$store.dispatch('allowReset', true);
+        this.$store.dispatch('deleteFromFavorite', hero);
     },
     deleteHero(hero) {
       this.confirmation = false;
-      console.log('HERO : ', hero)
-      this.$store.dispatch('deleteHero', hero)
-      this.$store.dispatch('allowReset', true)
+      this.$store.dispatch('deleteHero', hero);
+      this.$store.dispatch('allowReset', true);
     },
     resetHero(hero) {
-      this.$store.dispatch('resetHero', hero)
+      this.$store.dispatch('resetHero', hero);
     },
     goToHeroProfil(hero) {
-        this.$store.dispatch('setHeroToModify', hero)
+        this.$store.dispatch('setHeroToModify', hero);
         const id = hero.id;
-        this.$router.push({ path: `/Heroes/${id}` })
+        this.$router.push({ path: `/Heroes/${id}` });
     }
   }
 }

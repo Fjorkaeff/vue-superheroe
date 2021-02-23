@@ -128,41 +128,41 @@
 import {mapState} from 'vuex';
 
 export default {
-  name: 'HeroDisplayRow',
-  props: [
-      'hero'
-  ],
-  data () {
+    name: 'HeroDisplayRow',
+    props: [
+        'hero'
+    ],
+    data () {
         return {
             confirmation: false
         }
     },
-  methods: {
-    addToFavorite(hero) {
-        this.$store.dispatch('addToFavorite', hero);
-    },
-    deleteFromFavorite(hero) {
-        this.$store.dispatch('deleteFromFavorite', hero);
-    },
-    deleteHero(hero) {
-        this.confirmation = false;
-        this.$store.dispatch('deleteHero', hero);
-        this.$store.dispatch('allowReset', true);
-    },
-    resetHero(hero) {
-        this.$store.dispatch('resetHero', hero);
-    },
-    goToHeroProfil(hero) {
-        this.$store.dispatch('setHeroToModify', hero);
-        const id = hero.id;
-        this.$router.push({ path: `/Heroes/${id}` });
-    },
-  },
-  computed: {
-      ...mapState({
-          isResetLoading: state => state.isResetLoading
+    computed: {
+        ...mapState({
+            isResetLoading: state => state.isResetLoading
         }),
-  }
+    },
+    methods: {
+      addToFavorite(hero) {
+          this.$store.dispatch('addToFavorite', hero);
+      },
+      deleteFromFavorite(hero) {
+          this.$store.dispatch('deleteFromFavorite', hero);
+      },
+      deleteHero(hero) {
+          this.confirmation = false;
+          this.$store.dispatch('deleteHero', hero);
+          this.$store.dispatch('allowReset', true);
+      },
+      resetHero(hero) {
+          this.$store.dispatch('resetHero', hero);
+      },
+      goToHeroProfil(hero) {
+          this.$store.dispatch('setHeroToModify', hero);
+          const id = hero.id;
+          this.$router.push({ path: `/Heroes/${id}` });
+      },
+    }
 }
 </script>
 

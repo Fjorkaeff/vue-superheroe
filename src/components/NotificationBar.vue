@@ -19,16 +19,16 @@ export default {
             timeout: null
         }
     },
-    mounted() {
-        this.timeout = setTimeout(() => this.remove(this.notification), 2000)
-    },
-    beforeDestroy() {
-        clearTimeout(this.timeout)
-    },
     computed: {
         notificationTypeClass() {
-            return `NotificationBar-${this.notification.type}`
+            return `NotificationBar-${this.notification.type}`;
         }
+    },
+    mounted() {
+        this.timeout = setTimeout(() => this.remove(this.notification), 2000);
+    },
+    beforeDestroy() {
+        clearTimeout(this.timeout);
     },
     methods: mapActions('notification', ['remove'])
 }

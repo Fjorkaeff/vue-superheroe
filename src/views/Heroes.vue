@@ -121,6 +121,11 @@ import NavBar from '../components/NavBar.vue';
 
 export default {
     name: 'Heroes',
+    components: {
+        NavBar,
+        HeroDisplayRow,
+        HeroDisplayColumn,
+    },
     data () {
         return {
             sortByUp: true,
@@ -135,11 +140,6 @@ export default {
             currentNbDisplay: 20,
             currentPage: 1
         }
-    },
-    components: {
-        NavBar,
-        HeroDisplayRow,
-        HeroDisplayColumn,
     },
     computed: {
         ...mapState({
@@ -203,6 +203,9 @@ export default {
             }
         }
     },
+    created() {
+        this.searchText('');
+    },
     methods: {
         ...mapActions([
             'getHeroesListFromMarvel',
@@ -237,11 +240,7 @@ export default {
         reset() {
             this.getHeroesListFromMarvel();
         }
-    },
-    created() {
-        this.searchText('');
-    },
-    mounted() {}
+    }
 }
 </script>
 

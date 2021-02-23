@@ -120,8 +120,8 @@
 </template>
 
 <script>
-import { required, regex } from 'vee-validate/dist/rules'
-import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+import { required, regex } from 'vee-validate/dist/rules';
+import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate';
 
   setInteractionMode('eager')
 
@@ -145,7 +145,6 @@ export default {
     ValidationProvider,
     ValidationObserver,
   },
-  computed: {},
   data:  () => ({
     heroName: '',
     heroDescription: '',
@@ -166,6 +165,13 @@ export default {
       }
     ]
   }),
+  mounted () {
+    this.heroName = this.heroToModify.name;
+    this.heroDescription = this.heroToModify.description;
+    if (this.heroToModify.comics) this.App[0].items = this.heroToModify.comics.items;
+    if (this.heroToModify.series) this.App[1].items = this.heroToModify.series.items;
+    if (this.heroToModify.events) this.App[2].items = this.heroToModify.events.items;
+  },
   methods: {
     submit() {
       const data = {
@@ -176,17 +182,10 @@ export default {
         newImg: this.newImgUrl
       }
 
-      this.$refs.observer.validate()
-      this.$store.dispatch('modifyHero', data)
-      this.$store.dispatch('edit')
+      this.$refs.observer.validate();
+      this.$store.dispatch('modifyHero', data);
+      this.$store.dispatch('edit');
     }
-  },
-  mounted () {
-    this.heroName = this.heroToModify.name
-    this.heroDescription = this.heroToModify.description
-    if (this.heroToModify.comics) this.App[0].items = this.heroToModify.comics.items
-    if (this.heroToModify.series) this.App[1].items = this.heroToModify.series.items
-    if (this.heroToModify.events) this.App[2].items = this.heroToModify.events.items
   }
 }
 </script>

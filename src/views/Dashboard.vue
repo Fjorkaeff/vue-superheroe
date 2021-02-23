@@ -102,14 +102,19 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { mapActions } from 'vuex'
-import HeroDisplayRow from '../components/HeroDisplayRow.vue'
-import HeroDisplayColumn from '../components/HeroDisplayColumn.vue'
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
+import HeroDisplayRow from '../components/HeroDisplayRow.vue';
+import HeroDisplayColumn from '../components/HeroDisplayColumn.vue';
 import NavBar from '../components/NavBar.vue';
 
 export default {
     name: 'Heroes',
+    components: {
+       NavBar,
+       HeroDisplayRow,
+       HeroDisplayColumn
+    },
     data () {
         return {
             DisplayList: true,
@@ -125,39 +130,7 @@ export default {
             currentPageFav: 1
         }
     },
-    components: {
-       NavBar,
-       HeroDisplayRow,
-       HeroDisplayColumn
-    },
-    methods: {
-        ...mapActions([
-            'searchText'
-        ]),
-        changeDisplay() {
-            this.DisplayList = !this.DisplayList;
-        },
-        changeSort() {
-            this.sortByUp = !this.sortByUp;
-        },
-        changeTypeOfSort() {
-            this.sortByName = !this.sortByName;
-        },
-        changeDisplayNumber(nb) {
-            const previousNbDisplay = this.currentNbDisplayFav;
-            this.currentNbDisplayFav = nb;
-            const oldOffset = previousNbDisplay * (this.currentPageFav - 1);
-
-            if (this.currentPageFav > 1 && this.currentNbDisplayFav < previousNbDisplay) {
-                this.currentPageFav = (oldOffset / this.currentNbDisplayFav) + 1;
-            }
-            if (this.currentPageFav > 1 && this.currentNbDisplayFav > previousNbDisplay) {
-                if (this.currentNbDisplayFav < oldOffset) this.currentPageFav = (oldOffset / this.currentNbDisplayFav) + 1;
-                else this.currentPageFav = 1;
-            }
-        },
-    },
-    computed: {
+        computed: {
         ...mapState({
             heroes: state => state.heroes,
             isLoading: state => state.isLoading,
@@ -208,6 +181,33 @@ export default {
     },
     created() {
         this.searchText('');
+    },
+    methods: {
+        ...mapActions([
+            'searchText'
+        ]),
+        changeDisplay() {
+            this.DisplayList = !this.DisplayList;
+        },
+        changeSort() {
+            this.sortByUp = !this.sortByUp;
+        },
+        changeTypeOfSort() {
+            this.sortByName = !this.sortByName;
+        },
+        changeDisplayNumber(nb) {
+            const previousNbDisplay = this.currentNbDisplayFav;
+            this.currentNbDisplayFav = nb;
+            const oldOffset = previousNbDisplay * (this.currentPageFav - 1);
+
+            if (this.currentPageFav > 1 && this.currentNbDisplayFav < previousNbDisplay) {
+                this.currentPageFav = (oldOffset / this.currentNbDisplayFav) + 1;
+            }
+            if (this.currentPageFav > 1 && this.currentNbDisplayFav > previousNbDisplay) {
+                if (this.currentNbDisplayFav < oldOffset) this.currentPageFav = (oldOffset / this.currentNbDisplayFav) + 1;
+                else this.currentPageFav = 1;
+            }
+        },
     }
 }
 </script>

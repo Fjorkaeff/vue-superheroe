@@ -79,12 +79,11 @@ export default {
       }
     ]
   }),
-  methods: {},
   mounted () {
     if (!this.heroToModify.isCreated) {
-      this.App[0].items = this.heroToModify.comics.items
-      this.App[1].items = this.heroToModify.series.items
-      this.App[2].items = this.heroToModify.events.items
+      this.App[0].items = this.heroToModify.comics.items;
+      this.App[1].items = this.heroToModify.series.items;
+      this.App[2].items = this.heroToModify.events.items;
     }
   }
 }

@@ -34,13 +34,19 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import NavBar from '../components/NavBar.vue';
 import HeroModify from '../components/HeroModify.vue';
 import Hero from "../components/Hero.vue";
 
 export default {
   name: 'HeroProfil',
+  components: {
+    NavBar,
+    HeroModify,
+    Hero
+  },
   data () {
     return {
     }
@@ -51,21 +57,19 @@ export default {
       isEdit: state => state.isEdit
     })
   },
-  components: {
-    NavBar,
-    HeroModify,
-    Hero
+  created () {
+    this.searchText('');
   },
   methods: {
-    edit (){
-      this.$store.dispatch('edit')
+    ...mapActions([
+      'searchText'
+    ]),
+    edit() {
+      this.$store.dispatch('edit');
     },
     goBack() {
-        window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+        window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
     }
-  },
-  created () {
-    this.$store.dispatch('searchText', '')
   }
 }
 </script>

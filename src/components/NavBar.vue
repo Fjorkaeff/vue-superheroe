@@ -79,7 +79,7 @@ export default {
   },
   watch: {
     search: function () {
-      this.$store.dispatch('searchText', this.search)
+      this.$store.dispatch('searchText', this.search);
     }
   },
   methods: {
