@@ -1,46 +1,47 @@
 {
-    "NavBar": {
-      "title1": "Приборная панель",
-      "title2": "Супергерой",
-      "language": "Языки",
-      "searchTitle": "Поиск героя"
-    },
-    "dashboard": {
-      "message": "Вот твои любимые герои",
-      "goBackLabel": "Назад"
-    },
-    "heroes": {
-      "message": "Добро пожаловать на страницу Герои Marvel",
-      "addHero": "Добавить героя",
-      "favorite": "Добавить в избранное",
-      "no-description": "Нет описания"
-    },
-    "deleteHero": {
-      "title": "Ты уверен, что хочешь убрать этого героя ?",
-      "text": "Его больше не будет в списке.",
-      "choice1": "Отменить",
-      "choice2": "Удалить"
-    },
-    "heroProfil": {
-      "title": "профиль героя"
-    },
-    "heroModify": {
-      "errorMessageRequire": "Это поле не может быть пустым",
-      "changeImageLabel": "Изменить изображение",
-      "validateForm": "Проверить"
-    },
-    "newHero": {
-      "title": "Ajouter votre nouveau héro",
-      "newHeroNameLabel": "Nom du nouveau héro",
-      "newHeroDescriptionLabel": "Description du nouveau héro"
-    },
-    "notif": {
-      "loadHeroes": "Добавленные герои",
-      "deletedHero": "Герой удалён",
-      "createdHero": "Создан новый герой",
-      "modifyHero": "Модифицированный Герой",
-      "resetHero": "перезагрузка Героя",
-      "addedToFavorite": "Герой добавил в избранное",
-      "deletedFromFavorite": "Герой удалён из фаворитов"
-    }
+  "NavBar": {
+    "title1": "Приборная панель",
+    "title2": "Супергерой",
+    "language": "Языки",
+    "searchTitle": "Поиск героя"
+  },
+  "dashboard": {
+    "message": "Вот твои любимые герои",
+    "goBackLabel": "Назад",
+    "noHero": "У тебя нет героев в качестве фаворитов... :("
+  },
+  "heroes": {
+    "message": "Добро пожаловать на страницу Герои Marvel",
+    "addHero": "Добавить героя",
+    "favorite": "Добавить в избранное",
+    "no-description": "Нет описания"
+  },
+  "deleteHero": {
+    "title": "Ты уверен, что хочешь убрать этого героя ?",
+    "text": "Его больше не будет в списке.",
+    "choice1": "Отменить",
+    "choice2": "Удалить"
+  },
+  "heroProfil": {
+    "title": "профиль героя"
+  },
+  "heroModify": {
+    "errorMessageRequire": "Это поле не может быть пустым",
+    "changeImageLabel": "Изменить изображение",
+    "validateForm": "Проверить"
+  },
+  "newHero": {
+    "title": "Ajouter votre nouveau héro",
+    "newHeroNameLabel": "Nom du nouveau héro",
+    "newHeroDescriptionLabel": "Description du nouveau héro"
+  },
+  "notif": {
+    "loadHeroes": "Добавленные герои",
+    "deletedHero": "Герой удалён",
+    "createdHero": "Создан новый герой",
+    "modifyHero": "Модифицированный Герой",
+    "resetHero": "перезагрузка Героя",
+    "addedToFavorite": "Герой добавил в избранное",
+    "deletedFromFavorite": "Герой удалён из фаворитов"
   }
+}

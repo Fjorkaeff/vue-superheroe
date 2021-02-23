@@ -75,7 +75,7 @@
           ></v-progress-circular>
         </div>
         <v-container v-if="orderedFavoriteHeroes.length < 1" class="LonelyMeme">
-          <h2>Tu n'as aucun héro en favoris... :(</h2>
+          <h2>{{ $t("dashboard.noHero") }}</h2>
           <v-img
             src="@/assets/meme-wait.jpg"
             max-width="500"

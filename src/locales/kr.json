@@ -1,46 +1,47 @@
 {
-    "NavBar": {
-      "title1": "계기반",
-      "title2": "슈퍼 히어로",
-      "language": "언어",
-      "searchTitle": "영웅 찾기"
-    },
-    "dashboard": {
-      "message": "좋아하는 영웅은 다음과 같습니다.",
-      "goBackLabel": "반환"
-    },
-    "heroes": {
-      "message": "Marvel Heroes 페이지에 오신 것을 환영합니다",
-      "addHero": "영웅 추가",
-      "no-description": "설명 없음",
-      "tooltipAddFavorite": "즐겨 찾기에 추가"
-    },
-    "deleteHero": {
-      "title": "이 영웅을 삭제 하시겠습니까?",
-      "text": "더 이상 목록에 나타나지 않습니다.",
-      "choice1": "취소하려면",
-      "choice2": "없애다"
-    },
-    "heroProfil": {
-      "title": "영웅의 프로필"
-    },
-    "heroModify": {
-      "errorMessageRequire": "이 필드는 비워 둘 수 없습니다.",
-      "changeImageLabel": "이미지 변경",
-      "validateForm": "확인"
-    },
-    "newHero": {
-      "title": "새로운 영웅 추가",
-      "newHeroNameLabel": "새로운 영웅의 이름",
-      "newHeroDescriptionLabel": "새로운 영웅에 대한 설명"
-    },
-    "notif": {
-      "loadHeroes": "추가 된 영웅",
-      "deletedHero": "영웅이 삭제되었습니다.",
-      "createdHero": "새로운 영웅 생성",
-      "modifyHero": "수정 된 영웅",
-      "resetHero": "영웅 재설정",
-      "addedToFavorite": "영웅이 즐겨 찾기에 추가되었습니다.",
-      "deletedFromFavorite": "영웅이 즐겨 찾기에서 제거되었습니다."
-    }
+  "NavBar": {
+    "title1": "계기반",
+    "title2": "슈퍼 히어로",
+    "language": "언어",
+    "searchTitle": "영웅 찾기"
+  },
+  "dashboard": {
+    "message": "좋아하는 영웅은 다음과 같습니다.",
+    "goBackLabel": "반환",
+    "noHero": "즐겨 찾기에 영웅이 없습니다... :("
+  },
+  "heroes": {
+    "message": "Marvel Heroes 페이지에 오신 것을 환영합니다",
+    "addHero": "영웅 추가",
+    "no-description": "설명 없음",
+    "tooltipAddFavorite": "즐겨 찾기에 추가"
+  },
+  "deleteHero": {
+    "title": "이 영웅을 삭제 하시겠습니까?",
+    "text": "더 이상 목록에 나타나지 않습니다.",
+    "choice1": "취소하려면",
+    "choice2": "없애다"
+  },
+  "heroProfil": {
+    "title": "영웅의 프로필"
+  },
+  "heroModify": {
+    "errorMessageRequire": "이 필드는 비워 둘 수 없습니다.",
+    "changeImageLabel": "이미지 변경",
+    "validateForm": "확인"
+  },
+  "newHero": {
+    "title": "새로운 영웅 추가",
+    "newHeroNameLabel": "새로운 영웅의 이름",
+    "newHeroDescriptionLabel": "새로운 영웅에 대한 설명"
+  },
+  "notif": {
+    "loadHeroes": "추가 된 영웅",
+    "deletedHero": "영웅이 삭제되었습니다.",
+    "createdHero": "새로운 영웅 생성",
+    "modifyHero": "수정 된 영웅",
+    "resetHero": "영웅 재설정",
+    "addedToFavorite": "영웅이 즐겨 찾기에 추가되었습니다.",
+    "deletedFromFavorite": "영웅이 즐겨 찾기에서 제거되었습니다."
   }
+}

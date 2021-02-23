@@ -7,7 +7,8 @@
   },
   "dashboard": {
     "message": "Voici vos héros préférés",
-    "goBackLabel": "Retour"
+    "goBackLabel": "Retour",
+    "noHero": "Tu n'as aucun héro en favoris... :("
   },
   "heroes": {
     "message": "Bienvenue sur la page des héros Marvel",
